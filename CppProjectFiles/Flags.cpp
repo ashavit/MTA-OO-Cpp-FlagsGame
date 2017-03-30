@@ -16,6 +16,8 @@ using namespace std;
 // Init players with default names
 Flags::Flags() : playerA(new Player("Player A")), playerB(new Player("Player B")) { }
 
+/// TODO: Amir: release players on destructor
+
 #pragma mark - Public
 
 void Flags::run() {
@@ -81,5 +83,4 @@ void Flags::resetPlayerScores() {
     playerA->resetScore();
     playerB->resetScore();
 }
-
 
