@@ -6,13 +6,18 @@
 //  Copyright © 2017 Amir Shavit. All rights reserved.
 //
 
+#include <iostream>
+
 #include "Player.h"
+
+using namespace std;
 
 Player::Player(std::string name):playerName(name) {
 }
 
-void Player::updateName(std::string name) {
-    playerName = name;
+void Player::updateName() {
+    cout << "Please enter player name (old name is " << playerName << "):" << endl;
+    cin >> playerName;
 }
 
 std::string Player::name() {

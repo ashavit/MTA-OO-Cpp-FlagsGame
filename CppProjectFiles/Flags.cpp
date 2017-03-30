@@ -11,7 +11,6 @@
 
 using namespace std;
 
-
 #pragma mark - Ctor
 
 // Init players with default names
@@ -23,6 +22,8 @@ void Flags::run() {
     
     int selection;
     do {
+//        cout << "player a = " << playerA->name() << ", player b = " << playerB->name() << endl << endl;
+
         cout << "Please select an option:" << endl;
         cout << "1. Select Players Name" << endl;
         cout << "2. Begin a new game" << endl;
@@ -64,14 +65,8 @@ void Flags::finishGame(bool _shouldExit) {
 #pragma mark - Private
 
 void Flags::selectPlayerNames() {
-    string name;
-    cout << "Please enter name for Player A:" << endl;
-    cin >> name;
-    playerA->updateName(name);
-
-    cout << "Please enter name for Player B:" << endl;
-    cin >> name;
-    playerB->updateName(name);
+    playerA->updateName();
+    playerB->updateName();
 }
 
 void Flags::beginNewGame() {

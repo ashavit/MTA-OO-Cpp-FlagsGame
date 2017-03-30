@@ -23,7 +23,7 @@ class Player {
 public:
     Player(std::string name);
     
-    void updateName(std::string name);
+    void updateName();
     std::string name();
 
     void resetScore();
