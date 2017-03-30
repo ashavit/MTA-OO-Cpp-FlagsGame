@@ -27,6 +27,7 @@ public:
     std::string name();
 
     void resetScore();
+    void incrementScore(int byPoints);
     int score();
     
 };

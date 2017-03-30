@@ -12,8 +12,12 @@
 
 using namespace std;
 
+#pragma mark - Ctor
+
 Player::Player(std::string name):playerName(name) {
 }
+
+#pragma mark - Public functions
 
 void Player::updateName() {
     cout << "Please enter player name (old name is " << playerName << "):" << endl;
@@ -28,6 +32,14 @@ void Player::resetScore() {
     playerScore = 0;
 }
 
+void Player::incrementScore(int byPoints)
+{
+    playerScore += byPoints;
+}
+
 int Player::score() {
     return playerScore;
 }
+
+#pragma mark - Private functions
+

@@ -24,6 +24,8 @@ class Flags {
     void beginNewGame();
     void beginReverseGame();
     void resetPlayerScores();
+    
+    void test_setupStates();
 
 public:
     

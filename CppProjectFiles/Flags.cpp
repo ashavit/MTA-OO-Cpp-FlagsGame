@@ -24,7 +24,7 @@ void Flags::run() {
     
     int selection;
     do {
-//        cout << "player a = " << playerA->name() << ", player b = " << playerB->name() << endl << endl;
+        test_setupStates();
 
         cout << "Please select an option:" << endl;
         cout << "1. Select Players Name" << endl;
@@ -84,3 +84,17 @@ void Flags::resetPlayerScores() {
     playerB->resetScore();
 }
 
+
+void Flags::test_setupStates() {
+
+    static int runTwice = 0;
+    if (runTwice < 2) {
+        playerA->incrementScore(40);
+        playerB->incrementScore(70);
+        runTwice++;
+    }
+ 
+    cout << endl << "player A = " << playerA->name() << ", player b = " << playerB->name() << endl;
+    cout << "player A score= " << playerA->score() << ", player B score = " << playerB->score() << endl << endl;
+
+}
