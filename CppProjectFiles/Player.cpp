@@ -11,8 +11,16 @@
 Player::Player(std::string name):playerName(name) {
 }
 
+void Player::updateName(std::string name) {
+    playerName = name;
+}
+
 std::string Player::name() {
     return playerName;
+}
+
+void Player::resetScore() {
+    playerScore = 0;
 }
 
 int Player::score() {
