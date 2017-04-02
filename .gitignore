@@ -1,2 +1,15 @@
+# Visual Studio
 .vs/
 Debug/
+FlagsGameProject\.vcxproj\.user
+
+# Clion
+cmake-build-debug/
+CMakeLists\.txt
+\.idea/
+
+# MacOS
+\.DS_Store
+
+# General
+lib/googletest
