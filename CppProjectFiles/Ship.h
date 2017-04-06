@@ -27,6 +27,7 @@ public:
     
     Cell* cell();
     bool alive();
+    ShipType getShipType();
 
     bool canMoveToCell(Cell& cell);
     void resetToInitialState();

@@ -36,3 +36,7 @@ void Ship::resetToInitialState() {
     this->currentCell = this->initialCell;
     
 }
+
+Ship::ShipType Ship::getShipType() {
+    return shipType;
+}
