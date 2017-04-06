@@ -8,4 +8,19 @@
 
 #include "Game.h"
 
-//test
+void Game::run() {
+
+    while (1) {
+        
+
+
+    }
+}
+
+void Game::move() {
+
+}
+
+void Game::resolveCombat() {
+
+}

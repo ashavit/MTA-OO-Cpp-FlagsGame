@@ -10,13 +10,21 @@
 #define Game_h
 
 #include <stdio.h>
+#include "Board.h"
+#include "Player.h"
 
 class Game {
-//    <#instance variables#>
+    Player& playerB;
+    Player& playerA;
+    Board& gameBoard;
 
-    
 public:
-//    <#member functions#>
+    Game(Player &playerA, Player &playerB, Board &board) :
+            playerA(playerA), playerB(playerB), gameBoard(board) {}
+
+    void run();
+    void move();
+    void resolveCombat();
 };
 
 #endif /* Game_h */
