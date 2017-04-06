@@ -29,6 +29,7 @@ public:
     void resetScore();
     void incrementScore(int byPoints);
     int score();
+    Ship* getFleet();
     
 };
 

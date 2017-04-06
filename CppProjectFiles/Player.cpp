@@ -14,7 +14,7 @@ using namespace std;
 
 #pragma mark - Ctor
 
-Player::Player(std::string name):playerName(name) {
+Player::Player(std::string name) : playerName(name) {
 }
 
 #pragma mark - Public functions
@@ -39,6 +39,10 @@ void Player::incrementScore(int byPoints)
 
 int Player::score() {
     return playerScore;
+}
+
+Ship* Player::getFleet() {
+    return nullptr;
 }
 
 #pragma mark - Private functions
