@@ -5,8 +5,9 @@
 #include <iostream>
 #include "Ship.h"
 
+enum CellType {REGULAR, FORREST, SEA, FLAG_A, FLAG_B};
+
 class Cell {
-    enum CellType {REGULAR, FORREST, SEA, FLAG};
 
     size_t   row ;
     size_t   column;
@@ -21,8 +22,8 @@ public:
         return type;
     }
 
-    Ship& getStandingShip() {
-        return *standingShip;
+    Ship* getStandingShip() {
+        return (standingShip != nullptr ? standingShip : nullptr);
     }
 };
 
