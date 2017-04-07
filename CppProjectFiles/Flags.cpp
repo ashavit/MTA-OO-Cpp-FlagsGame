@@ -79,12 +79,12 @@ void Flags::selectPlayerNames() {
 }
 
 void Flags::beginNewGame() {
-    currentGame = new Game(playerA, playerB);
+    currentGame = new Game(playerA, playerB, this);
     currentGame->run();
 }
 
 void Flags::beginReverseGame() {
-    currentGame = new Game(playerB, playerA);
+    currentGame = new Game(playerB, playerA, this);
     currentGame->run();
 }
 

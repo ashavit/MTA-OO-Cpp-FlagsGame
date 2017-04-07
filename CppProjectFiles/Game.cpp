@@ -7,11 +7,12 @@
 //
 
 #include "Game.h"
+#include "Flags.h"
 #include "Board.h"
 #include "Player.h"
 
-Game::Game(Player& playerA, Player& playerB)
-    : playerA(playerA), playerB(playerB) {
+Game::Game(Player& playerA, Player& playerB, Flags* manager)
+    : playerA(playerA), playerB(playerB), gameManager(manager) {
 
         // Initialize board
         gameBoard = Board::loadRandomBoard();
@@ -55,6 +56,7 @@ void Game::run() {
     awardWinner();
     
     // TODO: End game
+    gameManager->finishGame(false);
 }
 
 void Game::resolveCombat() {
