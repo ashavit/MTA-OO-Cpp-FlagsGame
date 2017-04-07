@@ -55,7 +55,7 @@ void Game::run() {
     // Add points to winner
     awardWinner();
     
-    // TODO: End game
+    // End game
     gameManager->finishGame(false);
 }
 
