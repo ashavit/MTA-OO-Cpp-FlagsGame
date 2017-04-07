@@ -29,6 +29,14 @@ ShipType Ship::getShipType() {
     return shipType;
 }
 
+Direction Ship::getShipDirection() {
+    return direction;
+}
+
+void Ship::setShipDirection(Direction d) {
+    direction = d;
+}
+
 bool Ship::canMoveToCell(Cell& cell) {
     /// TODO: Amir: Implement Switch case
     return false;

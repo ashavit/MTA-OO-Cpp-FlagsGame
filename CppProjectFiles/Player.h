@@ -10,6 +10,7 @@ class Player {
     std::string playerName;
     int playerScore = 0;
     Ship* ships[FLEET_SIZE] = { nullptr };
+    Ship* activeShip = nullptr;
     
 public:
     Player(std::string name);
