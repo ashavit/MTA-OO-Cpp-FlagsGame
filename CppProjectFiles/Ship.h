@@ -28,7 +28,8 @@ public:
     Direction direction();
     void setDirection(Direction d);
     
-    bool canMoveToCell(Cell& cell);
+    bool canMoveToCell(const Cell* cell);
+    void moveToCell(Cell* cell);
     void resetToInitialState();
 
     bool didFindFlag();

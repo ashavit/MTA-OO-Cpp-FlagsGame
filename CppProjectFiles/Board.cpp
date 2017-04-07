@@ -44,6 +44,8 @@ Board* Board::loadRandomBoard(size_t height, size_t width) {
     return b;
 }
 
+#pragma mark - Public Functions
+
 Cell* Board::getRandomCellInRows(size_t from, size_t to) {
     Cell *ptrRes = nullptr;
     Cell *ptrTemp = nullptr;
@@ -59,6 +61,37 @@ Cell* Board::getRandomCellInRows(size_t from, size_t to) {
     } while (ptrRes == nullptr);
     return ptrRes;
 }
+
+Cell* Board::getNextCell(const Cell* cell, Direction direction) {
+    int r, c;
+    r = cell->row;
+    c = cell->column;
+    
+    switch (direction) {
+        case Direction::UP:
+            c--;
+            break;
+        case Direction::DOWN:
+            c++;
+            break;
+        case Direction::LEFT:
+            r--;
+            break;
+        case Direction::RIGHT:
+            r++;
+            break;
+        default:
+            break;
+    }
+    
+    if (r >= 0 && r < width &&
+        c >= 0 && c < height) {
+        return board[r][c];
+    }
+    return nullptr;
+}
+
+#pragma mark Outputs
 
 void Board::draw() {
     Cell* cell;
@@ -88,12 +121,6 @@ void Board::draw() {
             std::cout << (standingShip != nullptr ? standingShip->type() : ' ');
         }
         std::cout << std::endl;
-    }
-}
-
-void Board::randomPlaceSpecialCells(CellType type, int count) {
-    for (int i = 0; i < count; ++i) {
-        getRandomCellInRows(1, height)->setCellType(type);
     }
 }
 
@@ -131,5 +158,13 @@ void Board::printBoard()
         cout << endl;
     }
     cout << endl << endl;
+}
+
+#pragma mark - Private Functions
+
+void Board::randomPlaceSpecialCells(CellType type, int count) {
+    for (int i = 0; i < count; ++i) {
+        getRandomCellInRows(1, height)->setCellType(type);
+    }
 }
 

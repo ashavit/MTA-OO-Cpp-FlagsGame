@@ -18,7 +18,7 @@ public:
     Cell(size_t row, size_t column, CellType type = REGULAR)
         : row(row), column(column), type(type)  { }
 
-    CellType getCellType() {
+    CellType getCellType() const {
         return type;
     }
 

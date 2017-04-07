@@ -9,6 +9,7 @@ class Game {
     Player& playerA;
     Board* gameBoard;
 
+    void doPlayerTurn(Player& p);
     bool isGameOver();
     
 public:

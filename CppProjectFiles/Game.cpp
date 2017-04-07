@@ -36,15 +36,17 @@ Game::Game(Player& playerA, Player& playerB)
 void Game::run() {
     
     while (1) {
-        // TODO: playerA turn
-
-        // If game is over - break
+        doPlayerTurn(playerA);
         if (isGameOver()) break;
         
-        // TODO: PlayerB turn
-
-        // If game is over - break
+        /// TODO: Wait
+        
+        doPlayerTurn(playerB);
         if (isGameOver()) break;
+
+        /// TODO: Wait
+        
+        /// TODO: Get KB Input
     }
     
     // TODO: Add points to winner
@@ -61,6 +63,23 @@ void Game::resolveCombat() {
 }
 
 #pragma mark - Private Helpers
+
+void Game::doPlayerTurn(Player& p) {
+    for (int i = 0; i < FLEET_SIZE; ++i) {
+        Ship* s = p.getShip(i);
+        Cell *moveTo = gameBoard->getNextCell(s->cell(), s->direction());
+        
+        if (moveTo != nullptr && s->canMoveToCell(moveTo)) {
+            if (moveTo->getStandingShip() == nullptr) { // If cell is empty - move there
+                s->moveToCell(moveTo);
+            }
+            else if (moveTo->getStandingShip()->owner() != p) { // If Cell is occupied by other player - fight
+                /// TODO: Implement Fight
+            }
+        }
+        // Else don't move ship
+    }
+}
 
 bool Game::isGameOver() {
     return (playerA.didPlayerWin() ||

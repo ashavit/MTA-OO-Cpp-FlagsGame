@@ -46,9 +46,23 @@ void Ship::setDirection(Direction d) {
     shipDirection = d;
 }
 
-bool Ship::canMoveToCell(Cell& cell) {
-    /// TODO: Amir: Implement Switch case
-    return false;
+bool Ship::canMoveToCell(const Cell* cell) {
+    if (cell->getCellType() == CellType::FORREST) {
+        return (shipType == SHIP2 || shipType == SHIP7 || shipType == SHIP8);
+    }
+    else if (cell->getCellType() == CellType::SEA) {
+        return (shipType == SHIP2 || shipType == SHIP3 || shipType == SHIP7);
+    }
+    return true;
+}
+
+void Ship::moveToCell(Cell* cell) {
+    // Set current cell's ship to nil
+    currentCell->setStandingShip(nullptr);
+    
+    // Set initial cell's ship to this
+    currentCell = cell;
+    currentCell->setStandingShip(this);
 }
 
 void Ship::resetToInitialState() {
