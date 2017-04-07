@@ -1,13 +1,4 @@
-//
-//  Player.h
-//  Cpp-FlagsProject
-//
-//  Created by Amir Shavit on 26/03/2017.
-//  Copyright © 2017 Amir Shavit. All rights reserved.
-//
-
-#ifndef Player_h
-#define Player_h
+#pragma once
 
 #include <stdio.h>
 #include <string>
@@ -37,5 +28,3 @@ public:
     Ship* getFleet();
     
 };
-
-#endif /* Player_h */

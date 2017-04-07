@@ -1,5 +1,4 @@
-#ifndef FLAGSGAME_BOARD_H
-#define FLAGSGAME_BOARD_H
+#pragma once
 
 #include <stdio.h>
 #include "Cell.h"
@@ -34,6 +33,3 @@ public:
     void printBoard();
     void draw();
 };
-
-
-#endif //FLAGSGAME_BOARD_H

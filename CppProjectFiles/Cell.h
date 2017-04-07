@@ -1,6 +1,4 @@
-#ifndef FLAGSGAME_CELL_H
-#define FLAGSGAME_CELL_H
-
+#pragma once
 
 #include <iostream>
 #include "Ship.h"
@@ -34,6 +32,3 @@ public:
     
     friend class Board;
 };
-
-
-#endif //FLAGSGAME_CELL_H

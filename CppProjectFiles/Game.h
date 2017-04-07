@@ -1,13 +1,4 @@
-//
-//  Game.h
-//  Cpp-FlagsProject
-//
-//  Created by Amir Shavit on 28/03/2017.
-//  Copyright © 2017 Amir Shavit. All rights reserved.
-//
-
-#ifndef Game_h
-#define Game_h
+#pragma once
 
 #include <stdio.h>
 #include "Board.h"
@@ -27,5 +18,3 @@ public:
     void move();
     void resolveCombat();
 };
-
-#endif /* Game_h */
