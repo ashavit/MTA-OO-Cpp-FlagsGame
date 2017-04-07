@@ -85,7 +85,7 @@ void Board::draw() {
                     //setTextColor(WHITE, BLACK);
                     break;
             }
-            std::cout << (standingShip != nullptr ? standingShip->getShipType() : ' ');
+            std::cout << (standingShip != nullptr ? standingShip->type() : ' ');
         }
         std::cout << std::endl;
     }
@@ -104,7 +104,7 @@ void Board::printBoard()
         for (size_t j = 0; j < width; ++j) {
             Cell *c = board[i][j];
             if (c->getStandingShip() != nullptr) {
-                cout << (int)c->getStandingShip()->getShipType();
+                cout << (int)c->getStandingShip()->type();
             }
             else {
                 switch (c->getCellType()) {

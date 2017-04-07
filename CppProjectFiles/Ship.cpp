@@ -34,16 +34,16 @@ const Player& Ship::owner() {
 
 #pragma mark - 
 
-ShipType Ship::getShipType() {
+ShipType Ship::type() {
     return shipType;
 }
 
-Direction Ship::getShipDirection() {
-    return direction;
+Direction Ship::direction() {
+    return shipDirection;
 }
 
-void Ship::setShipDirection(Direction d) {
-    direction = d;
+void Ship::setDirection(Direction d) {
+    shipDirection = d;
 }
 
 bool Ship::canMoveToCell(Cell& cell) {

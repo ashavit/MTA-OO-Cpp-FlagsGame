@@ -15,18 +15,18 @@ class Ship {
     Cell* initialCell;
     Cell* currentCell;
     bool isAlive = true;
-    Direction direction = Direction::STOP;
+    Direction shipDirection = Direction::STOP;
     
 public:
     Ship(Player& player, ShipType type, Cell* startingCell);
     
     Cell* cell();
     bool alive();
-    ShipType getShipType();
     const Player& owner();
+    ShipType type();
     
-    Direction getShipDirection();
-    void setShipDirection(Direction d);
+    Direction direction();
+    void setDirection(Direction d);
     
     bool canMoveToCell(Cell& cell);
     void resetToInitialState();
