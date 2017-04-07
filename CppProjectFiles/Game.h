@@ -18,6 +18,8 @@ class Game {
     Player& playerA;
     Board* gameBoard;
 
+    bool isGameOver();
+    
 public:
     Game(Player& playerA, Player& playerB);
 

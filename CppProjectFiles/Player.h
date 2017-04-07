@@ -30,6 +30,9 @@ public:
     void incrementScore(int byPoints);
     int score();
     
+    bool didPlayerWin();
+    bool didPlayerLoose();
+    
     void addShip(Ship* ship);
     Ship* getFleet();
     

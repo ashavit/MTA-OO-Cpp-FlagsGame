@@ -7,6 +7,7 @@
 //
 
 #include "Ship.h"
+#include "Cell.h"
 
 #pragma mark - Ctor
 
@@ -24,19 +25,26 @@ bool Ship::alive() {
 
 #pragma mark - 
 
+ShipType Ship::getShipType() {
+    return shipType;
+}
+
 bool Ship::canMoveToCell(Cell& cell) {
     /// TODO: Amir: Implement Switch case
     return false;
 }
 
 void Ship::resetToInitialState() {
-    /// TODO: Amir: Set current cell's ship to nil
+    // Set current cell's ship to nil
+    currentCell->setStandingShip(nullptr);
     
-    /// TODO: Amir: Set initial cell's ship to this
+    // Set initial cell's ship to this
     currentCell = initialCell;
-    
+    currentCell->setStandingShip(this);
 }
 
-ShipType Ship::getShipType() {
-    return shipType;
+bool Ship::didFindFlag() {
+    /// TODO: Make sure we only look for oponent flag
+    return (currentCell->getCellType() == CellType::FLAG_A ||
+            currentCell->getCellType() == CellType::FLAG_B);
 }

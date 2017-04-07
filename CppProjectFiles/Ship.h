@@ -33,6 +33,7 @@ public:
     bool canMoveToCell(Cell& cell);
     void resetToInitialState();
 
+    bool didFindFlag();
 };
 
 #endif /* Ship_h */

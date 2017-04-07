@@ -40,12 +40,18 @@ void Game::run() {
     while (1) {
         // TODO: playerA turn
 
-        // TODO: If game is over - break
-
+        // If game is over - break
+        if (isGameOver()) break;
+        
         // TODO: PlayerB turn
 
-        // TODO: If game is over - break
+        // If game is over - break
+        if (isGameOver()) break;
     }
+    
+    // TODO: Add points to winner
+    
+    // TODO: End game
 }
 
 void Game::move() {
@@ -54,4 +60,13 @@ void Game::move() {
 
 void Game::resolveCombat() {
 
+}
+
+#pragma mark - Private Helpers
+
+bool Game::isGameOver() {
+    return (playerA.didPlayerWin() ||
+            playerB.didPlayerWin() ||
+            playerA.didPlayerLoose() ||
+            playerB.didPlayerLoose());
 }

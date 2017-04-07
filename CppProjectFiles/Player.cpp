@@ -41,6 +41,25 @@ int Player::score() {
     return playerScore;
 }
 
+bool Player::didPlayerWin() {
+    for (int i = 0; i < FLEET_SIZE; ++i) {
+        if (ships[i] != nullptr && ships[i]->alive() &&
+            ships[i]->didFindFlag()) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Player::didPlayerLoose() {
+    for (int i = 0; i < FLEET_SIZE; ++i) {
+        if (ships[i] != nullptr && ships[i]->alive()) {
+            return false;
+        }
+    }
+    return true;
+}
+
 void Player::addShip(Ship* ship) {
     for (int i = 0; i < FLEET_SIZE; ++i) {
         if (ships[i] == nullptr) {
