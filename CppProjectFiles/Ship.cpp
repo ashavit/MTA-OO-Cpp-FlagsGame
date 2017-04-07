@@ -10,7 +10,7 @@
 
 #pragma mark - Ctor
 
-Ship::Ship(ShipType type, Cell& startingCell) : shipType(type), initialCell(&startingCell), currentCell(&startingCell) { }
+Ship::Ship(ShipType type, Cell* startingCell) : shipType(type), initialCell(startingCell), currentCell(startingCell) { }
 
 #pragma mark - Getters
 
@@ -33,10 +33,10 @@ void Ship::resetToInitialState() {
     /// TODO: Amir: Set current cell's ship to nil
     
     /// TODO: Amir: Set initial cell's ship to this
-    this->currentCell = this->initialCell;
+    currentCell = initialCell;
     
 }
 
-Ship::ShipType Ship::getShipType() {
+ShipType Ship::getShipType() {
     return shipType;
 }

@@ -16,7 +16,7 @@
 class Game {
     Player& playerB;
     Player& playerA;
-    Board gameBoard;
+    Board* gameBoard;
 
 public:
     Game(Player& playerA, Player& playerB);

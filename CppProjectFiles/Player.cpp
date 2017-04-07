@@ -41,6 +41,17 @@ int Player::score() {
     return playerScore;
 }
 
+void Player::addShip(Ship* ship) {
+    for (int i = 0; i < FLEET_SIZE; ++i) {
+        if (ships[i] == nullptr) {
+            ships[i] = ship;
+            return;
+        }
+    }
+    
+    cout << playerName << "can not add ship. Fleet is full" << endl;
+}
+
 Ship* Player::getFleet() {
     return nullptr;
 }
