@@ -8,12 +8,27 @@
 
 #include "Game.h"
 
-void Game::run() {
+Game::Game(Player& playerA, Player& playerB)
+    : playerA(playerA), playerB(playerB) {
 
-    while (1) {
+        // TODO: Initialize board
         
+        // TODO: Init ships
+        
+        // TODO: Define player keys
+        
+}
 
+void Game::run() {
+    
+    while (1) {
+        // TODO: playerA turn
 
+        // TODO: If game is over - break
+
+        // TODO: PlayerB turn
+
+        // TODO: If game is over - break
     }
 }
 

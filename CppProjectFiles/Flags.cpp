@@ -14,9 +14,15 @@ using namespace std;
 #pragma mark - Ctor
 
 // Init players with default names
-Flags::Flags() : playerA(new Player("Player A")), playerB(new Player("Player B")) { }
+Flags::Flags() : playerA(Player("Player A")), playerB(Player("Player B")) { }
 
-/// TODO: Amir: release players on destructor
+Flags::~Flags() {
+    // Make sure we do not leave used memory
+    if (currentGame != nullptr) {
+        delete currentGame;
+        currentGame = nullptr;
+    }
+}
 
 #pragma mark - Public
 
@@ -60,28 +66,31 @@ void Flags::run() {
 
 /* Called from Game when a game ends. If _shouldExit=true need to exit program */
 void Flags::finishGame(bool _shouldExit) {
-    shouldExitProgram = _shouldExit;
+    delete currentGame;
     currentGame = nullptr;
+    shouldExitProgram = _shouldExit;
 }
 
 #pragma mark - Private
 
 void Flags::selectPlayerNames() {
-    playerA->updateName();
-    playerB->updateName();
+    playerA.updateName();
+    playerB.updateName();
 }
 
 void Flags::beginNewGame() {
-    /// TODO: Amir
+    currentGame = new Game(playerA, playerB);
+    currentGame->run();
 }
 
 void Flags::beginReverseGame() {
-    /// TODO: Amir
+    currentGame = new Game(playerB, playerA);
+    currentGame->run();
 }
 
 void Flags::resetPlayerScores() {
-    playerA->resetScore();
-    playerB->resetScore();
+    playerA.resetScore();
+    playerB.resetScore();
 }
 
 
@@ -89,12 +98,12 @@ void Flags::test_setupStates() {
 
     static int runTwice = 0;
     if (runTwice < 2) {
-        playerA->incrementScore(40);
-        playerB->incrementScore(70);
+        playerA.incrementScore(40);
+        playerB.incrementScore(70);
         runTwice++;
     }
  
-    cout << endl << "player A = " << playerA->name() << ", player b = " << playerB->name() << endl;
-    cout << "player A score= " << playerA->score() << ", player B score = " << playerB->score() << endl << endl;
+    cout << endl << "player A = " << playerA.name() << ", player b = " << playerB.name() << endl;
+    cout << "player A score= " << playerA.score() << ", player B score = " << playerB.score() << endl << endl;
 
 }

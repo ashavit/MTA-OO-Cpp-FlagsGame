@@ -15,8 +15,8 @@
 
 class Flags {
 
-    Player* playerA;
-    Player* playerB;
+    Player playerA;
+    Player playerB;
     Game* currentGame;
     bool shouldExitProgram = false;
     
@@ -30,6 +30,7 @@ class Flags {
 public:
     
     Flags();
+    ~Flags();
     
     void run();
     void finishGame(bool shouldExitProgram);

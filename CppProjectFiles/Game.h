@@ -16,11 +16,10 @@
 class Game {
     Player& playerB;
     Player& playerA;
-    Board& gameBoard;
+    Board gameBoard;
 
 public:
-    Game(Player &playerA, Player &playerB, Board &board) :
-            playerA(playerA), playerB(playerB), gameBoard(board) {}
+    Game(Player& playerA, Player& playerB);
 
     void run();
     void move();
