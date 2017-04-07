@@ -1,8 +1,9 @@
 #pragma once
 
 #include <stdio.h>
-#include "Board.h"
-#include "Player.h"
+
+class Player;
+class Board;
 
 class Game {
     Player& playerB;
@@ -11,11 +12,11 @@ class Game {
 
     void doPlayerTurn(Player& p);
     bool isGameOver();
+    void awardWinner();
     
 public:
     Game(Player& playerA, Player& playerB);
 
     void run();
-    void move();
     void resolveCombat();
 };

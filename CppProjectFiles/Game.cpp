@@ -7,6 +7,8 @@
 //
 
 #include "Game.h"
+#include "Board.h"
+#include "Player.h"
 
 Game::Game(Player& playerA, Player& playerB)
     : playerA(playerA), playerB(playerB) {
@@ -49,13 +51,10 @@ void Game::run() {
         /// TODO: Get KB Input
     }
     
-    // TODO: Add points to winner
+    // Add points to winner
+    awardWinner();
     
     // TODO: End game
-}
-
-void Game::move() {
-
 }
 
 void Game::resolveCombat() {
@@ -87,3 +86,15 @@ bool Game::isGameOver() {
             playerA.didPlayerLoose() ||
             playerB.didPlayerLoose());
 }
+
+void Game::awardWinner() {
+    /// TODO: enum scores or const
+    int points = 50;
+    if (playerA.didPlayerWin()) {
+        playerA.incrementScore(points);
+    }
+    else if (playerB.didPlayerWin()) {
+        playerB.incrementScore(points);
+    }
+}
+
