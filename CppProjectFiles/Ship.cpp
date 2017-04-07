@@ -6,12 +6,17 @@
 //  Copyright © 2017 Amir Shavit. All rights reserved.
 //
 
+#include "Player.h"
 #include "Ship.h"
 #include "Cell.h"
 
 #pragma mark - Ctor
 
-Ship::Ship(ShipType type, Cell* startingCell) : shipType(type), initialCell(startingCell), currentCell(startingCell) { }
+Ship::Ship(Player& player, ShipType type, Cell* startingCell)
+    : shipOwner(player), shipType(type), initialCell(startingCell), currentCell(startingCell)
+{
+    shipOwner.addShip(this);
+}
 
 #pragma mark - Getters
 
@@ -21,6 +26,10 @@ Cell* Ship::cell() {
 
 bool Ship::alive() {
     return isAlive;
+}
+
+const Player& Ship::owner() {
+    return shipOwner;
 }
 
 #pragma mark - 
