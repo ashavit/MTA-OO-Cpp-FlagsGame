@@ -14,6 +14,8 @@
 #include "Player.h"
 #include "Utils.h"
 
+#define ESC 27
+
 Game::Game(Player& playerA, Player& playerB, Flags* manager)
     : playerA(playerA), playerB(playerB), gameManager(manager) {
 
@@ -112,11 +114,13 @@ void Game::handleKeyboardInput() {
 		ch = _getch();
 		playerA.notifyKeyHit(ch);
 		playerB.notifyKeyHit(ch);
+		notifyKeyHit(ch);
 	}
 }
 
 bool Game::isGameOver() {
-    return (playerA.didPlayerWin() ||
+    return (gameState != GameState::IN_PROGRESS ||
+			playerA.didPlayerWin() ||
             playerB.didPlayerWin() ||
             playerA.didPlayerLose() ||
             playerB.didPlayerLose());
@@ -131,7 +135,7 @@ void Game::endGame() {
 	playerB.clearFleetData();
 
 	// End game
-	gameManager->finishGame(false);
+	gameManager->finishGame(gameState == GameState::ABORT_AND_QUIT);
 }
 
 void Game::awardWinner() {
@@ -149,3 +153,45 @@ void Game::awardWinner() {
 	}
 }
 
+void Game::notifyKeyHit(char ch) {
+	if (ch == ESC) {
+		displaySubMenu();
+	}
+}
+
+void Game::displaySubMenu() {
+	setTextColor(WHITE);
+	clearScreen();
+
+	int selection;
+	bool handled = true;
+
+	do {
+		std::cout << "Game is paused:" << std::endl;
+		std::cout << "1. Continue game" << std::endl;
+		std::cout << "2. Restart game" << std::endl;
+		std::cout << "8. Main menu" << std::endl;
+		std::cout << "9. Quit" << std::endl;
+		std::cin >> selection;
+
+		switch (selection) {
+		case 1:
+			drawBoard(); // And continue playing
+			break;
+		case 2:
+			break;
+		case 8:
+			gameState = GameState::ABORTED;
+			break;
+		case 9:
+			gameState = GameState::ABORT_AND_QUIT;
+			break;
+
+		default:
+			std::cout << "Selection undefined" << std::endl;
+			handled = false;
+			break;
+		}
+	} while (!handled);
+
+}
