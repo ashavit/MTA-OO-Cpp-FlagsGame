@@ -11,6 +11,11 @@ class Player {
     int playerScore = 0;
     Ship* ships[FLEET_SIZE] = { nullptr };
     Ship* activeShip = nullptr;
+
+	enum keyOptions { _SHIP1, _SHIP2, _SHIP3, _UPWARDS, _DOWN, _LEFT, _RIGHT, _STOP, _keyOptionsSize };
+	char controlKeys[_keyOptionsSize];
+
+	void setActiveShip(Ship* active);
     
 public:
     Player(std::string name);
@@ -22,6 +27,9 @@ public:
     void incrementScore(int byPoints);
     int score();
     
+	void setKeys(const char* keys);
+	void notifyKeyHit(char ch);
+
     bool didPlayerWin();
     bool didPlayerLoose();
     

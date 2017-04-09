@@ -41,6 +41,43 @@ int Player::score() {
     return playerScore;
 }
 
+void Player::setKeys(const char* keys)
+{
+	int i = 0;
+	for (char& key : controlKeys) {
+		key = controlKeys[i++];
+	}
+}
+
+void Player::notifyKeyHit(char ch)
+{
+	// TODO: Consider using map / dictionary instead ?
+	if (tolower(ch) == controlKeys[_SHIP1]) {
+		setActiveShip(ships[_SHIP1]);
+	}
+	else if (tolower(ch) == controlKeys[_SHIP2]) {
+		setActiveShip(ships[_SHIP2]);
+	}
+	else if (tolower(ch) == controlKeys[_SHIP3]) {
+		setActiveShip(ships[_SHIP3]);
+	}
+	else if (tolower(ch) == controlKeys[_UPWARDS]) {
+		activeShip->setDirection(Direction::UP);
+	}
+	else if (tolower(ch) == controlKeys[_DOWN]) {
+		activeShip->setDirection(Direction::DOWN);
+	}
+	else if (tolower(ch) == controlKeys[_LEFT]) {
+		activeShip->setDirection(Direction::LEFT);
+	}
+	else if (tolower(ch) == controlKeys[_RIGHT]) {
+		activeShip->setDirection(Direction::RIGHT);
+	}
+	else if (tolower(ch) == controlKeys[_STOP]) {
+		activeShip->setDirection(Direction::STOP);
+	}
+}
+
 bool Player::didPlayerWin() {
     for (int i = 0; i < FLEET_SIZE; ++i) {
         if (ships[i] != nullptr && ships[i]->alive() &&
@@ -77,3 +114,6 @@ Ship* Player::getFleet() {
 
 #pragma mark - Private functions
 
+void Player::setActiveShip(Ship* active) {
+	activeShip = active;
+}

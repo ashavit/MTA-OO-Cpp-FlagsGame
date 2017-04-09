@@ -99,17 +99,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CppProjectFiles\Board.cpp" />
+    <ClCompile Include="CppProjectFiles\Cell.cpp" />
     <ClCompile Include="cppprojectfiles\Flags.cpp" />
     <ClCompile Include="cppprojectfiles\Game.cpp" />
     <ClCompile Include="cppprojectfiles\main.cpp" />
     <ClCompile Include="cppprojectfiles\Player.cpp" />
     <ClCompile Include="cppprojectfiles\Ship.cpp" />
+    <ClCompile Include="CppProjectFiles\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CppProjectFiles\Board.h" />
+    <ClInclude Include="CppProjectFiles\Cell.h" />
     <ClInclude Include="cppprojectfiles\Flags.h" />
     <ClInclude Include="cppprojectfiles\Game.h" />
     <ClInclude Include="cppprojectfiles\Player.h" />
     <ClInclude Include="cppprojectfiles\Ship.h" />
+    <ClInclude Include="CppProjectFiles\Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

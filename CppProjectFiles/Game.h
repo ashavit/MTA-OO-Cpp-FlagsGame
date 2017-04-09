@@ -13,6 +13,7 @@ class Game {
     Flags* gameManager;
 
     void doPlayerTurn(Player& p);
+	void handleKeyboardInput();
     bool isGameOver();
     void awardWinner();
     

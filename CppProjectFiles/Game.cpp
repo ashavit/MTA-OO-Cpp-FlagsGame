@@ -6,6 +6,8 @@
 //  Copyright © 2017 Amir Shavit. All rights reserved.
 //
 
+#include <Windows.h>
+#include <conio.h>
 #include "Game.h"
 #include "Flags.h"
 #include "Board.h"
@@ -32,24 +34,25 @@ Game::Game(Player& playerA, Player& playerB, Flags* manager)
         }
         gameBoard->printBoard();
         
-        // TODO: Define player keys
-        
+        // Define player keys
+		playerA.setKeys("123wxads");
+		playerB.setKeys("789imjlk");
 }
 
 void Game::run() {
-    
+
     while (1) {
         doPlayerTurn(playerA);
         if (isGameOver()) break;
         
-        /// TODO: Wait
-        
+		Sleep(1000);
+
         doPlayerTurn(playerB);
         if (isGameOver()) break;
 
-        /// TODO: Wait
-        
-        /// TODO: Get KB Input
+		Sleep(1000);
+
+		handleKeyboardInput();
     }
     
     // Add points to winner
@@ -80,6 +83,15 @@ void Game::doPlayerTurn(Player& p) {
         }
         // Else don't move ship
     }
+}
+
+void Game::handleKeyboardInput() {
+	char ch = 0;
+	if (_kbhit()) {
+		ch = _getch();
+		playerA.notifyKeyHit(ch);
+		playerB.notifyKeyHit(ch);
+	}
 }
 
 bool Game::isGameOver() {
