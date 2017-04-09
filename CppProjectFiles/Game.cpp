@@ -47,6 +47,8 @@ Game::Game(Player& playerA, Player& playerB, Flags* manager)
 
 Game::~Game() {
 	aliveIns--;
+
+	delete gameBoard;
 }
 
 int Game::aliveIns = 0;
