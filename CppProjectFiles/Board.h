@@ -30,10 +30,6 @@ public:
 
     Cell* getRandomCellInRows(size_t from, size_t to);
 
-    Cell* getCellAtPosition(size_t row, size_t column) {
-        return board[column][row];
-    }
-
     Cell* getNextCell(const Cell* cell, Direction direction);
     
     void printBoard();
