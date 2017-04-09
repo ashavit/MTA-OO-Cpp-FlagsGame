@@ -33,5 +33,5 @@ public:
     Cell* getNextCell(const Cell* cell, Direction direction);
     
     void printBoard();
-    void draw();
+    void drawBoard();
 };

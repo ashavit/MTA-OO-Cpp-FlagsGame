@@ -32,7 +32,8 @@ Game::Game(Player& playerA, Player& playerB, Flags* manager)
             Ship *ship = new Ship(playerB, (ShipType)type, c);
             c->setStandingShip(ship);
         }
-        gameBoard->printBoard();
+
+		gameBoard->drawBoard();
         
         // Define player keys
 		playerA.setKeys("123wxads");

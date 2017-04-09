@@ -93,34 +93,45 @@ Cell* Board::getNextCell(const Cell* cell, Direction direction) {
 
 #pragma mark Outputs
 
-void Board::draw() {
+void Board::drawBoard() {
     Cell* cell;
     Ship* standingShip;
+	clearScreen();
     for (int row = 0; row < height; ++row) {
         for (int column = 0; column < width; ++column) {
             cell = board[row][column];
-            standingShip = cell->getStandingShip();
-            switch (cell->getCellType()){
+			gotoxy(column+1, row+1);
+			switch (cell->getCellType()){
                 case SEA:
-                    //setTextColor(WHITE, BLUE);
+                    setTextColor(YELLOW, BLUE);
+					cout << 'S';
                     break;
                 case FORREST:
-                    //setTextColor(WHITE, GREEN);
+                    setTextColor(BLUE, GREEN);
+					cout << 'F';
                     break;
                 case FLAG_A:
-                    //setTextColor(WHITE, RED);
+                    setTextColor(BLACK, RED);
+					cout << 'A';
                     break;
                 case FLAG_B:
-                    //setTextColor(WHITE, YELLOW);
+                    setTextColor(BLACK, YELLOW);
+					cout << 'B';
                     break;
                 case REGULAR:
                 default:
-                    //setTextColor(WHITE, BLACK);
+                    setTextColor(WHITE, WHITE);
+					cout << ' ';
                     break;
             }
-            std::cout << (standingShip != nullptr ? standingShip->type() : ' ');
+
+			if (cell->getStandingShip() != nullptr) {
+				gotoxy(column + 1, row + 1);
+				setTextColor(BLACK, GREY);
+				cout << cell->getStandingShip()->type();
+			}
         }
-        std::cout << std::endl;
+		cout.flush();
     }
 }
 
