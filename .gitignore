@@ -2,6 +2,7 @@
 .vs/
 Debug/
 FlagsGameProject\.vcxproj\.user
+x64/
 
 # Clion
 cmake-build-debug/
