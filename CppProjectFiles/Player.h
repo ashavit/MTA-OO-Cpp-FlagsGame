@@ -35,7 +35,8 @@ public:
     
     void addShip(Ship* ship);
     Ship* getShip(int index) { return ships[index]; }
-    Ship* clearFleetData();
+	void restartGame();
+    void clearFleetData();
     
     bool operator== (const Player &other) const {
         return (playerName == other.playerName);

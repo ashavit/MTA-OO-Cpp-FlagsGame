@@ -72,6 +72,7 @@ void Ship::resetToInitialState() {
     // Set initial cell's ship to this
     currentCell = initialCell;
     currentCell->setStandingShip(this);
+	setDirection(Direction::STOP);
 }
 
 bool Ship::didFindFlag() {

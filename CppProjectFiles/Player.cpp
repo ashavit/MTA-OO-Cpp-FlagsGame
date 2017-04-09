@@ -108,14 +108,19 @@ void Player::addShip(Ship* ship) {
     cout << playerName << "can not add ship. Fleet is full" << endl;
 }
 
-Ship* Player::clearFleetData() {
+void Player::restartGame() {
+	setActiveShip(nullptr);
+	for (int i = _SHIP1; i <= _SHIP3; ++i) {
+		ships[i]->resetToInitialState();
+	}
+}
+
+void Player::clearFleetData() {
 	setActiveShip(nullptr);
 	for (int i = _SHIP1; i <= _SHIP3; ++i) {
 		delete ships[i];
 		ships[i] = nullptr;
 	}
-
-    return nullptr;
 }
 
 #pragma mark - Private functions

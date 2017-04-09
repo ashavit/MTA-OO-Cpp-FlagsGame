@@ -179,6 +179,9 @@ void Game::displaySubMenu() {
 			drawBoard(); // And continue playing
 			break;
 		case 2:
+			playerA.restartGame();
+			playerB.restartGame();
+			drawBoard();
 			break;
 		case 8:
 			gameState = GameState::ABORTED;
