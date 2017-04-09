@@ -6,22 +6,22 @@ using namespace std;
 
 #pragma mark - Life Cycle
 
-Board::Board(size_t height, size_t width) : height(height), width(width) {
-    board = new Cell**[height];
-    for (size_t i = 0; i < height; ++i) {
-        board[i] = new Cell*[width];
-        for (size_t j = 0; j < width; ++j) {
-            board[i][j] = new Cell(i,j);
+Board::Board(size_t width, size_t height) : height(height), width(width) {
+    board = new Cell**[width];
+    for (size_t col = 0; col < width; ++col) {
+        board[col] = new Cell*[height];
+        for (size_t row = 0; row < height; ++row) {
+            board[col][row] = new Cell(row,col);
         }
     }
 }
 
 Board::~Board() {
-    for (size_t i = 0; i < height; ++i) {
-        for (size_t j = 0; j < width; ++j) {
-            delete board[i][j];
+    for (size_t col = 0; col < width; ++col) {
+        for (size_t row = 0; row < height; ++row) {
+            delete board[col][row];
         }
-        delete board[i];
+        delete board[col];
     }
     delete board;
 }
@@ -54,7 +54,7 @@ Cell* Board::getRandomCellInRows(size_t from, size_t to) {
     do {
         int r = (int)((rand() % range) + from - 1);
         int c = rand() % width;
-        ptrTemp = board[r][c];
+        ptrTemp = board[c][r];
         if (ptrTemp->getCellType() == CellType::REGULAR && ptrTemp->getStandingShip() == nullptr) {
             ptrRes = ptrTemp;;
         }
@@ -69,24 +69,24 @@ Cell* Board::getNextCell(const Cell* cell, Direction direction) {
     
     switch (direction) {
         case Direction::UP:
-            c--;
-            break;
-        case Direction::DOWN:
-            c++;
-            break;
-        case Direction::LEFT:
             r--;
             break;
-        case Direction::RIGHT:
+        case Direction::DOWN:
             r++;
+            break;
+        case Direction::LEFT:
+            c--;
+            break;
+        case Direction::RIGHT:
+            c++;
             break;
         default:
             break;
     }
     
-    if (r >= 0 && r < width &&
-        c >= 0 && c < height) {
-        return board[r][c];
+    if (c >= 0 && c < width &&
+        r >= 0 && r < height) {
+        return board[c][r];
     }
     return nullptr;
 }
@@ -99,14 +99,14 @@ void Board::drawBoard() {
 	clearScreen();
 	for (int column = 0; column < width; ++column) {
 		for (int row = 0; row < height; ++row) {
-			cell = board[row][column];
+			cell = board[column][row];
 			drawCell(cell);
 		}
     }
 }
 
 void Board::drawCell(Cell* cell) {
-	gotoxy(cell->row + 1, cell->column + 1);
+	gotoxy(cell->column + 1, cell->row + 1);
 
 	if (cell->getStandingShip() != nullptr) {
 		setTextColor(BLACK, GREY);
@@ -142,10 +142,10 @@ void Board::drawCell(Cell* cell) {
 
 void Board::printBoard()
 {
-    for (size_t i = 0; i < height; ++i) {
+    for (size_t row = 0; row < height; ++row) {
         cout << "  ";
-        for (size_t j = 0; j < width; ++j) {
-            Cell *c = board[i][j];
+        for (size_t col = 0; col < width; ++col) {
+            Cell *c = board[col][row];
             if (c->getStandingShip() != nullptr) {
                 cout << (int)c->getStandingShip()->type();
             }

@@ -13,21 +13,21 @@ class Board {
     Cell*** board;
 
     Board() : Board(DEFAULT_BOARD_SIZE, DEFAULT_BOARD_SIZE) {}
-    Board(size_t height, size_t width);
+    Board(size_t width, size_t height);
     
     void randomPlaceSpecialCells(CellType type, int count);
     
 public:
     
     static Board* loadRandomBoard() { return Board::loadRandomBoard(DEFAULT_BOARD_SIZE, DEFAULT_BOARD_SIZE);};
-    static Board* loadRandomBoard(size_t height, size_t width);
+    static Board* loadRandomBoard(size_t width, size_t height);
     
     ~Board();
 
     Cell* getRandomCellInRows(size_t from, size_t to);
 
     Cell* getCellAtPosition(size_t row, size_t column) {
-        return board[row][column];
+        return board[column][row];
     }
 
     Cell* getNextCell(const Cell* cell, Direction direction);
