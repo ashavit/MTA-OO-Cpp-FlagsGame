@@ -30,6 +30,8 @@ Flags::~Flags() {
 void Flags::run() {
     
     int selection;
+	hideCursor();
+
     do {
         //test_setupStates();
 
