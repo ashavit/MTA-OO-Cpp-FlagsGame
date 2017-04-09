@@ -12,6 +12,7 @@
 #include "Flags.h"
 #include "Board.h"
 #include "Player.h"
+#include "Utils.h"
 
 Game::Game(Player& playerA, Player& playerB, Flags* manager)
     : playerA(playerA), playerB(playerB), gameManager(manager) {
@@ -33,7 +34,7 @@ Game::Game(Player& playerA, Player& playerB, Flags* manager)
             c->setStandingShip(ship);
         }
 
-		gameBoard->drawBoard();
+		drawBoard();
         
         // Define player keys
 		playerA.setKeys("123wxads");
@@ -64,6 +65,26 @@ void Game::resolveCombat() {
 }
 
 #pragma mark - Private Helpers
+
+void Game::drawBoard() {
+	gameBoard->drawBoard();
+
+	// Draw Players Names
+	int pos = gameBoard->getPlayerStatsLocation();
+	setTextColor(WHITE);
+
+	gotoxy(pos, 1);
+	std::cout << playerA.name();
+	gotoxy(pos, 2);
+	std::cout << playerA.score();
+
+	gotoxy(pos, 4);
+	std::cout << playerB.name();
+	gotoxy(pos, 5);
+	std::cout << playerB.score();
+
+	std::cout.flush();
+}
 
 void Game::doPlayerTurn(Player& p) {
     for (int i = 0; i < FLEET_SIZE; ++i) {
@@ -102,12 +123,12 @@ bool Game::isGameOver() {
 }
 
 void Game::endGame() {
+	// Add points to winner
+	awardWinner();
+
 	// Delete ships and clear memory
 	playerA.clearFleetData();
 	playerB.clearFleetData();
-
-	// Add points to winner
-	awardWinner();
 
 	// End game
 	gameManager->finishGame(false);

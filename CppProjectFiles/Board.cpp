@@ -175,6 +175,10 @@ void Board::printBoard()
     cout << endl << endl;
 }
 
+int Board::getPlayerStatsLocation() {
+	return width + 30;
+}
+
 #pragma mark - Private Functions
 
 void Board::randomPlaceSpecialCells(CellType type, int count) {

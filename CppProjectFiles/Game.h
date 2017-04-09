@@ -14,6 +14,7 @@ class Game {
     Board* gameBoard;
     Flags* gameManager;
 
+	void drawBoard();
     void doPlayerTurn(Player& p);
 	void handleKeyboardInput();
     bool isGameOver();

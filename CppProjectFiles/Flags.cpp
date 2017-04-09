@@ -31,7 +31,7 @@ void Flags::run() {
     
     int selection;
     do {
-        test_setupStates();
+        //test_setupStates();
 
         cout << "Please select an option:" << endl;
         cout << "1. Select Players Name" << endl;
