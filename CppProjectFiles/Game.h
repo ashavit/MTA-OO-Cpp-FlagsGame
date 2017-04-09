@@ -7,6 +7,8 @@ class Player;
 class Board;
 
 class Game {
+	static int aliveIns;
+
 	enum Awards { WIN = 50, LOSS = 30 };
 	enum GameState { IN_PROGRESS, ABORTED, ABORT_AND_QUIT };
 
@@ -27,6 +29,8 @@ class Game {
 
 public:
     Game(Player& playerA, Player& playerB, Flags* manager);
+	~Game();
+	static int aliveInstances() { return aliveIns; }
 
     void run();
     void resolveCombat();

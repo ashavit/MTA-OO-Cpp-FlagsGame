@@ -15,8 +15,15 @@
 Ship::Ship(Player& player, ShipType type, Cell* startingCell)
     : shipOwner(player), shipType(type), initialCell(startingCell), currentCell(startingCell)
 {
+	aliveIns++;
     shipOwner.addShip(this);
 }
+
+Ship::~Ship() {
+	aliveIns--;
+}
+
+int Ship::aliveIns = 0;
 
 #pragma mark - Getters
 

@@ -8,6 +8,7 @@ class Cell;
 #define DEFAULT_BOARD_SIZE 13
 
 class Board {
+	static int aliveIns;
     size_t  height;
     size_t  width;
     Cell*** board;
@@ -23,7 +24,8 @@ public:
     
     static Board* loadRandomBoard() { return Board::loadRandomBoard(DEFAULT_BOARD_SIZE, DEFAULT_BOARD_SIZE);};
     static Board* loadRandomBoard(size_t width, size_t height);
-    
+	static int aliveInstances() { return aliveIns; }
+
     ~Board();
 
     Cell* getRandomCellInRows(size_t from, size_t to);

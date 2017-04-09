@@ -7,6 +7,8 @@
 #define FLEET_SIZE 3
 
 class Player {
+	static int aliveIns;
+
     std::string playerName;
     int playerScore = 0;
     Ship* ships[FLEET_SIZE] = { nullptr };
@@ -19,7 +21,9 @@ class Player {
     
 public:
     Player(std::string name);
-    
+	~Player();
+	static int aliveInstances() { return aliveIns; }
+
     void updateName();
     std::string name();
 

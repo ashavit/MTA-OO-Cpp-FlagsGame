@@ -18,30 +18,38 @@
 
 Game::Game(Player& playerA, Player& playerB, Flags* manager)
     : playerA(playerA), playerB(playerB), gameManager(manager) {
+	aliveIns++;
 
-        // Initialize board
-        gameBoard = Board::loadRandomBoard();
+    // Initialize board
+	gameBoard = Board::loadRandomBoard();
         
-        // Init ships
-        for (int type = ShipType::SHIP1; type <= ShipType::SHIP3; ++type )
-        {
-            Cell *c = gameBoard->getRandomCellInRows(1, 5);
-            Ship *ship = new Ship(playerA, (ShipType)type, c);
-            c->setStandingShip(ship);
-        }
-        for (int type = ShipType::SHIP7; type <= ShipType::SHIP9; ++type )
-        {
-            Cell *c = gameBoard->getRandomCellInRows(9, 13);
-            Ship *ship = new Ship(playerB, (ShipType)type, c);
-            c->setStandingShip(ship);
-        }
+	// Init ships
+	for (int type = ShipType::SHIP1; type <= ShipType::SHIP3; ++type )
+    {
+		Cell *c = gameBoard->getRandomCellInRows(1, 5);
+        Ship *ship = new Ship(playerA, (ShipType)type, c);
+        c->setStandingShip(ship);
+	}
 
-		drawBoard();
+    for (int type = ShipType::SHIP7; type <= ShipType::SHIP9; ++type )
+	{
+        Cell *c = gameBoard->getRandomCellInRows(9, 13);
+        Ship *ship = new Ship(playerB, (ShipType)type, c);
+		c->setStandingShip(ship);
+    }
+
+	drawBoard();
         
-        // Define player keys
-		playerA.setKeys("123wxads");
-		playerB.setKeys("789imjlk");
+    // Define player keys
+	playerA.setKeys("123wxads");
+	playerB.setKeys("789imjlk");
 }
+
+Game::~Game() {
+	aliveIns--;
+}
+
+int Game::aliveIns = 0;
 
 void Game::run() {
 

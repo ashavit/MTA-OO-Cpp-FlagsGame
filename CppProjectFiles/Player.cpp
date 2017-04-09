@@ -15,7 +15,14 @@ using namespace std;
 #pragma mark - Ctor
 
 Player::Player(std::string name) : playerName(name) {
+	aliveIns++;
 }
+
+Player::~Player() {
+	aliveIns--;
+}
+
+int Player::aliveIns = 0;
 
 #pragma mark - Public functions
 

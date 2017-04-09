@@ -100,6 +100,7 @@ void Flags::resetPlayerScores() {
     playerB.resetScore();
 }
 
+#pragma mark - Test functions
 
 void Flags::test_setupStates() {
 

@@ -6,7 +6,10 @@ using namespace std;
 
 #pragma mark - Life Cycle
 
+int Board::aliveIns = 0;
+
 Board::Board(size_t width, size_t height) : height(height), width(width) {
+	aliveIns++;
     board = new Cell**[width];
     for (size_t col = 0; col < width; ++col) {
         board[col] = new Cell*[height];
@@ -17,6 +20,7 @@ Board::Board(size_t width, size_t height) : height(height), width(width) {
 }
 
 Board::~Board() {
+	aliveIns--;
     for (size_t col = 0; col < width; ++col) {
         for (size_t row = 0; row < height; ++row) {
             delete board[col][row];

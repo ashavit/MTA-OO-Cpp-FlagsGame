@@ -9,7 +9,8 @@ enum class Direction {STOP, UP, DOWN, LEFT, RIGHT};
 enum ShipType {SHIP1 = 1, SHIP2, SHIP3, SHIP7 = 7, SHIP8, SHIP9 };
 
 class Ship {
-    
+	static int aliveIns;
+
     Player& shipOwner;
     const ShipType shipType;
     Cell* initialCell;
@@ -19,7 +20,9 @@ class Ship {
     
 public:
     Ship(Player& player, ShipType type, Cell* startingCell);
-    
+	~Ship();
+	static int aliveInstances() { return aliveIns; }
+
     Cell* cell();
     bool alive();
     const Player& owner();
