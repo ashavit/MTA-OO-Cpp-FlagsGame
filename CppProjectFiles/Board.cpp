@@ -97,42 +97,47 @@ void Board::drawBoard() {
     Cell* cell;
     Ship* standingShip;
 	clearScreen();
-    for (int row = 0; row < height; ++row) {
-        for (int column = 0; column < width; ++column) {
-            cell = board[row][column];
-			gotoxy(column+1, row+1);
-			switch (cell->getCellType()){
-                case SEA:
-                    setTextColor(YELLOW, BLUE);
-					cout << 'S';
-                    break;
-                case FORREST:
-                    setTextColor(BLUE, GREEN);
-					cout << 'F';
-                    break;
-                case FLAG_A:
-                    setTextColor(BLACK, RED);
-					cout << 'A';
-                    break;
-                case FLAG_B:
-                    setTextColor(BLACK, YELLOW);
-					cout << 'B';
-                    break;
-                case REGULAR:
-                default:
-                    setTextColor(WHITE, WHITE);
-					cout << ' ';
-                    break;
-            }
-
-			if (cell->getStandingShip() != nullptr) {
-				gotoxy(column + 1, row + 1);
-				setTextColor(BLACK, GREY);
-				cout << cell->getStandingShip()->type();
-			}
-        }
-		cout.flush();
+	for (int column = 0; column < width; ++column) {
+		for (int row = 0; row < height; ++row) {
+			cell = board[row][column];
+			drawCell(cell);
+		}
     }
+}
+
+void Board::drawCell(Cell* cell) {
+	gotoxy(cell->row + 1, cell->column + 1);
+
+	if (cell->getStandingShip() != nullptr) {
+		setTextColor(BLACK, GREY);
+		cout << cell->getStandingShip()->type();
+	}
+	else {
+		switch (cell->getCellType()) {
+		case SEA:
+			setTextColor(YELLOW, BLUE);
+			cout << 'S';
+			break;
+		case FORREST:
+			setTextColor(BLUE, GREEN);
+			cout << 'F';
+			break;
+		case FLAG_A:
+			setTextColor(BLACK, RED);
+			cout << 'A';
+			break;
+		case FLAG_B:
+			setTextColor(BLACK, YELLOW);
+			cout << 'B';
+			break;
+		case REGULAR:
+		default:
+			setTextColor(WHITE, WHITE);
+			cout << ' ';
+			break;
+		}
+	}
+	cout.flush();
 }
 
 void Board::printBoard()

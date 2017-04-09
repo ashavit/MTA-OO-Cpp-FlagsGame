@@ -34,4 +34,6 @@ public:
     
     void printBoard();
     void drawBoard();
+	void drawCell(Cell* cell);
+
 };

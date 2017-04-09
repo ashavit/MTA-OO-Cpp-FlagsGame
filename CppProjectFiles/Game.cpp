@@ -76,8 +76,11 @@ void Game::doPlayerTurn(Player& p) {
         
         if (moveTo != nullptr && s->canMoveToCell(moveTo)) {
             if (moveTo->getStandingShip() == nullptr) { // If cell is empty - move there
-                s->moveToCell(moveTo);
-            }
+				Cell *old = s->cell();
+				s->moveToCell(moveTo);
+				gameBoard->drawCell(s->cell());
+				gameBoard->drawCell(old);
+			}
             else if (moveTo->getStandingShip()->owner() != p) { // If Cell is occupied by other player - fight
                 /// TODO: Implement Fight
             }
