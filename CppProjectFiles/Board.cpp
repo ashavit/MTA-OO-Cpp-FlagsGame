@@ -29,9 +29,8 @@ Board::~Board() {
 Board* Board::loadRandomBoard(size_t height, size_t width) {
     Board *b = new Board(height, width);
     
-    /// TODO: Move this to param or const
-    int seas = 20;
-    int forests = 20;
+    int seas = BoardDensity::REGULAR;
+    int forests = BoardDensity::REGULAR;
     
     b->randomPlaceSpecialCells(CellType::SEA, seas);
     b->randomPlaceSpecialCells(CellType::FORREST, forests);

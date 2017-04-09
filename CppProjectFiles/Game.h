@@ -7,6 +7,8 @@ class Player;
 class Board;
 
 class Game {
+	enum Awards { WIN = 50, LOSS = 30 };
+
     Player& playerB;
     Player& playerA;
     Board* gameBoard;

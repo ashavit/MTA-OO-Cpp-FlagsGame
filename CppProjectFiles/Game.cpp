@@ -101,18 +101,22 @@ void Game::handleKeyboardInput() {
 bool Game::isGameOver() {
     return (playerA.didPlayerWin() ||
             playerB.didPlayerWin() ||
-            playerA.didPlayerLoose() ||
-            playerB.didPlayerLoose());
+            playerA.didPlayerLose() ||
+            playerB.didPlayerLose());
 }
 
 void Game::awardWinner() {
-    /// TODO: enum scores or const
-    int points = 50;
     if (playerA.didPlayerWin()) {
-        playerA.incrementScore(points);
+        playerA.incrementScore(Awards::WIN);
     }
     else if (playerB.didPlayerWin()) {
-        playerB.incrementScore(points);
+        playerB.incrementScore(Awards::WIN);
     }
+	else if (playerA.didPlayerLose()) {
+		playerB.incrementScore(Awards::LOSS);
+	}
+	else if (playerB.didPlayerLose()) {
+		playerA.incrementScore(Awards::LOSS);
+	}
 }
 

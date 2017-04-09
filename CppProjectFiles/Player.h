@@ -31,7 +31,7 @@ public:
 	void notifyKeyHit(char ch);
 
     bool didPlayerWin();
-    bool didPlayerLoose();
+    bool didPlayerLose();
     
     void addShip(Ship* ship);
     Ship* getShip(int index) { return ships[index]; }

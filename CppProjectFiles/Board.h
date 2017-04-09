@@ -12,6 +12,8 @@ class Board {
     size_t  width;
     Cell*** board;
 
+	enum BoardDensity { LOW = 10, REGULAR = 20, HIGH = 30 };
+
     Board() : Board(DEFAULT_BOARD_SIZE, DEFAULT_BOARD_SIZE) {}
     Board(size_t width, size_t height);
     

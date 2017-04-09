@@ -88,7 +88,7 @@ bool Player::didPlayerWin() {
     return false;
 }
 
-bool Player::didPlayerLoose() {
+bool Player::didPlayerLose() {
     for (int i = 0; i < FLEET_SIZE; ++i) {
         if (ships[i] != nullptr && ships[i]->alive()) {
             return false;
