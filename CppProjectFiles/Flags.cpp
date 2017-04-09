@@ -72,8 +72,8 @@ void Flags::finishGame(bool _shouldExit) {
 		currentGame = nullptr;
 	}
     shouldExitProgram = _shouldExit;
-	clearScreen();
 	setTextColor(WHITE);
+	clearScreen();
 }
 
 #pragma mark - Private
