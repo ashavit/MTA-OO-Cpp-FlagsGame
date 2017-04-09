@@ -66,8 +66,10 @@ void Flags::run() {
 
 /* Called from Game when a game ends. If _shouldExit=true need to exit program */
 void Flags::finishGame(bool _shouldExit) {
-    delete currentGame;
-    currentGame = nullptr;
+	if (currentGame != nullptr) {
+		delete currentGame;
+		currentGame = nullptr;
+	}
     shouldExitProgram = _shouldExit;
 }
 

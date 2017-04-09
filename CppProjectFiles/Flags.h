@@ -8,7 +8,7 @@ class Flags {
 
     Player playerA;
     Player playerB;
-    Game* currentGame;
+    Game* currentGame = nullptr;
     bool shouldExitProgram = false;
     
     void selectPlayerNames();
