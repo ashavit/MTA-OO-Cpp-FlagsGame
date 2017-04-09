@@ -45,7 +45,7 @@ void Player::setKeys(const char* keys)
 {
 	int i = 0;
 	for (char& key : controlKeys) {
-		key = controlKeys[i++];
+		key = keys[i++];
 	}
 }
 
