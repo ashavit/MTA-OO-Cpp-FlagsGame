@@ -8,6 +8,7 @@
 
 #include "Flags.h"
 #include <iostream>
+#include "Utils.h"
 
 using namespace std;
 
@@ -71,6 +72,8 @@ void Flags::finishGame(bool _shouldExit) {
 		currentGame = nullptr;
 	}
     shouldExitProgram = _shouldExit;
+	clearScreen();
+	setTextColor(WHITE);
 }
 
 #pragma mark - Private

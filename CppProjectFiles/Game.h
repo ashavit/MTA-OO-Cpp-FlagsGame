@@ -17,6 +17,7 @@ class Game {
     void doPlayerTurn(Player& p);
 	void handleKeyboardInput();
     bool isGameOver();
+	void endGame();
     void awardWinner();
     
 public:

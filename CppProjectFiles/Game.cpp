@@ -55,12 +55,8 @@ void Game::run() {
 
 		handleKeyboardInput();
     }
-    
-    // Add points to winner
-    awardWinner();
-    
-    // End game
-    gameManager->finishGame(false);
+
+	endGame();
 }
 
 void Game::resolveCombat() {
@@ -103,6 +99,18 @@ bool Game::isGameOver() {
             playerB.didPlayerWin() ||
             playerA.didPlayerLose() ||
             playerB.didPlayerLose());
+}
+
+void Game::endGame() {
+	// Delete ships and clear memory
+	playerA.clearFleetData();
+	playerB.clearFleetData();
+
+	// Add points to winner
+	awardWinner();
+
+	// End game
+	gameManager->finishGame(false);
 }
 
 void Game::awardWinner() {
