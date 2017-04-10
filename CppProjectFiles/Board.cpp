@@ -100,6 +100,16 @@ void Board::drawBoard() {
     Cell* cell;
     Ship* standingShip;
 	clearScreen();
+	for (int column = 1; column <= width; ++column) {
+		gotoxy(column, 0);
+		std::cout << (char)('A' + column - 1);
+	}
+	for (int row = 1; row <= height; ++row) {
+		gotoxy(0, row);
+		std::cout << row;
+	}
+	std::cout.flush();
+
 	for (int column = 0; column < width; ++column) {
 		for (int row = 0; row < height; ++row) {
 			cell = board[column][row];
