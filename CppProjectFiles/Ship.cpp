@@ -98,7 +98,6 @@ void Ship::resetToInitialState() {
 }
 
 bool Ship::didFindFlag() {
-    /// TODO: Make sure we only look for oponent flag
     return (currentCell->getCellType() == CellType::FLAG_A ||
             currentCell->getCellType() == CellType::FLAG_B);
 }
