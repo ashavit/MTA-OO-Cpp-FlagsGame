@@ -30,8 +30,8 @@ Board::~Board() {
     delete board;
 }
 
-Board* Board::loadRandomBoard(size_t height, size_t width) {
-    Board *b = new Board(height, width);
+Board* Board::loadRandomBoard(size_t width, size_t height) {
+    Board *b = new Board(width, height);
     
     int seas = BoardDensity::REGULAR;
     int forests = BoardDensity::REGULAR;
