@@ -67,7 +67,13 @@ bool Ship::canMoveToCell(const Cell* cell) {
     else if (cell->getCellType() == CellType::SEA) {
         return (shipType == SHIP2 || shipType == SHIP3 || shipType == SHIP7);
     }
-    return true;
+	else if (cell->getCellType() == CellType::FLAG_A) {
+		return (shipType == SHIP7 || shipType == SHIP8 || shipType == SHIP9);
+	}
+	else if (cell->getCellType() == CellType::FLAG_B) {
+		return (shipType == SHIP1 || shipType == SHIP2 || shipType == SHIP3);
+	}
+	return true;
 }
 
 void Ship::moveToCell(Cell* cell) {
