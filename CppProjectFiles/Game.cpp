@@ -162,10 +162,11 @@ void Game::handleBattle(Ship* shipA, Ship* shipB, Cell* cell) {
 			break;
 	}
 
-	/// TODO: Print message at bootom of board
-	setTextColor(WHITE); clearScreen();
-	std::cout << "Ship" << winner->type() << " won Ship" << loser->type() << " @ cell (" << cell->getColumn() << "," << cell->getRow() << ")" << std::endl;
-	Sleep(500); drawBoard();
+	// Print message at bottom of board
+	const std::string message = std::string("Ship") + std::to_string((int)winner->type()) + 
+		" won Ship" + std::to_string((int)loser->type()) + 
+		" @ cell (" + cell->getColumn() + "," + std::to_string(cell->getRow()) + ")";
+	gameBoard->printMessage(message, false, false);
 
 	loser->setDead();
 	winner->moveToCell(cell);
@@ -193,10 +194,9 @@ void Game::endGame() {
 	// Add points to winner
 	awardWinner();
 
-	/// TODO: Print message at bootom of board
-	setTextColor(WHITE); clearScreen();
-	std::cout << ((playerA.didPlayerWin() || playerB.didPlayerLose()) ? playerA.name() : playerB.name()) << " won !!!!!" << std::endl;
-	Sleep(5000);
+	// Print message to board
+	const std::string message = std::string((playerA.didPlayerWin() || playerB.didPlayerLose()) ? playerA.name() : playerB.name()) + " won !!!!!";
+	gameBoard->printMessage(message, true, true);
 
 	// Delete ships and clear memory
 	playerA.clearFleetData();

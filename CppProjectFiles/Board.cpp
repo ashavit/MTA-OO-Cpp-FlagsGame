@@ -1,3 +1,4 @@
+#include <string>
 #include "Board.h"
 #include "Cell.h"
 #include "Utils.h"
@@ -187,6 +188,24 @@ void Board::printBoard()
         cout << endl;
     }
     cout << endl << endl;
+}
+
+void Board::printMessage(const string message, bool onFullScreen, bool waitForResponse) {
+	setTextColor(WHITE);
+	if (onFullScreen) {
+		clearScreen();
+		gotoxy(20, 15);
+	} 
+	else {
+		gotoxy(10, height + 5);
+	}
+	cout << message << endl;
+
+	if (waitForResponse) {
+		char c;
+		cout << "Press any key to continue..." << endl;
+		cin >> c;
+	}
 }
 
 int Board::getPlayerStatsLocation() {

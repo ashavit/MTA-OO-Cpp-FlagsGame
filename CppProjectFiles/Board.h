@@ -35,5 +35,6 @@ public:
     void printBoard();
     void drawBoard();
 	void drawCell(Cell* cell);
+	void printMessage(const std::string message, bool onFullScreen, bool waitForResponse);
 	int getPlayerStatsLocation();
 };
