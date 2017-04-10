@@ -25,6 +25,7 @@ public:
 
     Cell* cell();
     bool alive();
+	void setDead();
     const Player& owner();
     ShipType type();
     

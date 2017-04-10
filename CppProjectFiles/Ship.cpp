@@ -35,6 +35,13 @@ bool Ship::alive() {
     return isAlive;
 }
 
+void Ship::setDead() {
+	isAlive = false;
+	setDirection(Direction::STOP);
+	currentCell->setStandingShip(nullptr);
+	currentCell = nullptr;
+}
+
 const Player& Ship::owner() {
     return shipOwner;
 }
@@ -73,13 +80,15 @@ void Ship::moveToCell(Cell* cell) {
 }
 
 void Ship::resetToInitialState() {
-    // Set current cell's ship to nil
+	isAlive = true;
+	setDirection(Direction::STOP);
+	
+	// Set current cell's ship to nil
     currentCell->setStandingShip(nullptr);
     
     // Set initial cell's ship to this
     currentCell = initialCell;
     currentCell->setStandingShip(this);
-	setDirection(Direction::STOP);
 }
 
 bool Ship::didFindFlag() {

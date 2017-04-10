@@ -56,12 +56,12 @@ int Game::aliveIns = 0;
 void Game::run() {
 
     while (1) {
-        doPlayerTurn(playerA);
+        handlePlayerTurn(playerA);
         if (isGameOver()) break;
         
 		Sleep(400);
 
-        doPlayerTurn(playerB);
+        handlePlayerTurn(playerB);
         if (isGameOver()) break;
 
 		Sleep(400);
@@ -98,10 +98,10 @@ void Game::drawBoard() {
 	std::cout.flush();
 }
 
-void Game::doPlayerTurn(Player& p) {
+void Game::handlePlayerTurn(Player& p) {
     for (int i = 0; i < FLEET_SIZE; ++i) {
         Ship* s = p.getShip(i);
-        Cell *moveTo = gameBoard->getNextCell(s->cell(), s->direction());
+        Cell *moveTo = (s->alive() ? gameBoard->getNextCell(s->cell(), s->direction()) : nullptr);
         
         if (moveTo != nullptr && s->canMoveToCell(moveTo)) {
             if (moveTo->getStandingShip() == nullptr) { // If cell is empty - move there
@@ -111,11 +111,64 @@ void Game::doPlayerTurn(Player& p) {
 				gameBoard->drawCell(old);
 			}
             else if (moveTo->getStandingShip()->owner() != p) { // If Cell is occupied by other player - fight
-                /// TODO: Implement Fight
-            }
+				Cell *old = s->cell();
+				handleBattle((p == playerA ? s : moveTo->getStandingShip()),
+					(p == playerB ? s : moveTo->getStandingShip()),
+					moveTo);
+
+				// Redraw both cells no matter who won
+				gameBoard->drawCell(moveTo);
+				gameBoard->drawCell(old);
+			}
         }
         // Else don't move ship
     }
+}
+
+
+void Game::handleBattle(Ship* shipA, Ship* shipB, Cell* cell) {
+	// PlayerA ships lose in most cases
+	Ship *winner = shipB, *loser = shipA;
+
+	switch (shipA->type()) {
+		case ShipType::SHIP1: {
+			// Ship1 always wins except colD or rows 10-13
+			if (cell->getColumn() != 'D' &&
+				!(cell->getRow() >= 10 && cell->getRow() <= 13)) {
+				winner = shipA;
+				loser = shipB;
+			}
+			break;
+		}
+		case ShipType::SHIP2: {
+			// Ship2 only wins ships7/8 at col K and rows 3-4
+			if (shipB->type() != ShipType::SHIP9 &&
+				(cell->getColumn() == 'K' ||
+				(cell->getRow() >= 3 && cell->getRow() <= 4))) {
+				winner = shipA;
+				loser = shipB;
+			}
+			break;
+		}
+		case ShipType::SHIP3: {
+			// Ship3 always wins at col G and row 8
+			if (cell->getColumn() == 'G' || cell->getRow() == 8) {
+				winner = shipA;
+				loser = shipB;
+			}
+			break;
+		}
+		default:
+			break;
+	}
+
+	/// TODO: Print message at bootom of board
+	setTextColor(WHITE); clearScreen();
+	std::cout << "Ship" << winner->type() << " won Ship" << loser->type() << " @ cell (" << cell->getColumn() << "," << cell->getRow() << ")" << std::endl;
+	Sleep(500); drawBoard();
+
+	loser->setDead();
+	winner->moveToCell(cell);
 }
 
 void Game::handleKeyboardInput() {

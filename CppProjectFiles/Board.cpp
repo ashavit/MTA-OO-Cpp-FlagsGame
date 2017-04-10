@@ -111,7 +111,7 @@ void Board::drawBoard() {
 void Board::drawCell(Cell* cell) {
 	gotoxy(cell->column + 1, cell->row + 1);
 
-	if (cell->getStandingShip() != nullptr) {
+	if (cell->getStandingShip() != nullptr && cell->getStandingShip()->alive()) {
 		setTextColor(BLACK, GREY);
 		cout << cell->getStandingShip()->type();
 	}

@@ -4,7 +4,9 @@
 
 class Flags;
 class Player;
+class Ship;
 class Board;
+class Cell;
 
 class Game {
 	static int aliveIns;
@@ -19,7 +21,8 @@ class Game {
 	GameState gameState = GameState::IN_PROGRESS;
 
 	void drawBoard();
-    void doPlayerTurn(Player& p);
+    void handlePlayerTurn(Player& p);
+	void handleBattle(Ship* shipA, Ship* shipB, Cell* cell);
 	void handleKeyboardInput();
     bool isGameOver();
 	void endGame();

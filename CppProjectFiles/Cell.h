@@ -30,6 +30,14 @@ public:
         return type;
     }
 
+	int getRow() {
+		return row + 1;
+	}
+
+	char getColumn() {
+		return column + 'A';
+	}
+
     void setStandingShip(Ship* ship) {
         standingShip = ship;
     }
