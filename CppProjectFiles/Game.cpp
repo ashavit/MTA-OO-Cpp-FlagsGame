@@ -193,6 +193,11 @@ void Game::endGame() {
 	// Add points to winner
 	awardWinner();
 
+	/// TODO: Print message at bootom of board
+	setTextColor(WHITE); clearScreen();
+	std::cout << ((playerA.didPlayerWin() || playerB.didPlayerLose()) ? playerA.name() : playerB.name()) << " won !!!!!" << std::endl;
+	Sleep(5000);
+
 	// Delete ships and clear memory
 	playerA.clearFleetData();
 	playerB.clearFleetData();
