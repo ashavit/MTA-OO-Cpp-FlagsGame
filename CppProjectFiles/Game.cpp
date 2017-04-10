@@ -59,12 +59,12 @@ void Game::run() {
         handlePlayerTurn(playerA);
         if (isGameOver()) break;
         
-		Sleep(400);
+		Sleep(100);
 
         handlePlayerTurn(playerB);
         if (isGameOver()) break;
 
-		Sleep(400);
+		Sleep(100);
 
 		handleKeyboardInput();
     }
