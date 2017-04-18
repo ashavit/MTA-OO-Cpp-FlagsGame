@@ -1,8 +1,7 @@
 #include <iostream>
 #include <stdlib.h>
 #include <stdio.h>
-#include <conio.h>
-#include <windows.h>
+#include "Config.h"
 
 #include "Utils.h"
 
