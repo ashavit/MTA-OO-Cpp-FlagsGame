@@ -101,6 +101,7 @@
   <ItemGroup>
     <ClCompile Include="CppProjectFiles\Board.cpp" />
     <ClCompile Include="CppProjectFiles\Cell.cpp" />
+    <ClCompile Include="CppProjectFiles\Config.cpp" />
     <ClCompile Include="cppprojectfiles\Flags.cpp" />
     <ClCompile Include="cppprojectfiles\Game.cpp" />
     <ClCompile Include="cppprojectfiles\main.cpp" />
@@ -111,6 +112,7 @@
   <ItemGroup>
     <ClInclude Include="CppProjectFiles\Board.h" />
     <ClInclude Include="CppProjectFiles\Cell.h" />
+    <ClInclude Include="CppProjectFiles\Config.h" />
     <ClInclude Include="cppprojectfiles\Flags.h" />
     <ClInclude Include="cppprojectfiles\Game.h" />
     <ClInclude Include="cppprojectfiles\Player.h" />

@@ -39,6 +39,9 @@
     <ClCompile Include="CppProjectFiles\Utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CppProjectFiles\Config.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cppprojectfiles\Flags.h">
@@ -60,6 +63,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CppProjectFiles\Utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CppProjectFiles\Config.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
