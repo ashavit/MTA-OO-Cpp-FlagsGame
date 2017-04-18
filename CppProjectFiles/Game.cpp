@@ -6,8 +6,7 @@
 //  Copyright © 2017 Amir Shavit. All rights reserved.
 //
 
-#include <Windows.h>
-#include <conio.h>
+#include "Config.h"
 #include "Game.h"
 #include "Flags.h"
 #include "Board.h"
