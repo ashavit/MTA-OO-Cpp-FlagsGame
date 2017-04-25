@@ -11,6 +11,7 @@
 using namespace std;
 
 #include "Flags.h"
+#include "ConfigurationManager.h"
 #include "Board.h"
 
 void test_printMemoryLeakStatus() {
@@ -21,13 +22,20 @@ void test_printMemoryLeakStatus() {
 	cout << "There are " << Player::aliveInstances() << " instances of Player objects alive" << endl;
 	cout << "There are " << Ship::aliveInstances() << " instances of Ship objects alive" << endl;
 
+    cout << "There are " << ConfigurationManager::aliveInstances() << " instances of ConfigurationManager objects alive" << endl;
+    
 	char t;
 	cin >> t;
 }
 
 int main(int argc, const char * argv[]) {
 
-    Flags().run();
+    Flags flags = Flags();
+    
+    if (argc > 1) {
+        flags.configure(argc-1, argv + 1);
+    }
+    flags.run();
 
 	test_printMemoryLeakStatus();
     return 0;

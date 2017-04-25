@@ -1,11 +1,14 @@
 #pragma once
 
 #include <stdio.h>
+#include "ConfigurationManager.h"
 #include "Game.h"
 #include "Player.h"
 
 class Flags {
 
+    ConfigurationManager configurationManager;
+    
     Player playerA;
     Player playerB;
     Game* currentGame = nullptr;
@@ -27,6 +30,7 @@ public:
     Flags();
     ~Flags();
     
+    void configure(int argc, const char * argv[]);
     void run();
     void finishGame(bool shouldExitProgram);
 

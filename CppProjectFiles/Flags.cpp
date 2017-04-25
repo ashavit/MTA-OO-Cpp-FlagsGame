@@ -27,6 +27,10 @@ Flags::~Flags() {
 
 #pragma mark - Public
 
+void Flags::configure(int argc, const char * argv[]) {
+    configurationManager.setup(argc, argv);
+}
+
 void Flags::run() {
     
     int selection;
