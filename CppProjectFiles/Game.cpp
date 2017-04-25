@@ -15,30 +15,14 @@
 
 #define ESC 27
 
+int Game::roundCounter = 0;
+int Game::aliveIns = 0;
+
 Game::Game(Player& playerA, Player& playerB, Flags* manager)
     : playerA(playerA), playerB(playerB), gameManager(manager) {
 	aliveIns++;
+    roundCounter++;
 
-    // Initialize board
-	gameBoard = Board::loadRandomBoard();
-        
-	// Init ships
-	for (int type = ShipType::SHIP1; type <= ShipType::SHIP3; ++type )
-    {
-		Cell *c = gameBoard->getRandomCellInRows(1, 5);
-        Ship *ship = new Ship(playerA, (ShipType)type, c);
-        c->setStandingShip(ship);
-	}
-
-    for (int type = ShipType::SHIP7; type <= ShipType::SHIP9; ++type )
-	{
-        Cell *c = gameBoard->getRandomCellInRows(9, 13);
-        Ship *ship = new Ship(playerB, (ShipType)type, c);
-		c->setStandingShip(ship);
-    }
-
-	drawBoard();
-        
     // Define player keys
 	playerA.setKeys("123wxads");
 	playerB.setKeys("789imjlk");
@@ -50,7 +34,21 @@ Game::~Game() {
 	delete gameBoard;
 }
 
-int Game::aliveIns = 0;
+void Game::setRecordMode(bool isRecordMode) {
+    this->isRecordMode = isRecordMode;
+}
+
+void Game::loadRandomBoard() {
+    // Initialize board
+    gameBoard = Board::loadRandomBoard(playerA, playerB);
+    
+    if (isRecordMode) {
+        std::string filename = "boardfile" + std::to_string(roundCounter);
+        gameBoard->saveToFile(filename);
+    }
+    
+    drawBoard();
+}
 
 void Game::run() {
 

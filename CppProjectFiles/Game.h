@@ -10,15 +10,18 @@ class Cell;
 
 class Game {
 	static int aliveIns;
+    static int roundCounter;
 
 	enum Awards { WIN = 50, LOSS = 30 };
 	enum GameState { IN_PROGRESS, ABORTED, ABORT_AND_QUIT };
 
     Player& playerB;
     Player& playerA;
-    Board* gameBoard;
     Flags* gameManager;
-	GameState gameState = GameState::IN_PROGRESS;
+    Board* gameBoard;
+    
+    bool isRecordMode = false;
+    GameState gameState = GameState::IN_PROGRESS;
 
 	void drawBoard();
     void handlePlayerTurn(Player& p);
@@ -35,6 +38,8 @@ public:
 	~Game();
 	static int aliveInstances() { return aliveIns; }
 
+    void setRecordMode(bool isRecordMode);
+    void loadRandomBoard();
     void run();
     void resolveCombat();
 };

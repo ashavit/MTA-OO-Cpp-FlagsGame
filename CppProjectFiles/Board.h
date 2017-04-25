@@ -19,11 +19,12 @@ class Board {
     Board(uint width, uint height);
     
     void randomPlaceSpecialCells(CellType type, int count);
+    std::string newFileName(std::string format);
     
 public:
     
-    static Board* loadRandomBoard() { return Board::loadRandomBoard(DEFAULT_BOARD_SIZE, DEFAULT_BOARD_SIZE);};
-    static Board* loadRandomBoard(uint width, uint height);
+    static Board* loadRandomBoard(Player& playerA, Player& playerB) { return Board::loadRandomBoard(playerA, playerB, DEFAULT_BOARD_SIZE, DEFAULT_BOARD_SIZE);};
+    static Board* loadRandomBoard(Player& playerA, Player& playerB, uint width, uint height);
 	static int aliveInstances() { return aliveIns; }
 
     ~Board();
@@ -37,4 +38,6 @@ public:
 	void drawCell(Cell* cell);
 	void printMessage(const std::string message, bool onFullScreen, bool waitForResponse);
 	int getPlayerStatsLocation();
+    
+    void saveToFile(std::string fileName);
 };

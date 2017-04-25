@@ -1,4 +1,5 @@
 #include <string>
+#include <fstream>
 #include "Board.h"
 #include "Cell.h"
 #include "Utils.h"
@@ -31,7 +32,7 @@ Board::~Board() {
     delete board;
 }
 
-Board* Board::loadRandomBoard(uint width, uint height) {
+Board* Board::loadRandomBoard(Player& playerA, Player& playerB, uint width, uint height) {
     Board *b = new Board(width, height);
     
     int seas = BoardDensity::REGULAR;
@@ -43,6 +44,22 @@ Board* Board::loadRandomBoard(uint width, uint height) {
     
     b->getRandomCellInRows(1, 5)->setCellType(FLAG_A);
     b->getRandomCellInRows(9, 13)->setCellType(FLAG_B);
+    
+    // Init ships
+    for (int type = ShipType::SHIP1; type <= ShipType::SHIP3; ++type )
+    {
+        Cell *c = b->getRandomCellInRows(1, 5);
+        Ship *ship = new Ship(playerA, (ShipType)type, c);
+        c->setStandingShip(ship);
+    }
+    
+    for (int type = ShipType::SHIP7; type <= ShipType::SHIP9; ++type )
+    {
+        Cell *c = b->getRandomCellInRows(9, 13);
+        Ship *ship = new Ship(playerB, (ShipType)type, c);
+        c->setStandingShip(ship);
+    }
+
     b->printBoard();
     
     return b;
@@ -155,9 +172,9 @@ void Board::drawCell(Cell* cell) {
 
 void Board::printBoard()
 {
-    for (size_t row = 0; row < height; ++row) {
+    for (uint row = 0; row < height; ++row) {
         cout << "  ";
-        for (size_t col = 0; col < width; ++col) {
+        for (uint col = 0; col < width; ++col) {
             Cell *c = board[col][row];
             if (c->getStandingShip() != nullptr) {
                 cout << (int)c->getStandingShip()->type();
@@ -211,11 +228,64 @@ int Board::getPlayerStatsLocation() {
 	return width + 30;
 }
 
+void Board::saveToFile(std::string name) {
+    string fileName = newFileName(name);
+    ofstream textfile(fileName); // default is text!
+    if (!textfile.good())
+    {
+        /// TODO: Handle Error
+    }
+    
+    for (uint row = 0; row < height; ++row) {
+        for (uint col = 0; col < width; ++col) {
+            Cell *c = board[col][row];
+            if (c->getStandingShip() != nullptr) {
+                textfile << (int)c->getStandingShip()->type();
+            }
+            else {
+                switch (c->getCellType()) {
+                    case FORREST:
+                        textfile << "T";
+                        break;
+                    case SEA:
+                        textfile << "S";
+                        break;
+                    case FLAG_A:
+                        textfile << "A";
+                        break;
+                    case FLAG_B:
+                        textfile << "B";
+                        break;
+                        
+                    default:
+                        textfile << " ";
+                        break;
+                }
+            }
+        }
+        textfile << endl;
+    }
+    
+    textfile.close();
+}
+
 #pragma mark - Private Functions
 
 void Board::randomPlaceSpecialCells(CellType type, int count) {
     for (int i = 0; i < count; ++i) {
         getRandomCellInRows(1, height)->setCellType(type);
+    }
+}
+
+string Board::newFileName(string format) {
+    string fileName = format + ".gboard";
+    if (std::ifstream(fileName)) // File already exists
+    {
+        return newFileName(format + "-new");
+    }
+    else // File does not exist
+    {
+        return fileName;
     }
 }
 

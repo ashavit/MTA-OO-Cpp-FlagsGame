@@ -40,6 +40,7 @@ void Flags::run() {
         cout << "2. Begin a new game" << endl;
         cout << "3. Begin a new reverse game" << endl;
         cout << "4. Reset players score" << endl;
+        cout << "5. " << (isRecordMode ? "Stop" : "Start") << " record mode" << endl;
         cout << "9. Quit" << endl;
         cin >> selection;
         
@@ -55,6 +56,9 @@ void Flags::run() {
                 break;
             case 4:
                 resetPlayerScores();
+                break;
+            case 5:
+                toggleRecordMode();
                 break;
             case 9:
                 finishGame(true);
@@ -87,17 +91,28 @@ void Flags::selectPlayerNames() {
 
 void Flags::beginNewGame() {
     currentGame = new Game(playerA, playerB, this);
-    currentGame->run();
+    startGame();
 }
 
 void Flags::beginReverseGame() {
     currentGame = new Game(playerB, playerA, this);
-    currentGame->run();
+    startGame();
 }
 
 void Flags::resetPlayerScores() {
     playerA.resetScore();
     playerB.resetScore();
+}
+
+void Flags::toggleRecordMode() {
+    isRecordMode = !isRecordMode;
+}
+
+void Flags::startGame() {
+    currentGame->setRecordMode(isRecordMode);
+    currentGame->loadRandomBoard();
+    currentGame->run();
+    currentGame->run();
 }
 
 #pragma mark - Test functions
