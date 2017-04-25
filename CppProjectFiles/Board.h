@@ -9,21 +9,21 @@ class Cell;
 
 class Board {
 	static int aliveIns;
-    size_t  height;
-    size_t  width;
+    uint  height;
+    uint  width;
     Cell*** board;
 
 	enum BoardDensity { LOW = 10, REGULAR = 20, HIGH = 30 };
 
     Board() : Board(DEFAULT_BOARD_SIZE, DEFAULT_BOARD_SIZE) {}
-    Board(size_t width, size_t height);
+    Board(uint width, uint height);
     
     void randomPlaceSpecialCells(CellType type, int count);
     
 public:
     
     static Board* loadRandomBoard() { return Board::loadRandomBoard(DEFAULT_BOARD_SIZE, DEFAULT_BOARD_SIZE);};
-    static Board* loadRandomBoard(size_t width, size_t height);
+    static Board* loadRandomBoard(uint width, uint height);
 	static int aliveInstances() { return aliveIns; }
 
     ~Board();

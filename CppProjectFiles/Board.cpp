@@ -9,12 +9,12 @@ using namespace std;
 
 int Board::aliveIns = 0;
 
-Board::Board(size_t width, size_t height) : height(height), width(width) {
+Board::Board(uint width, uint height) : height(height), width(width) {
 	aliveIns++;
     board = new Cell**[width];
-    for (size_t col = 0; col < width; ++col) {
+    for (uint col = 0; col < width; ++col) {
         board[col] = new Cell*[height];
-        for (size_t row = 0; row < height; ++row) {
+        for (uint row = 0; row < height; ++row) {
             board[col][row] = new Cell(row,col);
         }
     }
@@ -22,8 +22,8 @@ Board::Board(size_t width, size_t height) : height(height), width(width) {
 
 Board::~Board() {
 	aliveIns--;
-    for (size_t col = 0; col < width; ++col) {
-        for (size_t row = 0; row < height; ++row) {
+    for (uint col = 0; col < width; ++col) {
+        for (uint row = 0; row < height; ++row) {
             delete board[col][row];
         }
         delete board[col];
@@ -31,7 +31,7 @@ Board::~Board() {
     delete board;
 }
 
-Board* Board::loadRandomBoard(size_t width, size_t height) {
+Board* Board::loadRandomBoard(uint width, uint height) {
     Board *b = new Board(width, height);
     
     int seas = BoardDensity::REGULAR;
@@ -99,7 +99,6 @@ Cell* Board::getNextCell(const Cell* cell, Direction direction) {
 
 void Board::drawBoard() {
     Cell* cell;
-    Ship* standingShip;
 	clearScreen();
 	for (int column = 1; column <= width; ++column) {
 		gotoxy(column, 0);
@@ -128,23 +127,23 @@ void Board::drawCell(Cell* cell) {
 	}
 	else {
 		switch (cell->getCellType()) {
-		case SEA:
+        case CellType::SEA:
 			setTextColor(YELLOW, BLUE);
 			cout << 'S';
 			break;
-		case FORREST:
+		case CellType::FORREST:
 			setTextColor(BLUE, GREEN);
 			cout << 'F';
 			break;
-		case FLAG_A:
+		case CellType::FLAG_A:
 			setTextColor(BLACK, RED);
 			cout << 'A';
 			break;
-		case FLAG_B:
+		case CellType::FLAG_B:
 			setTextColor(BLACK, YELLOW);
 			cout << 'B';
 			break;
-		case REGULAR:
+		case CellType::REGULAR:
 		default:
 			setTextColor(WHITE, WHITE);
 			cout << ' ';
