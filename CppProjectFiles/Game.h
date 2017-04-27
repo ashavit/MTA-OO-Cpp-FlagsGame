@@ -41,5 +41,4 @@ public:
     void setRecordMode(bool isRecordMode);
     void loadRandomBoard();
     void run();
-    void resolveCombat();
 };

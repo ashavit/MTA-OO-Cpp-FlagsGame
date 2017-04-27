@@ -69,10 +69,6 @@ void Game::run() {
 	endGame();
 }
 
-void Game::resolveCombat() {
-
-}
-
 #pragma mark - Private Helpers
 
 void Game::drawBoard() {
