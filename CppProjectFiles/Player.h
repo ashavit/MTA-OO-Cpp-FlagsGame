@@ -38,6 +38,7 @@ public:
     bool didPlayerLose();
     
     void addShip(Ship* ship);
+    void addShipFromFile(Ship* ship);
     Ship* getShip(int index) { return ships[index]; }
 	void restartGame();
     void clearFleetData();

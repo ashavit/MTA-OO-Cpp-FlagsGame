@@ -19,7 +19,7 @@ class Ship {
     Direction shipDirection = Direction::STOP;
     
 public:
-    Ship(Player& player, ShipType type, Cell* startingCell);
+    Ship(Player& player, ShipType type, Cell* startingCell, bool fromFile = false);
 	~Ship();
 	static int aliveInstances() { return aliveIns; }
 

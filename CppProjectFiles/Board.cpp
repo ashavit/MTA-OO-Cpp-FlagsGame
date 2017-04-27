@@ -1,8 +1,14 @@
 #include <string>
+#include <iostream>
 #include <fstream>
+#include <list>
 #include "Board.h"
 #include "Cell.h"
 #include "Utils.h"
+
+#define SET_BIT(NUM, I)             NUM |= ( 1 << (I) )
+#define IS_BIT_I_SET(NUM, I)        ( (NUM >> I) & 1 )
+#define MASK_WITH_N_LSBS_SET(N)     ( (1 << N) - 1 )
 
 using namespace std;
 
@@ -60,6 +66,93 @@ Board* Board::loadRandomBoard(Player& playerA, Player& playerB, uint width, uint
         c->setStandingShip(ship);
     }
 
+    b->printBoard();
+    
+    return b;
+}
+
+Board* Board::loadBoardFromFile(Player& playerA, Player& playerB, const std::string& fileName, uint width, uint height) {
+    Board *b = new Board(width, height);
+    
+    ifstream textfile(fileName); // default is text!
+    if (!textfile.good())
+    {
+        /// TODO: Handle Error
+    }
+    
+    list<string> errors;
+    char validateToolsA = 0, validateToolsB = 0;
+    bool isPlayerToolsValidA = true, isPlayerToolsValidB = true, isBoardValid = true;
+    
+    for (uint row = 0; row < height && !textfile.eof(); ++row) {
+        string buff;
+        getline(textfile, buff);
+        for (uint col = 0; col < width; ++col) {
+            switch (buff[col]) {
+                case 'S':
+                    b->board[col][row]->setCellType(CellType::SEA);
+                    break;
+                case 'T':
+                    b->board[col][row]->setCellType(CellType::FORREST);
+                    break;
+                case 'A':
+                    if ( IS_BIT_I_SET(validateToolsA, 0) ) { isPlayerToolsValidA = false; break; } // Make sure FlagA is set only once
+                    b->board[col][row]->setCellType(CellType::FLAG_A);
+                    SET_BIT(validateToolsA, 0);
+                    break;
+                case 'B':
+                    if ( IS_BIT_I_SET(validateToolsB, 0) ) { isPlayerToolsValidB = false; break; } // Make sure FlagB is set only once
+                    b->board[col][row]->setCellType(CellType::FLAG_B);
+                    SET_BIT(validateToolsB, 0);
+                    break;
+                case '1':
+                case '2':
+                case '3':
+                {
+                    int bit = buff[col] - '1' + 1;
+                    if ( IS_BIT_I_SET(validateToolsA, bit) ) { isPlayerToolsValidA = false; break; } // Make sure each ship is set only once
+                    Ship *ship = new Ship(playerA, (ShipType)(buff[col] - '0'), b->board[col][row], true);
+                    b->board[col][row]->setStandingShip(ship);
+                    SET_BIT(validateToolsA, bit);
+                    break;
+                }
+                    
+                case '7':
+                case '8':
+                case '9':
+                {
+                    int bit = buff[col] - '7' + 1;
+                    if ( IS_BIT_I_SET(validateToolsB, bit) ) { isPlayerToolsValidB = false; break; } // Make sure each ship is set only once
+                    Ship *ship = new Ship(playerB, (ShipType)(buff[col] - '0'), b->board[col][row], true);
+                    b->board[col][row]->setStandingShip(ship);
+                    SET_BIT(validateToolsB, bit);
+                    break;
+                }
+                    
+                default:
+                {
+                    /// TODO: Handle unknown char - add error after making sure it wan't printed first
+                    break;
+                }
+            }
+        }
+    }
+    
+    textfile.close();
+
+    if ( !isPlayerToolsValidB || validateToolsB != MASK_WITH_N_LSBS_SET(4) ) {
+        /// TODO: Ask Amir if there should be a space before file name
+        errors.push_front("Wrong settings for player B tools in file" + fileName);
+        isBoardValid = false;
+    }
+    if ( !isPlayerToolsValidA || validateToolsA != MASK_WITH_N_LSBS_SET(4) ) {
+        /// TODO: Ask Amir if there should be a space before file name
+        errors.push_front("Wrong settings for player A tools in file" + fileName);
+        isBoardValid = false;
+    }
+    
+    /// TODO: Return errors if found
+    
     b->printBoard();
     
     return b;

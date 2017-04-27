@@ -115,6 +115,15 @@ void Player::addShip(Ship* ship) {
     cout << playerName << "can not add ship. Fleet is full" << endl;
 }
 
+void Player::addShipFromFile(Ship* ship) {
+    int index = ship->type() % 3 - 1;
+    if (ships[index] == nullptr) {
+        ships[index] = ship;
+        return;
+    }
+    // else Don nothing. File loader will handle
+}
+
 void Player::restartGame() {
 	setActiveShip(nullptr);
 	for (int i = _SHIP1; i <= _SHIP3; ++i) {

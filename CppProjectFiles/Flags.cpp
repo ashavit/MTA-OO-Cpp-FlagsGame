@@ -114,8 +114,13 @@ void Flags::toggleRecordMode() {
 
 void Flags::startGame() {
     currentGame->setRecordMode(isRecordMode);
-    currentGame->loadRandomBoard();
-    currentGame->run();
+    if (configurationManager.boardMode() == ConfigurationManager::BoardMode::BOARD_FILE) {
+        /// TODO: remove harcoded file name and itterate in folder path
+        currentGame->loadBoardFromFile("boardfile1.gboard");
+    }
+    else {
+        currentGame->loadRandomBoard();
+    }
     currentGame->run();
 }
 

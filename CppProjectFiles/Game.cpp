@@ -50,6 +50,11 @@ void Game::loadRandomBoard() {
     drawBoard();
 }
 
+void Game::loadBoardFromFile(const std::string& fileName) {
+    gameBoard = Board::loadBoardFromFile(playerA, playerB, fileName);
+    drawBoard();
+}
+
 void Game::run() {
 
     while (1) {

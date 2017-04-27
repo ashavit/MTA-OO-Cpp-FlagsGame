@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdio.h>
+#include <string>
 
 class Flags;
 class Player;
@@ -39,6 +40,9 @@ public:
 	static int aliveInstances() { return aliveIns; }
 
     void setRecordMode(bool isRecordMode);
+    
     void loadRandomBoard();
+    void loadBoardFromFile(const std::string& fileName);
+    
     void run();
 };

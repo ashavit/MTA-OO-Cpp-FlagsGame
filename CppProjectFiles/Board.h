@@ -23,8 +23,11 @@ class Board {
     
 public:
     
+    /* LoadBoard methods take in Players to randomize ship position, and support reverse games when loaded from files */
     static Board* loadRandomBoard(Player& playerA, Player& playerB) { return Board::loadRandomBoard(playerA, playerB, DEFAULT_BOARD_SIZE, DEFAULT_BOARD_SIZE);};
     static Board* loadRandomBoard(Player& playerA, Player& playerB, uint width, uint height);
+    static Board* loadBoardFromFile(Player& playerA, Player& playerB, const std::string& fileName) { return Board::loadBoardFromFile(playerA, playerB, fileName, DEFAULT_BOARD_SIZE, DEFAULT_BOARD_SIZE);};
+    static Board* loadBoardFromFile(Player& playerA, Player& playerB, const std::string& fileName, uint width, uint height);
 	static int aliveInstances() { return aliveIns; }
 
     ~Board();

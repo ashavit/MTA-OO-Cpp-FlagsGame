@@ -31,10 +31,10 @@ void ConfigurationManager::setup(int argc, const char * argv[]) {
     for (int i = 0; i < argc; ++i) {
         std::string key = argv[i];
         if (key == PARAM_KEY_BOARD) {
-            _boardMode = (argv[i+1] == PARAM_VAL_FILE ? BoardMode::BOARD_FILE : BoardMode::RANDOM);
+            _boardMode = ( (strcmp(argv[i+1], PARAM_VAL_FILE) == 0) ? BoardMode::BOARD_FILE : BoardMode::RANDOM);
         }
         else if (key == PARAM_KEY_MOVES) {
-            _movesMode = (argv[i+1] == PARAM_VAL_FILE ? MovesMode::MOVES_FILE : MovesMode::KEYBOARD);
+            _movesMode = ( (strcmp(argv[i+1], PARAM_VAL_FILE) == 0) ? MovesMode::MOVES_FILE : MovesMode::KEYBOARD);
         }
         else if (key == PARAM_KEY_PATH) {
             _path = argv[i+1];
