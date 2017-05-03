@@ -20,8 +20,9 @@ class Board {
     Board(UINT width, UINT height);
     
     void randomPlaceSpecialCells(CellType type, int count);
-    std::string newFileName(std::string format);
-	void printErrors(std::list<std::string>& errors);
+    std::string newFileName(const std::string format);
+	void addUniqueErrorToList(std::list<std::string>& errors, const std::string& error);
+	void printErrors(const std::list<std::string>& errors);
 
 public:
     

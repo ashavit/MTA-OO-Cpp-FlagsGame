@@ -82,13 +82,14 @@ Board* Board::loadBoardFromFile(Player& playerA, Player& playerB, const std::str
     
     list<string> errors;
     char validateToolsA = 0, validateToolsB = 0;
-    bool isPlayerToolsValidA = true, isPlayerToolsValidB = true, isBoardValid = true;
+    bool isPlayerToolsValidA = true, isPlayerToolsValidB = true;
     
     for (UINT row = 0; row < height && !textfile.eof(); ++row) {
         string buff;
         getline(textfile, buff);
         for (UINT col = 0; col < width; ++col) {
-            switch (buff[col]) {
+			char ch = buff[col];
+            switch (ch) {
                 case 'S':
                     b->board[col][row]->setCellType(CellType::SEA);
                     break;
@@ -109,9 +110,9 @@ Board* Board::loadBoardFromFile(Player& playerA, Player& playerB, const std::str
                 case '2':
                 case '3':
                 {
-                    int bit = buff[col] - '1' + 1;
+                    int bit = ch - '1' + 1;
                     if ( IS_BIT_I_SET(validateToolsA, bit) ) { isPlayerToolsValidA = false; break; } // Make sure each ship is set only once
-                    Ship *ship = new Ship(playerA, (ShipType)(buff[col] - '0'), b->board[col][row], true);
+                    Ship *ship = new Ship(playerA, (ShipType)(ch - '0'), b->board[col][row], true);
                     b->board[col][row]->setStandingShip(ship);
                     SET_BIT(validateToolsA, bit);
                     break;
@@ -121,17 +122,26 @@ Board* Board::loadBoardFromFile(Player& playerA, Player& playerB, const std::str
                 case '8':
                 case '9':
                 {
-                    int bit = buff[col] - '7' + 1;
+                    int bit = ch - '7' + 1;
                     if ( IS_BIT_I_SET(validateToolsB, bit) ) { isPlayerToolsValidB = false; break; } // Make sure each ship is set only once
-                    Ship *ship = new Ship(playerB, (ShipType)(buff[col] - '0'), b->board[col][row], true);
+                    Ship *ship = new Ship(playerB, (ShipType)(ch - '0'), b->board[col][row], true);
                     b->board[col][row]->setStandingShip(ship);
                     SET_BIT(validateToolsB, bit);
                     break;
                 }
                     
-                default:
+				case ' ':
+				{
+					// Leave cell empty
+					break;
+				}
+				default:
                 {
-                    /// TODO: Handle unknown char - add error after making sure it wan't printed first
+                    // Handle unknown char - add error after making sure it wan't printed first
+					string err = "Wrong character on board : ";
+					err.push_back(ch);
+					err.append(" in file " + fileName);
+					b->addUniqueErrorToList(errors, err);
                     break;
                 }
             }
@@ -141,14 +151,10 @@ Board* Board::loadBoardFromFile(Player& playerA, Player& playerB, const std::str
     textfile.close();
 
     if ( !isPlayerToolsValidB || validateToolsB != MASK_WITH_N_LSBS_SET(4) ) {
-        /// TODO: Ask Amir if there should be a space before file name
         errors.push_front("Wrong settings for player B tools in file " + fileName);
-        isBoardValid = false;
     }
     if ( !isPlayerToolsValidA || validateToolsA != MASK_WITH_N_LSBS_SET(4) ) {
-        /// TODO: Ask Amir if there should be a space before file name
         errors.push_front("Wrong settings for player A tools in file " + fileName);
-        isBoardValid = false;
     }
     
     // Print errors if found
@@ -374,7 +380,7 @@ void Board::randomPlaceSpecialCells(CellType type, int count) {
     }
 }
 
-string Board::newFileName(string format) {
+string Board::newFileName(const string format) {
     string fileName = format + ".gboard";
     if (std::ifstream(fileName)) // File already exists
     {
@@ -386,7 +392,17 @@ string Board::newFileName(string format) {
     }
 }
 
-void Board::printErrors(list<string>& errors) {
+void Board::addUniqueErrorToList(list<string>& errors, const string& error) {
+	for (string str : errors)
+	{
+		if (error.compare(str) == 0) {
+			return;
+		}
+	}
+	errors.push_back(error);
+}
+
+void Board::printErrors(const list<string>& errors) {
 	cout << endl;
 	for (string err : errors)
 	{
