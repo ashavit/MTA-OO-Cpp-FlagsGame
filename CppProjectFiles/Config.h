@@ -6,7 +6,7 @@
  */
 #define WINDOWS
 
-#define DEBUG 1
+#define DEBUG 0
 
 #ifdef WINDOWS
 

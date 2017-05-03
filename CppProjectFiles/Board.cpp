@@ -265,38 +265,40 @@ void Board::drawCell(Cell* cell) {
 
 void Board::printBoard()
 {
-    for (UINT row = 0; row < height; ++row) {
-        cout << "  ";
-        for (UINT col = 0; col < width; ++col) {
-            Cell *c = board[col][row];
-            if (c->getStandingShip() != nullptr) {
-                cout << (int)c->getStandingShip()->type();
-            }
-            else {
-                switch (c->getCellType()) {
-                    case FORREST:
-                        cout << "F";
-                        break;
-                    case SEA:
-                        cout << "S";
-                        break;
-                    case FLAG_A:
-                        cout << "A";
-                        break;
-                    case FLAG_B:
-                        cout << "B";
-                        break;
-                        
-                    default:
-                        cout << '-';
-                        break;
-                }
-            }
-            cout << "  ";
-        }
-        cout << endl;
-    }
-    cout << endl << endl;
+	if (DEBUG) {
+		for (UINT row = 0; row < height; ++row) {
+			cout << "  ";
+			for (UINT col = 0; col < width; ++col) {
+				Cell *c = board[col][row];
+				if (c->getStandingShip() != nullptr) {
+					cout << (int)c->getStandingShip()->type();
+				}
+				else {
+					switch (c->getCellType()) {
+					case FORREST:
+						cout << "F";
+						break;
+					case SEA:
+						cout << "S";
+						break;
+					case FLAG_A:
+						cout << "A";
+						break;
+					case FLAG_B:
+						cout << "B";
+						break;
+
+					default:
+						cout << '-';
+						break;
+					}
+				}
+				cout << "  ";
+			}
+			cout << endl;
+		}
+		cout << endl << endl;
+	}
 }
 
 void Board::printMessage(const string message, bool onFullScreen, bool waitForResponse) {
