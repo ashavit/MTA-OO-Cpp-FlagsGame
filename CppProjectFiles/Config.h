@@ -6,6 +6,8 @@
  */
 #define WINDOWS
 
+#define DEBUG 1
+
 #ifdef WINDOWS
 
     #include <Windows.h>

@@ -42,6 +42,9 @@
     <ClCompile Include="CppProjectFiles\Config.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CppProjectFiles\ConfigurationManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cppprojectfiles\Flags.h">
@@ -66,6 +69,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CppProjectFiles\Config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CppProjectFiles\ConfigurationManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

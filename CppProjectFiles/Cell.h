@@ -1,21 +1,22 @@
 #pragma once
 
 #include <iostream>
+#include "Config.h"
 #include "Ship.h"
 
 enum CellType {REGULAR, FORREST, SEA, FLAG_A, FLAG_B};
 
 class Cell {
 	static int aliveIns;
-    uint   row ;
-    uint   column;
+    UINT   row ;
+    UINT   column;
     CellType type;
     Ship*    standingShip = nullptr;
 
     void setCellType(CellType aType) { type = aType; }
     
 public:
-    Cell(uint row, uint column, CellType type = REGULAR)
+    Cell(uint16_t row, uint16_t column, CellType type = REGULAR)
         : row(row), column(column), type(type)  {
 		aliveIns++;
 	}

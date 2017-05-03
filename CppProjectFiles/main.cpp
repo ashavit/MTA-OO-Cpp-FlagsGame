@@ -37,6 +37,7 @@ int main(int argc, const char * argv[]) {
     }
     flags.run();
 
-	test_printMemoryLeakStatus();
+	if (DEBUG)
+		test_printMemoryLeakStatus();
     return 0;
 }

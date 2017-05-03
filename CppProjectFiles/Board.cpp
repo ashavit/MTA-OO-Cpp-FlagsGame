@@ -16,12 +16,12 @@ using namespace std;
 
 int Board::aliveIns = 0;
 
-Board::Board(uint width, uint height) : height(height), width(width) {
+Board::Board(UINT width, UINT height) : height(height), width(width) {
 	aliveIns++;
     board = new Cell**[width];
-    for (uint col = 0; col < width; ++col) {
+    for (UINT col = 0; col < width; ++col) {
         board[col] = new Cell*[height];
-        for (uint row = 0; row < height; ++row) {
+        for (UINT row = 0; row < height; ++row) {
             board[col][row] = new Cell(row,col);
         }
     }
@@ -29,8 +29,8 @@ Board::Board(uint width, uint height) : height(height), width(width) {
 
 Board::~Board() {
 	aliveIns--;
-    for (uint col = 0; col < width; ++col) {
-        for (uint row = 0; row < height; ++row) {
+    for (UINT col = 0; col < width; ++col) {
+        for (UINT row = 0; row < height; ++row) {
             delete board[col][row];
         }
         delete board[col];
@@ -38,7 +38,7 @@ Board::~Board() {
     delete board;
 }
 
-Board* Board::loadRandomBoard(Player& playerA, Player& playerB, uint width, uint height) {
+Board* Board::loadRandomBoard(Player& playerA, Player& playerB, UINT width, UINT height) {
     Board *b = new Board(width, height);
     
     int seas = BoardDensity::REGULAR;
@@ -71,7 +71,7 @@ Board* Board::loadRandomBoard(Player& playerA, Player& playerB, uint width, uint
     return b;
 }
 
-Board* Board::loadBoardFromFile(Player& playerA, Player& playerB, const std::string& fileName, uint width, uint height) {
+Board* Board::loadBoardFromFile(Player& playerA, Player& playerB, const std::string& fileName, UINT width, UINT height) {
     Board *b = new Board(width, height);
     
     ifstream textfile(fileName); // default is text!
@@ -84,10 +84,10 @@ Board* Board::loadBoardFromFile(Player& playerA, Player& playerB, const std::str
     char validateToolsA = 0, validateToolsB = 0;
     bool isPlayerToolsValidA = true, isPlayerToolsValidB = true, isBoardValid = true;
     
-    for (uint row = 0; row < height && !textfile.eof(); ++row) {
+    for (UINT row = 0; row < height && !textfile.eof(); ++row) {
         string buff;
         getline(textfile, buff);
-        for (uint col = 0; col < width; ++col) {
+        for (UINT col = 0; col < width; ++col) {
             switch (buff[col]) {
                 case 'S':
                     b->board[col][row]->setCellType(CellType::SEA);
@@ -265,9 +265,9 @@ void Board::drawCell(Cell* cell) {
 
 void Board::printBoard()
 {
-    for (uint row = 0; row < height; ++row) {
+    for (UINT row = 0; row < height; ++row) {
         cout << "  ";
-        for (uint col = 0; col < width; ++col) {
+        for (UINT col = 0; col < width; ++col) {
             Cell *c = board[col][row];
             if (c->getStandingShip() != nullptr) {
                 cout << (int)c->getStandingShip()->type();
@@ -329,8 +329,8 @@ void Board::saveToFile(std::string name) {
         /// TODO: Handle Error
     }
     
-    for (uint row = 0; row < height; ++row) {
-        for (uint col = 0; col < width; ++col) {
+    for (UINT row = 0; row < height; ++row) {
+        for (UINT col = 0; col < width; ++col) {
             Cell *c = board[col][row];
             if (c->getStandingShip() != nullptr) {
                 textfile << (int)c->getStandingShip()->type();

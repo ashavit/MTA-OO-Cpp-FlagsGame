@@ -9,14 +9,14 @@ class Cell;
 
 class Board {
 	static int aliveIns;
-    uint  height;
-    uint  width;
+    UINT  height;
+    UINT  width;
     Cell*** board;
 
 	enum BoardDensity { LOW = 10, REGULAR = 20, HIGH = 30 };
 
     Board() : Board(DEFAULT_BOARD_SIZE, DEFAULT_BOARD_SIZE) {}
-    Board(uint width, uint height);
+    Board(UINT width, UINT height);
     
     void randomPlaceSpecialCells(CellType type, int count);
     std::string newFileName(std::string format);
@@ -25,9 +25,9 @@ public:
     
     /* LoadBoard methods take in Players to randomize ship position, and support reverse games when loaded from files */
     static Board* loadRandomBoard(Player& playerA, Player& playerB) { return Board::loadRandomBoard(playerA, playerB, DEFAULT_BOARD_SIZE, DEFAULT_BOARD_SIZE);};
-    static Board* loadRandomBoard(Player& playerA, Player& playerB, uint width, uint height);
+    static Board* loadRandomBoard(Player& playerA, Player& playerB, UINT width, UINT height);
     static Board* loadBoardFromFile(Player& playerA, Player& playerB, const std::string& fileName) { return Board::loadBoardFromFile(playerA, playerB, fileName, DEFAULT_BOARD_SIZE, DEFAULT_BOARD_SIZE);};
-    static Board* loadBoardFromFile(Player& playerA, Player& playerB, const std::string& fileName, uint width, uint height);
+    static Board* loadBoardFromFile(Player& playerA, Player& playerB, const std::string& fileName, UINT width, UINT height);
 	static int aliveInstances() { return aliveIns; }
 
     ~Board();
