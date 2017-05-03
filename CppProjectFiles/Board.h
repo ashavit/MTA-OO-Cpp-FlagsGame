@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdio.h>
+#include <list>
 #include "Cell.h"
 
 class Cell;
@@ -20,7 +21,8 @@ class Board {
     
     void randomPlaceSpecialCells(CellType type, int count);
     std::string newFileName(std::string format);
-    
+	void printErrors(std::list<std::string>& errors);
+
 public:
     
     /* LoadBoard methods take in Players to randomize ship position, and support reverse games when loaded from files */

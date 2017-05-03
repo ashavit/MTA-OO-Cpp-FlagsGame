@@ -41,8 +41,8 @@ public:
 
     void setRecordMode(bool isRecordMode);
     
-    void loadRandomBoard();
-    void loadBoardFromFile(const std::string& fileName);
+    bool loadRandomBoard();
+    bool loadBoardFromFile(const std::string& fileName);
     
     void run();
 };

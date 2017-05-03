@@ -15,7 +15,7 @@ using namespace std;
 #pragma mark - Ctor
 
 // Init players with default names
-Flags::Flags() : playerA(Player("Player A")), playerB(Player("Player B")) { }
+Flags::Flags() : playerA("Player A"), playerB("Player B") { }
 
 Flags::~Flags() {
     // Make sure we do not leave used memory
@@ -114,14 +114,20 @@ void Flags::toggleRecordMode() {
 
 void Flags::startGame() {
     currentGame->setRecordMode(isRecordMode);
+
+	bool loadSuccess;
     if (configurationManager.boardMode() == ConfigurationManager::BoardMode::BOARD_FILE) {
         /// TODO: remove harcoded file name and itterate in folder path
-        currentGame->loadBoardFromFile("boardfile1.gboard");
+        loadSuccess = currentGame->loadBoardFromFile("board_bad_3.gboard");
     }
     else {
-        currentGame->loadRandomBoard();
+        loadSuccess = currentGame->loadRandomBoard();
     }
-    currentGame->run();
+
+	if (loadSuccess)
+		currentGame->run();
+	else
+		finishGame(true);
 }
 
 #pragma mark - Test functions

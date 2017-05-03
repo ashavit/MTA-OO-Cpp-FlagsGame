@@ -38,7 +38,7 @@ void Game::setRecordMode(bool isRecordMode) {
     this->isRecordMode = isRecordMode;
 }
 
-void Game::loadRandomBoard() {
+bool Game::loadRandomBoard() {
     // Initialize board
     gameBoard = Board::loadRandomBoard(playerA, playerB);
     
@@ -48,14 +48,21 @@ void Game::loadRandomBoard() {
     }
     
     drawBoard();
+	return true;
 }
 
-void Game::loadBoardFromFile(const std::string& fileName) {
+bool Game::loadBoardFromFile(const std::string& fileName) {
     gameBoard = Board::loadBoardFromFile(playerA, playerB, fileName);
-    drawBoard();
+	if (gameBoard == nullptr) 
+		return false;
+
+	drawBoard();
+	return true;
 }
 
 void Game::run() {
+
+	if (gameBoard == nullptr) return;
 
     while (1) {
         handlePlayerTurn(playerA);

@@ -142,19 +142,23 @@ Board* Board::loadBoardFromFile(Player& playerA, Player& playerB, const std::str
 
     if ( !isPlayerToolsValidB || validateToolsB != MASK_WITH_N_LSBS_SET(4) ) {
         /// TODO: Ask Amir if there should be a space before file name
-        errors.push_front("Wrong settings for player B tools in file" + fileName);
+        errors.push_front("Wrong settings for player B tools in file " + fileName);
         isBoardValid = false;
     }
     if ( !isPlayerToolsValidA || validateToolsA != MASK_WITH_N_LSBS_SET(4) ) {
         /// TODO: Ask Amir if there should be a space before file name
-        errors.push_front("Wrong settings for player A tools in file" + fileName);
+        errors.push_front("Wrong settings for player A tools in file " + fileName);
         isBoardValid = false;
     }
     
-    /// TODO: Return errors if found
+    // Print errors if found
+	if (errors.size()) {
+		b->printErrors(errors);
+		delete b;
+		return nullptr;
+	}
     
     b->printBoard();
-    
     return b;
 }
 
@@ -380,5 +384,15 @@ string Board::newFileName(string format) {
     {
         return fileName;
     }
+}
+
+void Board::printErrors(list<string>& errors) {
+	cout << endl;
+	for (string err : errors)
+	{
+		cout << err << endl;
+	}
+	cout << endl << "The game will now exit" << endl;
+	waitForAnyKeyToContinue();
 }
 

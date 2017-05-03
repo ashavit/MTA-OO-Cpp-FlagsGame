@@ -30,7 +30,7 @@ void test_printMemoryLeakStatus() {
 
 int main(int argc, const char * argv[]) {
 
-    Flags flags = Flags();
+    Flags flags;
     
     if (argc > 1) {
         flags.configure(argc-1, argv + 1);
