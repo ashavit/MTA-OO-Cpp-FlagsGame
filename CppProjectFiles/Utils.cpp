@@ -40,3 +40,9 @@ void hideCursor()
 	info.bVisible = FALSE;
 	SetConsoleCursorInfo(consoleHandle, &info);
 }
+
+void waitForAnyKeyToContinue()
+{
+	cout << endl << "Press any key to continue..." << endl;
+	while (!_kbhit()) {	}
+}

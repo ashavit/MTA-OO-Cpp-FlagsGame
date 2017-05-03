@@ -311,9 +311,7 @@ void Board::printMessage(const string message, bool onFullScreen, bool waitForRe
 	cout << message << endl;
 
 	if (waitForResponse) {
-		char c;
-		cout << "Press any key to continue..." << endl;
-		cin >> c;
+		waitForAnyKeyToContinue();
 	}
 }
 
