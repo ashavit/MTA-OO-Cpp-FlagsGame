@@ -118,7 +118,7 @@ void Flags::startGame() {
 	bool loadSuccess;
     if (configurationManager.boardMode() == ConfigurationManager::BoardMode::BOARD_FILE) {
         /// TODO: remove harcoded file name and itterate in folder path
-        loadSuccess = currentGame->loadBoardFromFile("board_bad_3.gboard");
+        loadSuccess = currentGame->loadBoardFromFile("board_ok_1.gboard");
     }
     else {
         loadSuccess = currentGame->loadRandomBoard();

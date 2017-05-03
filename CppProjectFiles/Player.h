@@ -18,7 +18,8 @@ class Player {
 	char controlKeys[_keyOptionsSize];
 
 	void setActiveShip(Ship* active);
-    
+	void setActiveShipDirection(Direction direction);
+
 public:
     Player(std::string name);
 	~Player();

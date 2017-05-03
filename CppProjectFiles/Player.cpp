@@ -69,19 +69,19 @@ void Player::notifyKeyHit(char ch)
 		setActiveShip(ships[_SHIP3]);
 	}
 	else if (tolower(ch) == controlKeys[_UPWARDS]) {
-		activeShip->setDirection(Direction::UP);
+		setActiveShipDirection(Direction::UP);
 	}
 	else if (tolower(ch) == controlKeys[_DOWN]) {
-		activeShip->setDirection(Direction::DOWN);
+		setActiveShipDirection(Direction::DOWN);
 	}
 	else if (tolower(ch) == controlKeys[_LEFT]) {
-		activeShip->setDirection(Direction::LEFT);
+		setActiveShipDirection(Direction::LEFT);
 	}
 	else if (tolower(ch) == controlKeys[_RIGHT]) {
-		activeShip->setDirection(Direction::RIGHT);
+		setActiveShipDirection(Direction::RIGHT);
 	}
 	else if (tolower(ch) == controlKeys[_STOP]) {
-		activeShip->setDirection(Direction::STOP);
+		setActiveShipDirection(Direction::STOP);
 	}
 }
 
@@ -116,7 +116,7 @@ void Player::addShip(Ship* ship) {
 }
 
 void Player::addShipFromFile(Ship* ship) {
-    int index = ship->type() % 3 - 1;
+    int index = (ship->type() + 2) % 3;
     if (ships[index] == nullptr) {
         ships[index] = ship;
         return;
@@ -143,4 +143,9 @@ void Player::clearFleetData() {
 
 void Player::setActiveShip(Ship* active) {
 	activeShip = active;
+}
+
+void Player::setActiveShipDirection(Direction direction) {
+	if (activeShip != nullptr)
+		activeShip->setDirection(direction);
 }
