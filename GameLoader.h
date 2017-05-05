@@ -7,6 +7,7 @@
 
 class Player;
 class Board;
+class PlayerMoves;
 
 class GameLoader
 {
@@ -25,6 +26,7 @@ class GameLoader
 		return loadBoardFromFile(boardFile, fileName, Board::DEFAULT_BOARD_SIZE, Board::DEFAULT_BOARD_SIZE); 
 	}
 	Board* loadBoardFromFile(std::ifstream& boardFile, const std::string& fileName, UINT width, UINT height);
+	PlayerMoves* loadPlayerMovesFromFile(std::ifstream& movesFile);
 
 	std::ifstream* openFileToRead(const std::string fileName);
 	void closeAndReleaseFile(std::ifstream* file);

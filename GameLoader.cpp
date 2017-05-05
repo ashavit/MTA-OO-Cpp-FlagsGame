@@ -13,10 +13,13 @@
 #include "Player.h"
 #include "Board.h"
 #include "Cell.h"
+#include "PlayerMoves.h"
 
 using namespace std;
 
 #define BOARD_FILE_EXTENSION ".gboard"
+#define PLAYER_A_FILE_EXTENSION ".moves-a_small"
+#define PLAYER_B_FILE_EXTENSION ".moves-b_small"
 
 #define SET_BIT(NUM, I)             NUM |= ( 1 << (I) )
 #define IS_BIT_I_SET(NUM, I)        ( (NUM >> I) & 1 )
@@ -44,8 +47,21 @@ bool GameLoader::loadGameFromFile(const string& fileName) {
 	if (boardFile) {
 		_gameBoard = loadBoardFromFile(*boardFile, fileName);
 
-		boardFile->close();
-		delete boardFile;
+		/// TODO check config flag as well
+		// Try to load player moves
+		ifstream* playerAFile = openFileToRead(fileName + PLAYER_A_FILE_EXTENSION);
+		if (playerAFile) {
+			PlayerMoves* movesA = loadPlayerMovesFromFile(*playerAFile);
+			closeAndReleaseFile(playerAFile);
+		}
+
+		ifstream* playerBFile = openFileToRead(fileName + PLAYER_B_FILE_EXTENSION);
+		if (playerBFile) {
+			PlayerMoves* movesB = loadPlayerMovesFromFile(*playerBFile);
+			closeAndReleaseFile(playerBFile);
+		}
+
+		closeAndReleaseFile(boardFile);
 	}
 
 	return (_gameBoard != nullptr);
@@ -169,6 +185,31 @@ Board* GameLoader::loadBoardFromFile(ifstream& boardFile, const string& fileName
 
 	b->printBoard();
 	return b;
+}
+
+PlayerMoves* GameLoader::loadPlayerMovesFromFile(ifstream& movesFile) {
+	PlayerMoves* res = new PlayerMoves();
+	long ts, last = 0;
+	int ship;
+	char dir;
+
+	while (!movesFile.eof()) {
+
+		movesFile >> skipws >> ts;
+		movesFile.ignore(100, ',');
+
+		movesFile >> skipws >> ship;
+		movesFile.ignore(100, ',');
+
+		movesFile >> skipws >> dir;
+
+		/// TODO: Fix bug of duplicate last move because of not stopping at eof
+		if (last < ts) {
+			res->addMove(ts, ship, dir);
+			last = ts;
+		}
+	}
+	return res;
 }
 
 ifstream* GameLoader::openFileToRead(const std::string fileName) {

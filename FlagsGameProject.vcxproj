@@ -27,6 +27,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameLoader.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerMoves.h" />
     <ClInclude Include="Ship.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>
@@ -40,6 +41,7 @@
     <ClCompile Include="GameLoader.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerMoves.cpp" />
     <ClCompile Include="Ship.cpp" />
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
