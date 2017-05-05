@@ -1,6 +1,7 @@
 # FlagsGame
 
 Flags is the homework project for cpp class @ MTA computer science.
+The full repo can be found on Github @ https://github.com/ashavit/MTA-OO-Cpp-FlagsGame
 
 Authors:
 * Amir Shavit
@@ -15,5 +16,7 @@ This definition allows compilation on MAMA for tests.
 
 
 ## Known Issues
-* When game ends, the user is prompted to "Press any key to continue". This actually waits for a non-white space and enter instead of any key.
 * Game board UI is not very spacious
+
+## Open Tasks
+* Move save board logic to loader class
