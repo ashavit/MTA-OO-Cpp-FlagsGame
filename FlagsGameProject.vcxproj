@@ -18,6 +18,31 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Board.h" />
+    <ClInclude Include="Cell.h" />
+    <ClInclude Include="Config.h" />
+    <ClInclude Include="ConfigurationManager.h" />
+    <ClInclude Include="Flags.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="GameLoader.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="Ship.h" />
+    <ClInclude Include="Utils.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Board.cpp" />
+    <ClCompile Include="Cell.cpp" />
+    <ClCompile Include="Config.cpp" />
+    <ClCompile Include="ConfigurationManager.cpp" />
+    <ClCompile Include="Flags.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameLoader.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Ship.cpp" />
+    <ClCompile Include="Utils.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{FA07868E-9E9A-4BDD-B1ED-0F98480D9200}</ProjectGuid>
@@ -98,31 +123,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="CppProjectFiles\Board.cpp" />
-    <ClCompile Include="CppProjectFiles\Cell.cpp" />
-    <ClCompile Include="CppProjectFiles\Config.cpp" />
-    <ClCompile Include="CppProjectFiles\ConfigurationManager.cpp" />
-    <ClCompile Include="cppprojectfiles\Flags.cpp" />
-    <ClCompile Include="cppprojectfiles\Game.cpp" />
-    <ClCompile Include="CppProjectFiles\GameLoader.cpp" />
-    <ClCompile Include="cppprojectfiles\main.cpp" />
-    <ClCompile Include="cppprojectfiles\Player.cpp" />
-    <ClCompile Include="cppprojectfiles\Ship.cpp" />
-    <ClCompile Include="CppProjectFiles\Utils.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="CppProjectFiles\Board.h" />
-    <ClInclude Include="CppProjectFiles\Cell.h" />
-    <ClInclude Include="CppProjectFiles\Config.h" />
-    <ClInclude Include="CppProjectFiles\ConfigurationManager.h" />
-    <ClInclude Include="cppprojectfiles\Flags.h" />
-    <ClInclude Include="cppprojectfiles\Game.h" />
-    <ClInclude Include="CppProjectFiles\GameLoader.h" />
-    <ClInclude Include="cppprojectfiles\Player.h" />
-    <ClInclude Include="cppprojectfiles\Ship.h" />
-    <ClInclude Include="CppProjectFiles\Utils.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
