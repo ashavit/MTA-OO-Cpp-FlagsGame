@@ -8,6 +8,7 @@
 
 #include "Config.h"
 #include "Game.h"
+#include "GameLoader.h"
 #include "Flags.h"
 #include "Board.h"
 #include "Player.h"
@@ -39,32 +40,47 @@ void Game::setRecordMode(bool isRecordMode) {
 }
 
 bool Game::loadRandomBoard() {
-    // Initialize board
-    gameBoard = Board::loadRandomBoard(playerA, playerB);
-    
-    if (isRecordMode) {
-        std::string filename = "boardfile" + std::to_string(roundCounter);
-        gameBoard->saveToFile(filename);
-    }
-    
-    drawBoard();
-	return true;
+	return loadBoard("");
 }
 
 bool Game::loadBoardFromFile(const std::string& fileName) {
-    gameBoard = Board::loadBoardFromFile(playerA, playerB, fileName);
-	if (gameBoard == nullptr) 
-		return false;
+	return loadBoard(fileName);
+}
 
-	drawBoard();
-	return true;
+bool Game::loadBoard(const std::string& fileName) {
+	GameLoader loader(playerA, playerB);
+	bool fromFile = (fileName.size() > 0);
+	bool success = false;
+	if (fromFile) {
+		success = loader.loadGameFromFile(fileName);
+	}
+	else {
+		success = loader.loadRandomGame();
+	}
+
+	if (success) {
+		gameBoard = loader.gameBoard();
+
+		if (!fromFile && isRecordMode) {
+			/// TODO: Change name template
+			std::string filename = "boardfile" + std::to_string(roundCounter);
+			gameBoard->saveToFile(filename);
+		}
+
+		drawBoard();
+	}
+	else {
+		loader.printErrors();
+	}
+
+	return success;
 }
 
 void Game::run() {
+	// Verify board was loaded
+	bool boardReady = (gameBoard != nullptr);
 
-	if (gameBoard == nullptr) return;
-
-    while (1) {
+    while (boardReady) {
         handlePlayerTurn(playerA);
         if (isGameOver()) break;
         

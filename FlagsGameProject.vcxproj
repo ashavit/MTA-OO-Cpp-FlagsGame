@@ -105,6 +105,7 @@
     <ClCompile Include="CppProjectFiles\ConfigurationManager.cpp" />
     <ClCompile Include="cppprojectfiles\Flags.cpp" />
     <ClCompile Include="cppprojectfiles\Game.cpp" />
+    <ClCompile Include="CppProjectFiles\GameLoader.cpp" />
     <ClCompile Include="cppprojectfiles\main.cpp" />
     <ClCompile Include="cppprojectfiles\Player.cpp" />
     <ClCompile Include="cppprojectfiles\Ship.cpp" />
@@ -117,6 +118,7 @@
     <ClInclude Include="CppProjectFiles\ConfigurationManager.h" />
     <ClInclude Include="cppprojectfiles\Flags.h" />
     <ClInclude Include="cppprojectfiles\Game.h" />
+    <ClInclude Include="CppProjectFiles\GameLoader.h" />
     <ClInclude Include="cppprojectfiles\Player.h" />
     <ClInclude Include="cppprojectfiles\Ship.h" />
     <ClInclude Include="CppProjectFiles\Utils.h" />

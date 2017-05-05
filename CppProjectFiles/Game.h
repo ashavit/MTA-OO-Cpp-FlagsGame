@@ -24,6 +24,7 @@ class Game {
     bool isRecordMode = false;
     GameState gameState = GameState::IN_PROGRESS;
 
+	bool loadBoard(const std::string& fileName);
 	void drawBoard();
     void handlePlayerTurn(Player& p);
 	void handleBattle(Ship* shipA, Ship* shipB, Cell* cell);

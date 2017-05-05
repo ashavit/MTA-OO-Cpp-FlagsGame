@@ -5,8 +5,7 @@
 #include "Cell.h"
 
 class Cell;
-
-#define DEFAULT_BOARD_SIZE 13
+class GameLoader;
 
 class Board {
 	static int aliveIns;
@@ -21,16 +20,12 @@ class Board {
     
     void randomPlaceSpecialCells(CellType type, int count);
     std::string newFileName(const std::string format);
-	void addUniqueErrorToList(std::list<std::string>& errors, const std::string& error);
-	void printErrors(const std::list<std::string>& errors);
+
+	friend GameLoader;
 
 public:
-    
-    /* LoadBoard methods take in Players to randomize ship position, and support reverse games when loaded from files */
-    static Board* loadRandomBoard(Player& playerA, Player& playerB) { return Board::loadRandomBoard(playerA, playerB, DEFAULT_BOARD_SIZE, DEFAULT_BOARD_SIZE);};
-    static Board* loadRandomBoard(Player& playerA, Player& playerB, UINT width, UINT height);
-    static Board* loadBoardFromFile(Player& playerA, Player& playerB, const std::string& fileName) { return Board::loadBoardFromFile(playerA, playerB, fileName, DEFAULT_BOARD_SIZE, DEFAULT_BOARD_SIZE);};
-    static Board* loadBoardFromFile(Player& playerA, Player& playerB, const std::string& fileName, UINT width, UINT height);
+	static const int DEFAULT_BOARD_SIZE = 13;
+
 	static int aliveInstances() { return aliveIns; }
 
     ~Board();

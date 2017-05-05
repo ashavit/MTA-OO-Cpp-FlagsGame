@@ -8,12 +8,10 @@ enum CellType {REGULAR, FORREST, SEA, FLAG_A, FLAG_B};
 
 class Cell {
 	static int aliveIns;
-    UINT   row ;
-    UINT   column;
+	const UINT   row ;
+    const UINT   column;
     CellType type;
     Ship*    standingShip = nullptr;
-
-    void setCellType(CellType aType) { type = aType; }
     
 public:
     Cell(uint16_t row, uint16_t column, CellType type = REGULAR)
@@ -27,7 +25,8 @@ public:
 
 	static int aliveInstances() { return aliveIns; }
 
-    CellType getCellType() const {
+	void setCellType(CellType aType) { type = aType; }
+	CellType getCellType() const {
         return type;
     }
 
