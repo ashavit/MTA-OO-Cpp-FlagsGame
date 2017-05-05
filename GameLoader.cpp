@@ -16,6 +16,8 @@
 
 using namespace std;
 
+#define BOARD_FILE_EXTENSION ".gboard"
+
 #define SET_BIT(NUM, I)             NUM |= ( 1 << (I) )
 #define IS_BIT_I_SET(NUM, I)        ( (NUM >> I) & 1 )
 #define MASK_WITH_N_LSBS_SET(N)     ( (1 << N) - 1 )
@@ -37,8 +39,15 @@ bool GameLoader::loadRandomGame()
 	return true;
 }
 
-bool GameLoader::loadGameFromFile(const std::string& fileName) {
-	_gameBoard = loadBoardFromFile(fileName);
+bool GameLoader::loadGameFromFile(const string& fileName) {
+	ifstream* boardFile = openFileToRead(fileName + BOARD_FILE_EXTENSION);
+	if (boardFile) {
+		_gameBoard = loadBoardFromFile(*boardFile, fileName);
+
+		boardFile->close();
+		delete boardFile;
+	}
+
 	return (_gameBoard != nullptr);
 }
 
@@ -75,21 +84,15 @@ Board* GameLoader::loadRandomBoard(UINT width, UINT height) {
 	return b;
 }
 
-Board* GameLoader::loadBoardFromFile(const std::string& fileName, UINT width, UINT height) {
+Board* GameLoader::loadBoardFromFile(ifstream& boardFile, const string& fileName, UINT width, UINT height) {
 	Board *b = new Board(width, height);
-
-	fstream textfile(fileName); // default is text!
-	if (!textfile.good())
-	{
-		/// TODO: Handle Error
-	}
 
 	char validateToolsA = 0, validateToolsB = 0;
 	bool isPlayerToolsValidA = true, isPlayerToolsValidB = true;
 
-	for (UINT row = 0; row < height && !textfile.eof(); ++row) {
+	for (UINT row = 0; row < height && !boardFile.eof(); ++row) {
 		string buff;
-		getline(textfile, buff);
+		getline(boardFile, buff);
 		for (UINT col = 0; col < width; ++col) {
 			char ch = buff[col];
 			switch (ch) {
@@ -144,14 +147,12 @@ Board* GameLoader::loadBoardFromFile(const std::string& fileName, UINT width, UI
 				string err = "Wrong character on board : ";
 				err.push_back(ch);
 				err.append(" in file " + fileName);
-				addUniqueErrorToList(errors, err);
+				addUniqueError(err);
 				break;
 			}
 			}
 		}
 	}
-
-	textfile.close();
 
 	if (!isPlayerToolsValidB || validateToolsB != MASK_WITH_N_LSBS_SET(4)) {
 		errors.push_front("Wrong settings for player B tools in file " + fileName);
@@ -170,7 +171,29 @@ Board* GameLoader::loadBoardFromFile(const std::string& fileName, UINT width, UI
 	return b;
 }
 
-void GameLoader::addUniqueErrorToList(list<string>& errors, const string& error) {
+ifstream* GameLoader::openFileToRead(const std::string fileName) {
+	ifstream* file = new ifstream();
+	file->open(fileName); // default is text!
+	if (!file->good())
+	{
+		/// TODO: Handle Error
+		file->close();
+		return nullptr;
+	}
+	return file;
+}
+
+void GameLoader::closeAndReleaseFile(ifstream* file) {
+	file->close();
+	delete file;
+}
+
+void GameLoader::closeAndReleaseFile(ofstream* file) {
+	file->close();
+	delete file;
+}
+
+void GameLoader::addUniqueError(const string& error) {
 	for (string str : errors)
 	{
 		if (error.compare(str) == 0) {

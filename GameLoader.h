@@ -21,12 +21,16 @@ class GameLoader
 		return loadRandomBoard(Board::DEFAULT_BOARD_SIZE, Board::DEFAULT_BOARD_SIZE); 
 	}
 	Board* loadRandomBoard(UINT width, UINT height);
-	Board* loadBoardFromFile(const std::string& fileName) {
-		return loadBoardFromFile(fileName, Board::DEFAULT_BOARD_SIZE, Board::DEFAULT_BOARD_SIZE); 
+	Board* loadBoardFromFile(std::ifstream& boardFile, const std::string& fileName) {
+		return loadBoardFromFile(boardFile, fileName, Board::DEFAULT_BOARD_SIZE, Board::DEFAULT_BOARD_SIZE); 
 	}
-	Board* loadBoardFromFile(const std::string& fileName, UINT width, UINT height);
+	Board* loadBoardFromFile(std::ifstream& boardFile, const std::string& fileName, UINT width, UINT height);
 
-	void addUniqueErrorToList(std::list<std::string>& errors, const std::string& error);
+	std::ifstream* openFileToRead(const std::string fileName);
+	void closeAndReleaseFile(std::ifstream* file);
+	void closeAndReleaseFile(std::ofstream* file);
+		
+	void addUniqueError(const std::string& error);
 
 public:
 	/* Methods take in Players to support reverse games */
