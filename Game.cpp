@@ -213,7 +213,16 @@ void Game::endGame() {
 	awardWinner();
 
 	// Print message to board
-	const std::string message = std::string((playerA.didPlayerWin() || playerB.didPlayerLose()) ? playerA.name() : playerB.name()) + " won !!!!!";
+	std::string message;
+	if (playerA.didPlayerWin() || playerB.didPlayerLose()) {
+		message = playerA.name() + " won !!!!!";
+	}
+	else if (playerA.didPlayerLose() || playerB.didPlayerWin()) {
+		message = playerB.name() + " won !!!!!";
+	}
+	else {
+		message = "No winners!";
+	}
 	gameBoard->printMessage(message, true, true);
 
 	// Delete ships and clear memory
