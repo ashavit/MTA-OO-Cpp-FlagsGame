@@ -39,5 +39,8 @@ public:
 	unsigned int moveCount() { return _moves.size(); }
 	bool isEnded(unsigned long ts);
 
+	static Direction directionFromChar(char _direction);
+	static char charFromDirection(Direction _direction);
+
 };
 

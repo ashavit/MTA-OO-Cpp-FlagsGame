@@ -38,8 +38,7 @@ bool PlayerMoves::isEnded(unsigned long ts)
 	return (ts > _moves.crbegin()->first);
 }
 
-Direction PlayerMoves::Move::direction() const
-{
+Direction PlayerMoves::directionFromChar(char _direction) {
 	switch (_direction) {
 	case 'U':
 	case 'u':
@@ -59,3 +58,25 @@ Direction PlayerMoves::Move::direction() const
 		return Direction::STOP;
 	}
 }
+
+char PlayerMoves::charFromDirection(Direction _direction) {
+	switch (_direction) {
+	case Direction::UP:
+		return 'U';
+	case Direction::DOWN:
+		return 'D';
+	case Direction::LEFT:
+		return 'L';
+	case Direction::RIGHT:
+		return 'R';
+	case Direction::STOP:
+	default:
+		return 'S';
+	}
+}
+
+Direction PlayerMoves::Move::direction() const {
+	return PlayerMoves::directionFromChar(_direction);
+}
+
+
