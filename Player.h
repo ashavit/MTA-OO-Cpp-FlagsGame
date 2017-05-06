@@ -20,7 +20,7 @@ class Player {
 	char controlKeys[_keyOptionsSize];
 
 	void setActiveShip(Ship* active);
-	void setActiveShipDirection(Direction direction, unsigned long ts);
+	void setActiveShipDirection(Direction direction, unsigned long timeStamp);
 
 	bool autoMode = false;
 	PlayerMoves* movesMap = nullptr;
@@ -39,7 +39,8 @@ public:
     int score();
     
 	void setKeys(const char* keys);
-	void notifyKeyHit(char ch, unsigned long timeStamp = 0);
+	void notifyKeyHit(char ch, unsigned long timeStamp);
+	void handleLoadedMoveIfNeeded(unsigned long timeStamp);
 
 	void setMoves(PlayerMoves *moves);
 	bool didFinishAutoMoves(unsigned long ts);

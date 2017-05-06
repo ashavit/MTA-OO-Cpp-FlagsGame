@@ -80,16 +80,11 @@ void Game::run() {
 	bool boardReady = (gameBoard != nullptr);
 
     while (boardReady) {
-        handlePlayerTurn(playerA);
+		++timeStamp;
+		Player& activePlayer = ((timeStamp % 2) ? playerA : playerB);
+        handlePlayerTurn(activePlayer);
         if (isGameOver()) break;
-        
 		Sleep(100);
-
-        handlePlayerTurn(playerB);
-        if (isGameOver()) break;
-
-		Sleep(100);
-
 		handleKeyboardInput();
     }
 
@@ -119,6 +114,8 @@ void Game::drawBoard() {
 }
 
 void Game::handlePlayerTurn(Player& p) {
+	p.handleLoadedMoveIfNeeded(timeStamp);
+
     for (int i = 0; i < FLEET_SIZE; ++i) {
         Ship* s = p.getShip(i);
         Cell *moveTo = (s->alive() ? gameBoard->getNextCell(s->cell(), s->direction()) : nullptr);
@@ -144,7 +141,6 @@ void Game::handlePlayerTurn(Player& p) {
         // Else don't move ship
     }
 }
-
 
 void Game::handleBattle(Ship* shipA, Ship* shipB, Cell* cell) {
 	// PlayerA ships lose in most cases
@@ -196,8 +192,8 @@ void Game::handleKeyboardInput() {
 	char ch = 0;
 	if (_kbhit()) {
 		ch = _getch();
-		playerA.notifyKeyHit(ch);
-		playerB.notifyKeyHit(ch);
+		playerA.notifyKeyHit(ch, timeStamp);
+		playerB.notifyKeyHit(ch, timeStamp);
 		notifyKeyHit(ch);
 	}
 }
@@ -208,7 +204,7 @@ bool Game::isGameOver() {
             playerB.didPlayerWin() ||
             playerA.didPlayerLose() ||
             playerB.didPlayerLose() ||
-			(playerA.didFinishAutoMoves(0) && playerB.didFinishAutoMoves(0))
+			(playerA.didFinishAutoMoves(timeStamp) && playerB.didFinishAutoMoves(timeStamp))
 		);
 }
 

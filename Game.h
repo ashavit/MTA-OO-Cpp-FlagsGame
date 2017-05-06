@@ -23,6 +23,7 @@ class Game {
     
     bool isRecordMode = false;
     GameState gameState = GameState::IN_PROGRESS;
+	unsigned long timeStamp = 0;
 
 	bool loadBoard(const std::string& fileName);
 	void drawBoard();

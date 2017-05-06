@@ -89,6 +89,18 @@ void Player::notifyKeyHit(char ch, unsigned long ts)
 	}
 }
 
+void Player::handleLoadedMoveIfNeeded(unsigned long ts) {
+	if (!autoMode) { return; }
+
+	const PlayerMoves::Move * const turn = moves().getMove(ts);
+	if (turn) {
+		int ship = turn->shipType();
+		setActiveShip(ships[(ship-1)% FLEET_SIZE]);
+		Direction d = turn->direction();
+		setActiveShipDirection(d, ts);
+	}
+}
+
 bool Player::didPlayerWin() {
     for (int i = 0; i < FLEET_SIZE; ++i) {
         if (ships[i] != nullptr && ships[i]->alive() &&
