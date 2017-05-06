@@ -31,7 +31,6 @@ Game::Game(Player& playerA, Player& playerB, Flags* manager)
 
 Game::~Game() {
 	aliveIns--;
-
 	delete gameBoard;
 }
 
@@ -208,7 +207,9 @@ bool Game::isGameOver() {
 			playerA.didPlayerWin() ||
             playerB.didPlayerWin() ||
             playerA.didPlayerLose() ||
-            playerB.didPlayerLose());
+            playerB.didPlayerLose() ||
+			(playerA.didFinishAutoMoves(0) && playerB.didFinishAutoMoves(0))
+		);
 }
 
 void Game::endGame() {

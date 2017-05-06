@@ -6,6 +6,8 @@
 
 #define FLEET_SIZE 3
 
+class PlayerMoves;
+
 class Player {
 	static int aliveIns;
 
@@ -18,7 +20,11 @@ class Player {
 	char controlKeys[_keyOptionsSize];
 
 	void setActiveShip(Ship* active);
-	void setActiveShipDirection(Direction direction);
+	void setActiveShipDirection(Direction direction, unsigned long ts);
+
+	bool autoMode = false;
+	PlayerMoves* movesMap = nullptr;
+	PlayerMoves& moves(); // Lazy init + convert pointer to reff
 
 public:
     Player(std::string name);
@@ -33,7 +39,10 @@ public:
     int score();
     
 	void setKeys(const char* keys);
-	void notifyKeyHit(char ch);
+	void notifyKeyHit(char ch, unsigned long timeStamp = 0);
+
+	void setMoves(PlayerMoves *moves);
+	bool didFinishAutoMoves(unsigned long ts);
 
     bool didPlayerWin();
     bool didPlayerLose();

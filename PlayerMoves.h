@@ -1,7 +1,10 @@
 #pragma once
 
 #include <iostream>
-#include <list>
+#include <map>
+
+class Ship;
+enum class Direction;
 
 class PlayerMoves
 {
@@ -10,27 +13,28 @@ class PlayerMoves
 	class Move {
 		static int aliveIns;
 
-		long _timeStamp;
 		int _shipType;
 		char _direction;
 
 	public:
-		Move(long ts, int type, char dir) : _timeStamp(ts), _shipType(type), _direction(dir) { aliveIns++; }
+		Move(int type, char dir) : _shipType(type), _direction(dir) { aliveIns++; }
 		~Move() { aliveIns--; };
 
-		long timeStamp() { return _timeStamp; }
 		int shipType() { return _shipType; }
 		char direction() { return _direction; }
 	};
 
-	std::list<Move> _moves;
+	std::map<unsigned long, Move*> _moves;
 
 public:
 	PlayerMoves();
 	~PlayerMoves();
 
-	void addMove(long ts, int ship, char dir);
+	void addMove(unsigned long ts, int ship, char dir);
+	void addMove(unsigned long ts, Ship& ship, Direction dir);
 
+	unsigned int moveCount() { return _moves.size(); }
+	bool isEnded(unsigned long ts);
 
 };
 
