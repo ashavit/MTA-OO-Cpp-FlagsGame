@@ -52,12 +52,18 @@ bool GameLoader::loadGameFromFile(const string& fileName) {
 		ifstream* playerAFile = openFileToRead(fileName + PLAYER_A_FILE_EXTENSION);
 		if (playerAFile) {
 			PlayerMoves* movesA = loadPlayerMovesFromFile(*playerAFile);
+			if (movesA->moveCount() > 0) {
+				playerA.setMoves(movesA);
+			}
 			closeAndReleaseFile(playerAFile);
 		}
 
 		ifstream* playerBFile = openFileToRead(fileName + PLAYER_B_FILE_EXTENSION);
 		if (playerBFile) {
 			PlayerMoves* movesB = loadPlayerMovesFromFile(*playerBFile);
+			if (movesB->moveCount() > 0) {
+				playerB.setMoves(movesB);
+			}
 			closeAndReleaseFile(playerBFile);
 		}
 

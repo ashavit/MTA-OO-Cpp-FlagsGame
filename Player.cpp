@@ -160,8 +160,7 @@ void Player::setActiveShipDirection(Direction direction, unsigned long ts) {
 	}
 }
 
-PlayerMoves & Player::moves()
-{
+PlayerMoves & Player::moves() {
 	// Lazy init
 	if (movesMap == nullptr) {
 		movesMap = new PlayerMoves();
@@ -170,13 +169,11 @@ PlayerMoves & Player::moves()
 	return *movesMap;
 }
 
-void Player::setMoves(PlayerMoves * moves)
-{
+void Player::setMoves(PlayerMoves * moves) {
 	movesMap = moves;
 	autoMode = true;
 }
 
-bool Player::didFinishAutoMoves(unsigned long ts)
-{
-	return autoMode;// && moves().isEnded(ts);
+bool Player::didFinishAutoMoves(unsigned long ts) {
+	return autoMode && moves().isEnded(ts);
 }
