@@ -20,6 +20,7 @@ class Game {
     Player& playerA;
     Flags* gameManager;
     Board* gameBoard;
+	std::string gameName;
     
     bool isRecordMode = false;
     GameState gameState = GameState::IN_PROGRESS;

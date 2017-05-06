@@ -51,6 +51,7 @@ bool Game::loadBoard(const std::string& fileName) {
 	bool fromFile = (fileName.size() > 0);
 	bool success = false;
 	if (fromFile) {
+		gameName = fileName;
 		success = loader.loadGameFromFile(fileName);
 	}
 	else {
@@ -228,6 +229,12 @@ void Game::endGame() {
 	// Delete ships and clear memory
 	playerA.clearFleetData();
 	playerB.clearFleetData();
+
+	// Save move files if record mode
+	if (isRecordMode && gameName.size() > 0) {
+		GameLoader loader(playerA, playerB);
+		loader.savePlayerMovesToFile(gameName);
+	}
 
 	// End game
 	gameManager->finishGame(gameState == GameState::ABORT_AND_QUIT);

@@ -73,6 +73,35 @@ bool GameLoader::loadGameFromFile(const string& fileName) {
 	return (_gameBoard != nullptr);
 }
 
+void GameLoader::printErrors() {
+	cout << endl;
+	for (string err : errors)
+	{
+		cout << err << endl;
+	}
+	cout << endl << "The game will now exit" << endl;
+	waitForAnyKeyToContinue();
+}
+
+void GameLoader::savePlayerMovesToFile(const std::string& fileName)
+{
+	if (!playerA.isAutoMode() && playerA.moves().moveCount()) {
+		ofstream* playerAFile = openFileToWrite(fileName + PLAYER_A_FILE_EXTENSION);
+		if (playerAFile) {
+			saveMovesToFile(*playerAFile, playerA.moves());
+			closeAndReleaseFile(playerAFile);
+		}
+	}
+
+	if (!playerB.isAutoMode() && playerB.moves().moveCount()) {
+		ofstream* playerBFile = openFileToWrite(fileName + PLAYER_B_FILE_EXTENSION);
+		if (playerBFile) {
+			saveMovesToFile(*playerBFile, playerB.moves());
+			closeAndReleaseFile(playerBFile);
+		}
+	}
+}
+
 Board* GameLoader::loadRandomBoard(UINT width, UINT height) {
 	Board *b = new Board(width, height);
 
@@ -218,8 +247,24 @@ PlayerMoves* GameLoader::loadPlayerMovesFromFile(ifstream& movesFile) {
 	return res;
 }
 
+void GameLoader::saveMovesToFile(std::ofstream& movesFile, PlayerMoves& moves) {
+	movesFile << moves << endl;
+}
+
 ifstream* GameLoader::openFileToRead(const std::string fileName) {
 	ifstream* file = new ifstream();
+	file->open(fileName); // default is text!
+	if (!file->good())
+	{
+		/// TODO: Handle Error
+		file->close();
+		return nullptr;
+	}
+	return file;
+}
+
+ofstream* GameLoader::openFileToWrite(const std::string fileName) {
+	ofstream* file = new ofstream();
 	file->open(fileName); // default is text!
 	if (!file->good())
 	{
@@ -248,15 +293,5 @@ void GameLoader::addUniqueError(const string& error) {
 		}
 	}
 	errors.push_back(error);
-}
-
-void GameLoader::printErrors() {
-	cout << endl;
-	for (string err : errors)
-	{
-		cout << err << endl;
-	}
-	cout << endl << "The game will now exit" << endl;
-	waitForAnyKeyToContinue();
 }
 

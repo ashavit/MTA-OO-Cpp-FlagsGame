@@ -15,6 +15,8 @@ public:
 		int _shipType;
 		char _direction;
 
+		friend std::ostream& operator<<(std::ostream& out, const Move& move);
+
 	public:
 		Move(int type, char dir) : _shipType(type), _direction(dir) { aliveIns++; }
 		~Move() { aliveIns--; };
@@ -27,6 +29,8 @@ private:
 	static int aliveIns;
 
 	std::map<unsigned long, Move*> _moves;
+
+	friend std::ostream& operator<<(std::ostream& out, const PlayerMoves& pm);
 
 public:
 	PlayerMoves();
@@ -41,6 +45,5 @@ public:
 
 	static Direction directionFromChar(char _direction);
 	static char charFromDirection(Direction _direction);
-
 };
 

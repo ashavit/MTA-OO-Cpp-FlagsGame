@@ -28,7 +28,10 @@ class GameLoader
 	Board* loadBoardFromFile(std::ifstream& boardFile, const std::string& fileName, UINT width, UINT height);
 	PlayerMoves* loadPlayerMovesFromFile(std::ifstream& movesFile);
 
+	void saveMovesToFile(std::ofstream& movesFile, PlayerMoves& moves);
+
 	std::ifstream* openFileToRead(const std::string fileName);
+	std::ofstream* openFileToWrite(const std::string fileName);
 	void closeAndReleaseFile(std::ifstream* file);
 	void closeAndReleaseFile(std::ofstream* file);
 		
@@ -46,5 +49,6 @@ public:
 
 	Board* gameBoard() { return _gameBoard; }
 
+	void savePlayerMovesToFile(const std::string& fileName);
 };
 

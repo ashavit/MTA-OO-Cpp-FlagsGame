@@ -22,7 +22,7 @@ void PlayerMoves::addMove(unsigned long ts, int ship, char dir)
 
 void PlayerMoves::addMove(unsigned long ts, Ship & ship, Direction dir)
 {
-	addMove(ts, (int)ship.type(), 0);
+	addMove(ts, (int)ship.type(), PlayerMoves::charFromDirection(dir));
 }
 
 const PlayerMoves::Move *const  PlayerMoves::getMove(unsigned long ts) {
@@ -75,8 +75,18 @@ char PlayerMoves::charFromDirection(Direction _direction) {
 	}
 }
 
+std::ostream& operator<<(std::ostream& out, const PlayerMoves& pm) {
+	for (auto& move : pm._moves) {
+		out << move.first << "," << *(move.second) << std::endl;
+	}
+	return out;
+}
+
 Direction PlayerMoves::Move::direction() const {
 	return PlayerMoves::directionFromChar(_direction);
 }
 
+std::ostream& operator<<(std::ostream& out, const PlayerMoves::Move& move) {
+	return out << move._shipType << ", " << move._direction;
+}
 

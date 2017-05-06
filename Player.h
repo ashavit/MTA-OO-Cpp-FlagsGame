@@ -24,7 +24,6 @@ class Player {
 
 	bool autoMode = false;
 	PlayerMoves* movesMap = nullptr;
-	PlayerMoves& moves(); // Lazy init + convert pointer to reff
 
 public:
     Player(std::string name);
@@ -42,8 +41,10 @@ public:
 	void notifyKeyHit(char ch, unsigned long timeStamp);
 	void handleLoadedMoveIfNeeded(unsigned long timeStamp);
 
+	PlayerMoves& moves(); // Lazy init + convert pointer to reff
 	void setMoves(PlayerMoves *moves);
 	bool didFinishAutoMoves(unsigned long ts);
+	bool isAutoMode() {	return autoMode; };
 
     bool didPlayerWin();
     bool didPlayerLose();
