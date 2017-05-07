@@ -75,13 +75,6 @@ char PlayerMoves::charFromDirection(Direction _direction) {
 	}
 }
 
-std::ostream& operator<<(std::ostream& out, const PlayerMoves& pm) {
-	for (auto& move : pm._moves) {
-		out << move.first << "," << *(move.second) << std::endl;
-	}
-	return out;
-}
-
 Direction PlayerMoves::Move::direction() const {
 	return PlayerMoves::directionFromChar(_direction);
 }

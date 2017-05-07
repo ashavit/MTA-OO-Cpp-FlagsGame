@@ -144,6 +144,8 @@ void Player::clearFleetData() {
 		delete ships[i];
 		ships[i] = nullptr;
 	}
+	delete movesMap;
+	movesMap = nullptr;
 }
 
 #pragma mark - Private functions
@@ -183,4 +185,8 @@ void Player::setMoves(PlayerMoves * moves) {
 
 bool Player::didFinishAutoMoves(unsigned long ts) {
 	return autoMode && moves().isEnded(ts);
+}
+
+void Player::endMoveList(unsigned long ts) {
+	setActiveShipDirection(Direction::STOP, ts);
 }

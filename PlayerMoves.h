@@ -30,8 +30,6 @@ private:
 
 	std::map<unsigned long, Move*> _moves;
 
-	friend std::ostream& operator<<(std::ostream& out, const PlayerMoves& pm);
-
 public:
 	PlayerMoves();
 	~PlayerMoves();
@@ -40,6 +38,7 @@ public:
 	void addMove(unsigned long ts, Ship& ship, Direction dir);
 	const Move* const getMove(unsigned long timeStamp);
 
+	std::map<unsigned long, Move*> getMovesList() {	return _moves; }
 	unsigned int moveCount() { return _moves.size(); }
 	bool isEnded(unsigned long ts);
 

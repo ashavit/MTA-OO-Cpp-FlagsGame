@@ -88,7 +88,7 @@ void GameLoader::savePlayerMovesToFile(const std::string& fileName)
 	if (!playerA.isAutoMode() && playerA.moves().moveCount()) {
 		ofstream* playerAFile = openFileToWrite(fileName + PLAYER_A_FILE_EXTENSION);
 		if (playerAFile) {
-			saveMovesToFile(*playerAFile, playerA.moves());
+			saveMovesToFile(*playerAFile, playerA.moves(), 1);
 			closeAndReleaseFile(playerAFile);
 		}
 	}
@@ -96,7 +96,7 @@ void GameLoader::savePlayerMovesToFile(const std::string& fileName)
 	if (!playerB.isAutoMode() && playerB.moves().moveCount()) {
 		ofstream* playerBFile = openFileToWrite(fileName + PLAYER_B_FILE_EXTENSION);
 		if (playerBFile) {
-			saveMovesToFile(*playerBFile, playerB.moves());
+			saveMovesToFile(*playerBFile, playerB.moves(), 0);
 			closeAndReleaseFile(playerBFile);
 		}
 	}
@@ -247,8 +247,14 @@ PlayerMoves* GameLoader::loadPlayerMovesFromFile(ifstream& movesFile) {
 	return res;
 }
 
-void GameLoader::saveMovesToFile(std::ofstream& movesFile, PlayerMoves& moves) {
-	movesFile << moves << endl;
+void GameLoader::saveMovesToFile(ofstream& movesFile, PlayerMoves& moves, int roundToMod2) {
+	map<unsigned long, PlayerMoves::Move*> list = moves.getMovesList();
+	for (auto& turn : list) {
+		unsigned long ts = turn.first;
+		if ((ts % 2) != roundToMod2) { ++ts; } // Make sure time stamp fits player's turn
+		movesFile << ts<< ", " << *turn.second << endl;
+	}
+	movesFile << endl;
 }
 
 ifstream* GameLoader::openFileToRead(const std::string fileName) {

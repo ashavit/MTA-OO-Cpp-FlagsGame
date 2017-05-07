@@ -226,15 +226,17 @@ void Game::endGame() {
 	}
 	gameBoard->printMessage(message, true, true);
 
-	// Delete ships and clear memory
-	playerA.clearFleetData();
-	playerB.clearFleetData();
-
 	// Save move files if record mode
 	if (isRecordMode && gameName.size() > 0) {
+		playerA.endMoveList(timeStamp);
+		playerB.endMoveList(timeStamp);
 		GameLoader loader(playerA, playerB);
 		loader.savePlayerMovesToFile(gameName);
 	}
+
+	// Delete ships and clear memory
+	playerA.clearFleetData();
+	playerB.clearFleetData();
 
 	// End game
 	gameManager->finishGame(gameState == GameState::ABORT_AND_QUIT);

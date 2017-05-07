@@ -28,7 +28,7 @@ class GameLoader
 	Board* loadBoardFromFile(std::ifstream& boardFile, const std::string& fileName, UINT width, UINT height);
 	PlayerMoves* loadPlayerMovesFromFile(std::ifstream& movesFile);
 
-	void saveMovesToFile(std::ofstream& movesFile, PlayerMoves& moves);
+	void saveMovesToFile(std::ofstream& movesFile, PlayerMoves& moves, int roundToMod2);
 
 	std::ifstream* openFileToRead(const std::string fileName);
 	std::ofstream* openFileToWrite(const std::string fileName);

@@ -44,8 +44,9 @@ public:
 
 	PlayerMoves& moves(); // Lazy init + convert pointer to reff
 	void setMoves(PlayerMoves *moves);
-	bool didFinishAutoMoves(unsigned long ts);
+	bool didFinishAutoMoves(unsigned long timeStamp);
 	bool isAutoMode() {	return autoMode; };
+	void endMoveList(unsigned long timeStamp);
 
     bool didPlayerWin();
     bool didPlayerLose();
