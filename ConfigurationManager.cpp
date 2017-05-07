@@ -48,7 +48,8 @@ ConfigurationManager::BoardMode ConfigurationManager::boardMode() {
 }
 
 ConfigurationManager::MovesMode ConfigurationManager::movesMode() {
-    return _movesMode;
+	// File mode for moves can be enabled only if board is read from file as well
+    return (_boardMode == BoardMode::BOARD_FILE ? _movesMode : MovesMode::KEYBOARD);
 }
 
 std::string ConfigurationManager::path() {
@@ -56,7 +57,6 @@ std::string ConfigurationManager::path() {
 }
 
 // This option is relevant only with -board f -moves f otherwise ignored
-
 bool ConfigurationManager::quietMode() {
 	// Quiet can be enabled only for all files game
     return _quietMode && (_boardMode == BoardMode::BOARD_FILE) && (_movesMode == MovesMode::MOVES_FILE);

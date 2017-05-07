@@ -9,6 +9,7 @@
 #include <iostream>
 #include <fstream>
 #include "Utils.h"
+#include "ConfigurationManager.h"
 #include "GameLoader.h"
 #include "Player.h"
 #include "Board.h"
@@ -48,26 +49,27 @@ bool GameLoader::loadGameFromFile(const string& fileName) {
 	if (boardFile) {
 		_gameBoard = loadBoardFromFile(*boardFile, fileName);
 
-		/// TODO check config flag as well
-		// Try to load player moves
-		ifstream* playerAFile = openFileToRead(fileName + PLAYER_A_FILE_EXTENSION);
-		if (playerAFile) {
-			PlayerMoves* movesA = loadPlayerMovesFromFile(*playerAFile);
-			if (movesA->moveCount() > 0) {
-				playerA.setMoves(movesA);
+		// Check configuration flag to load moves from files
+		if (ConfigurationManager::sharedInstance().movesMode() == ConfigurationManager::MovesMode::MOVES_FILE) {
+			// Try to load player moves
+			ifstream* playerAFile = openFileToRead(fileName + PLAYER_A_FILE_EXTENSION);
+			if (playerAFile) {
+				PlayerMoves* movesA = loadPlayerMovesFromFile(*playerAFile);
+				if (movesA->moveCount() > 0) {
+					playerA.setMoves(movesA);
+				}
+				closeAndReleaseFile(playerAFile);
 			}
-			closeAndReleaseFile(playerAFile);
-		}
 
-		ifstream* playerBFile = openFileToRead(fileName + PLAYER_B_FILE_EXTENSION);
-		if (playerBFile) {
-			PlayerMoves* movesB = loadPlayerMovesFromFile(*playerBFile);
-			if (movesB->moveCount() > 0) {
-				playerB.setMoves(movesB);
+			ifstream* playerBFile = openFileToRead(fileName + PLAYER_B_FILE_EXTENSION);
+			if (playerBFile) {
+				PlayerMoves* movesB = loadPlayerMovesFromFile(*playerBFile);
+				if (movesB->moveCount() > 0) {
+					playerB.setMoves(movesB);
+				}
+				closeAndReleaseFile(playerBFile);
 			}
-			closeAndReleaseFile(playerBFile);
 		}
-
 		closeAndReleaseFile(boardFile);
 	}
 
