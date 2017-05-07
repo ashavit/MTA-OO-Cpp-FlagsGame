@@ -94,8 +94,8 @@ void Player::handleLoadedMoveIfNeeded(unsigned long ts) {
 
 	const PlayerMoves::Move * const turn = moves().getMove(ts);
 	if (turn) {
-		int ship = turn->shipType();
-		setActiveShip(ships[(ship-1)% FLEET_SIZE]);
+		int shipIndex = shipIndexByType((ShipType)turn->shipType());
+		setActiveShip(ships[shipIndex]);
 		Direction d = turn->direction();
 		setActiveShipDirection(d, ts);
 	}
@@ -120,36 +120,27 @@ bool Player::didPlayerLose() {
     return true;
 }
 
-void Player::addShip(Ship* ship) {
-    for (int i = 0; i < FLEET_SIZE; ++i) {
-        if (ships[i] == nullptr) {
-            ships[i] = ship;
-            return;
-        }
-    }
-    
-    cout << playerName << "can not add ship. Fleet is full" << endl;
-}
-
-void Player::addShipFromFile(Ship* ship) {
-    int index = (ship->type() + 2) % 3;
-    if (ships[index] == nullptr) {
+bool Player::addShip(Ship* ship) {
+	int index = shipIndexByType(ship->type());
+	if (ships[index] == nullptr) {
         ships[index] = ship;
-        return;
+        return true;
     }
-    // else Don nothing. File loader will handle
+	else {
+		return false;
+	}
 }
 
 void Player::restartGame() {
 	setActiveShip(nullptr);
-	for (int i = _SHIP1; i <= _SHIP3; ++i) {
+	for (int i = 0; i <= FLEET_SIZE; ++i) {
 		ships[i]->resetToInitialState();
 	}
 }
 
 void Player::clearFleetData() {
 	setActiveShip(nullptr);
-	for (int i = _SHIP1; i <= _SHIP3; ++i) {
+	for (int i = 0; i <= FLEET_SIZE; ++i) {
 		delete ships[i];
 		ships[i] = nullptr;
 	}
@@ -170,6 +161,10 @@ void Player::setActiveShipDirection(Direction direction, unsigned long ts) {
 			moves().addMove(ts, *activeShip, direction);
 		}
 	}
+}
+
+int Player::shipIndexByType(ShipType type) {
+	return ((type - 1) % FLEET_SIZE);
 }
 
 PlayerMoves & Player::moves() {

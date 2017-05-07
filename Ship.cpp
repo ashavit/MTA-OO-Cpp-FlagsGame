@@ -12,16 +12,11 @@
 
 #pragma mark - Ctor
 
-Ship::Ship(Player& player, ShipType type, Cell* startingCell, bool fromFile)
+Ship::Ship(Player& player, ShipType type, Cell* startingCell)
     : shipOwner(player), shipType(type), initialCell(startingCell), currentCell(startingCell)
 {
 	aliveIns++;
-    if (fromFile) {
-        shipOwner.addShipFromFile(this);
-    }
-    else {
-        shipOwner.addShip(this);
-    }
+	shipOwner.addShip(this);
 }
 
 Ship::~Ship() {

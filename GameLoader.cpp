@@ -169,7 +169,7 @@ Board* GameLoader::loadBoardFromFile(ifstream& boardFile, const string& fileName
 			{
 				int bit = ch - '1' + 1;
 				if (IS_BIT_I_SET(validateToolsA, bit)) { isPlayerToolsValidA = false; break; } // Make sure each ship is set only once
-				Ship *ship = new Ship(playerA, (ShipType)(ch - '0'), b->board[col][row], true);
+				Ship *ship = new Ship(playerA, (ShipType)(ch - '0'), b->board[col][row]);
 				b->board[col][row]->setStandingShip(ship);
 				SET_BIT(validateToolsA, bit);
 				break;
@@ -181,7 +181,7 @@ Board* GameLoader::loadBoardFromFile(ifstream& boardFile, const string& fileName
 			{
 				int bit = ch - '7' + 1;
 				if (IS_BIT_I_SET(validateToolsB, bit)) { isPlayerToolsValidB = false; break; } // Make sure each ship is set only once
-				Ship *ship = new Ship(playerB, (ShipType)(ch - '0'), b->board[col][row], true);
+				Ship *ship = new Ship(playerB, (ShipType)(ch - '0'), b->board[col][row]);
 				b->board[col][row]->setStandingShip(ship);
 				SET_BIT(validateToolsB, bit);
 				break;

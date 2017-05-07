@@ -21,6 +21,7 @@ class Player {
 
 	void setActiveShip(Ship* active);
 	void setActiveShipDirection(Direction direction, unsigned long timeStamp);
+	int shipIndexByType(ShipType type);
 
 	bool autoMode = false;
 	PlayerMoves* movesMap = nullptr;
@@ -49,8 +50,7 @@ public:
     bool didPlayerWin();
     bool didPlayerLose();
     
-    void addShip(Ship* ship);
-    void addShipFromFile(Ship* ship);
+    bool addShip(Ship* ship);
     Ship* getShip(int index) { return ships[index]; }
 	void restartGame();
     void clearFleetData();
