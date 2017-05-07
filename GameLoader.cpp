@@ -83,7 +83,7 @@ string GameLoader::newRandomFileName() {
 		fileName = RANDOM_FILE_NAME + to_string(counter);
 		fileNameWExt = fileName + BOARD_FILE_EXTENSION;
 		++counter;
-		if (!(std::ifstream(fileName))) { // File does not exist
+		if (!ifstream(fileNameWExt)) { // File does not exist
 			foundName = true;
 		}
 	} while (!foundName);
