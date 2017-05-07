@@ -28,7 +28,7 @@ Flags::~Flags() {
 #pragma mark - Public
 
 void Flags::configure(int argc, const char * argv[]) {
-    configurationManager.setup(argc, argv);
+	ConfigurationManager::sharedInstance().setup(argc, argv);
 }
 
 void Flags::run() {
@@ -116,7 +116,7 @@ void Flags::startGame() {
     currentGame->setRecordMode(isRecordMode);
 
 	bool loadSuccess;
-    if (configurationManager.boardMode() == ConfigurationManager::BoardMode::BOARD_FILE) {
+    if (ConfigurationManager::sharedInstance().boardMode() == ConfigurationManager::BoardMode::BOARD_FILE) {
         /// TODO: remove harcoded file name and itterate in folder path
         loadSuccess = currentGame->loadBoardFromFile("board_ok_1");
     }

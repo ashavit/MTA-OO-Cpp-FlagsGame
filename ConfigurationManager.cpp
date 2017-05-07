@@ -17,14 +17,9 @@
 
 #pragma mark - Ctor
 
-int ConfigurationManager::aliveIns = 0;
-
-ConfigurationManager::ConfigurationManager() {
-    aliveIns++;
-}
-
-ConfigurationManager::~ConfigurationManager() {
-    aliveIns--;
+ConfigurationManager& ConfigurationManager::sharedInstance() {
+	static ConfigurationManager instance{};
+	return instance;
 }
 
 void ConfigurationManager::setup(int argc, const char * argv[]) {
@@ -63,6 +58,7 @@ std::string ConfigurationManager::path() {
 // This option is relevant only with -board f -moves f otherwise ignored
 
 bool ConfigurationManager::quietMode() {
+	// Quiet can be enabled only for all files game
     return _quietMode && (_boardMode == BoardMode::BOARD_FILE) && (_movesMode == MovesMode::MOVES_FILE);
 }
 

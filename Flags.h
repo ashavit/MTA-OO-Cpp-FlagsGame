@@ -7,8 +7,6 @@
 
 class Flags {
 
-    ConfigurationManager configurationManager;
-    
     Player playerA;
     Player playerB;
     Game* currentGame = nullptr;

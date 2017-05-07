@@ -11,7 +11,6 @@
 using namespace std;
 
 #include "Flags.h"
-#include "ConfigurationManager.h"
 #include "GameLoader.h"
 #include "Board.h"
 #include "PlayerMoves.h"
@@ -24,8 +23,6 @@ void test_printMemoryLeakStatus() {
 
 	cout << "There are " << Player::aliveInstances() << " instances of Player objects alive" << endl;
 	cout << "There are " << Ship::aliveInstances() << " instances of Ship objects alive" << endl;
-
-    cout << "There are " << ConfigurationManager::aliveInstances() << " instances of ConfigurationManager objects alive" << endl;
 
 	cout << "There are " << PlayerMoves::aliveInstances() << " instances of PlayerMoves objects alive" << endl;
 	cout << "There are " << PlayerMoves::Move::aliveInstances() << " instances of Move objects alive" << endl;

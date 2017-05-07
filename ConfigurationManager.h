@@ -12,7 +12,8 @@ public:
     enum MovesMode {KEYBOARD, MOVES_FILE};
     
 private:
-    static int aliveIns;
+	ConfigurationManager() {};
+	~ConfigurationManager() {};
 
     BoardMode _boardMode = BoardMode::RANDOM;
     MovesMode _movesMode = MovesMode::KEYBOARD;
@@ -22,10 +23,11 @@ private:
     
 public:
     
-    ConfigurationManager();
-    ~ConfigurationManager();
-    static int aliveInstances() { return aliveIns; }
-    
+	static ConfigurationManager& sharedInstance();
+
+	ConfigurationManager(ConfigurationManager const&) = delete;
+	void operator=(ConfigurationManager const&) = delete;
+
     void setup(int argc, const char * argv[]);
     
     BoardMode boardMode();
