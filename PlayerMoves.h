@@ -24,6 +24,7 @@ public:
 
 		int shipType() const { return _shipType; }
 		Direction direction() const;
+		bool isMoveValid();
 	};
 
 private:

@@ -31,8 +31,9 @@ void PlayerMoves::addMove(unsigned long ts, Ship & ship, Direction dir)
 const PlayerMoves::Move *const  PlayerMoves::getMove(unsigned long ts) {
 	PlayerMoves::Move* res = nullptr;
 	auto itr = _moves.find(ts);
-	if (itr != _moves.end())
+	if (itr != _moves.end() && itr->second->isMoveValid()) // Ignore bad moves
 		res = itr->second;
+
 	return res;
 }
 
@@ -57,8 +58,9 @@ Direction PlayerMoves::directionFromChar(char _direction) {
 		return Direction::RIGHT;
 	case 'S':
 	case 's':
-	default:
 		return Direction::STOP;
+	default:
+		return Direction::INVALID;
 	}
 }
 
@@ -73,13 +75,21 @@ char PlayerMoves::charFromDirection(Direction _direction) {
 	case Direction::RIGHT:
 		return 'R';
 	case Direction::STOP:
-	default:
 		return 'S';
+	default:
+		return ' ';
 	}
 }
 
 Direction PlayerMoves::Move::direction() const {
 	return PlayerMoves::directionFromChar(_direction);
+}
+
+bool PlayerMoves::Move::isMoveValid() {
+	return ((PlayerMoves::directionFromChar(_direction) != Direction::INVALID) &&
+		(_shipType == ShipType::SHIP1 || _shipType == ShipType::SHIP2 ||
+			_shipType == ShipType::SHIP3 || _shipType == ShipType::SHIP7 ||
+			_shipType == ShipType::SHIP8 || _shipType == ShipType::SHIP9));
 }
 
 std::ostream& operator<<(std::ostream& out, const PlayerMoves::Move& move) {

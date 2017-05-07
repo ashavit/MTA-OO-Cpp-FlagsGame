@@ -5,7 +5,7 @@
 class Player;
 class Cell;
 
-enum class Direction {STOP, UP, DOWN, LEFT, RIGHT};
+enum class Direction {STOP, UP, DOWN, LEFT, RIGHT, INVALID};
 enum ShipType {SHIP1 = 1, SHIP2, SHIP3, SHIP7 = 7, SHIP8, SHIP9 };
 
 class Ship {
