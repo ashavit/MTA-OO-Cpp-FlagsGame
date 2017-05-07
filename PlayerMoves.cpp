@@ -12,6 +12,9 @@ PlayerMoves::PlayerMoves()
 
 PlayerMoves::~PlayerMoves()
 {
+	for (auto& turn : _moves) {
+		delete turn.second;
+	}
 	aliveIns--;
 }
 
