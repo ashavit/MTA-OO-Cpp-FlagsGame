@@ -197,63 +197,10 @@ int Board::getPlayerStatsLocation() {
 	return width + 30;
 }
 
-void Board::saveToFile(std::string name) {
-    string fileName = newFileName(name);
-    ofstream textfile(fileName); // default is text!
-    if (!textfile.good())
-    {
-        /// TODO: Handle Error
-    }
-    
-    for (UINT row = 0; row < height; ++row) {
-        for (UINT col = 0; col < width; ++col) {
-            Cell *c = board[col][row];
-            if (c->getStandingShip() != nullptr) {
-                textfile << (int)c->getStandingShip()->type();
-            }
-            else {
-                switch (c->getCellType()) {
-                    case FORREST:
-                        textfile << "T";
-                        break;
-                    case SEA:
-                        textfile << "S";
-                        break;
-                    case FLAG_A:
-                        textfile << "A";
-                        break;
-                    case FLAG_B:
-                        textfile << "B";
-                        break;
-                        
-                    default:
-                        textfile << " ";
-                        break;
-                }
-            }
-        }
-        textfile << endl;
-    }
-    
-    textfile.close();
-}
-
 #pragma mark - Private Functions
 
 void Board::randomPlaceSpecialCells(CellType type, int count) {
     for (int i = 0; i < count; ++i) {
         getRandomCellInRows(1, height)->setCellType(type);
-    }
-}
-
-string Board::newFileName(const string format) {
-    string fileName = format + ".gboard";
-    if (std::ifstream(fileName)) // File already exists
-    {
-        return newFileName(format + "-new");
-    }
-    else // File does not exist
-    {
-        return fileName;
     }
 }

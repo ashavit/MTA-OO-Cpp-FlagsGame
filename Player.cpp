@@ -133,14 +133,14 @@ bool Player::addShip(Ship* ship) {
 
 void Player::restartGame() {
 	setActiveShip(nullptr);
-	for (int i = 0; i <= FLEET_SIZE; ++i) {
+	for (int i = 0; i < FLEET_SIZE; ++i) {
 		ships[i]->resetToInitialState();
 	}
 }
 
 void Player::clearFleetData() {
 	setActiveShip(nullptr);
-	for (int i = 0; i <= FLEET_SIZE; ++i) {
+	for (int i = 0; i < FLEET_SIZE; ++i) {
 		delete ships[i];
 		ships[i] = nullptr;
 	}

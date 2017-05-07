@@ -62,9 +62,8 @@ bool Game::loadBoard(const std::string& fileName) {
 		gameBoard = loader.gameBoard();
 
 		if (!fromFile && isRecordMode) {
-			/// TODO: Change name template
-			std::string filename = "boardfile" + std::to_string(roundCounter);
-			gameBoard->saveToFile(filename);
+			gameName = loader.newRandomFileName();
+			loader.saveBoardToFile(gameName);
 		}
 
 		drawBoard();

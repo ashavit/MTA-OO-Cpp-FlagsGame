@@ -17,6 +17,7 @@
 
 using namespace std;
 
+#define RANDOM_FILE_NAME "random_"
 #define BOARD_FILE_EXTENSION ".gboard"
 #define PLAYER_A_FILE_EXTENSION ".moves-a_small"
 #define PLAYER_B_FILE_EXTENSION ".moves-b_small"
@@ -73,6 +74,31 @@ bool GameLoader::loadGameFromFile(const string& fileName) {
 	return (_gameBoard != nullptr);
 }
 
+string GameLoader::newRandomFileName() {
+	bool foundName = false;
+	int counter = 1;
+	string fileName, fileNameWExt;
+
+	do {
+		fileName = RANDOM_FILE_NAME + to_string(counter);
+		fileNameWExt = fileName + BOARD_FILE_EXTENSION;
+		++counter;
+		if (!(std::ifstream(fileName))) { // File does not exist
+			foundName = true;
+		}
+	} while (!foundName);
+	
+	return fileName;
+}
+
+void GameLoader::saveBoardToFile(const string& fileName) {
+	ofstream* boardFile = openFileToWrite(fileName + BOARD_FILE_EXTENSION);
+	if (boardFile) {
+		saveBoardToFile(*boardFile);
+		closeAndReleaseFile(boardFile);
+	}
+}
+
 void GameLoader::printErrors() {
 	cout << endl;
 	for (string err : errors)
@@ -83,7 +109,7 @@ void GameLoader::printErrors() {
 	waitForAnyKeyToContinue();
 }
 
-void GameLoader::savePlayerMovesToFile(const std::string& fileName)
+void GameLoader::savePlayerMovesToFile(const string& fileName)
 {
 	if (!playerA.isAutoMode() && playerA.moves().moveCount()) {
 		ofstream* playerAFile = openFileToWrite(fileName + PLAYER_A_FILE_EXTENSION);
@@ -245,6 +271,38 @@ PlayerMoves* GameLoader::loadPlayerMovesFromFile(ifstream& movesFile) {
 		}
 	}
 	return res;
+}
+
+void GameLoader::saveBoardToFile(ofstream& boardFile) {
+	for (UINT row = 0; row < _gameBoard->height; ++row) {
+		for (UINT col = 0; col < _gameBoard->width; ++col) {
+			Cell *c = _gameBoard->board[col][row];
+			if (c->getStandingShip() != nullptr) {
+				boardFile << (int)c->getStandingShip()->type();
+			}
+			else {
+				switch (c->getCellType()) {
+				case FORREST:
+					boardFile << "T";
+					break;
+				case SEA:
+					boardFile << "S";
+					break;
+				case FLAG_A:
+					boardFile << "A";
+					break;
+				case FLAG_B:
+					boardFile << "B";
+					break;
+
+				default:
+					boardFile << " ";
+					break;
+				}
+			}
+		}
+		boardFile << endl;
+	}
 }
 
 void GameLoader::saveMovesToFile(ofstream& movesFile, PlayerMoves& moves, int roundToMod2) {

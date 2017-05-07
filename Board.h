@@ -19,7 +19,6 @@ class Board {
     Board(UINT width, UINT height);
     
     void randomPlaceSpecialCells(CellType type, int count);
-    std::string newFileName(const std::string format);
 
 	friend GameLoader;
 
@@ -38,7 +37,5 @@ public:
     void drawBoard();
 	void drawCell(Cell* cell);
 	void printMessage(const std::string message, bool onFullScreen, bool waitForResponse);
-	int getPlayerStatsLocation();
-    
-    void saveToFile(std::string fileName);
+	int getPlayerStatsLocation();    
 };
