@@ -267,9 +267,10 @@ void Game::displaySubMenu() {
 	clearScreen();
 
 	int selection;
-	bool handled = true;
+	bool handled;
 
 	do {
+		handled = true;
 		std::cout << "Game is paused:" << std::endl;
 		std::cout << "1. Continue game" << std::endl;
 		std::cout << "2. Restart game" << std::endl;
@@ -282,9 +283,7 @@ void Game::displaySubMenu() {
 			drawBoard(); // And continue playing
 			break;
 		case 2:
-			playerA.restartGame();
-			playerB.restartGame();
-			drawBoard();
+			restartGame();
 			break;
 		case 8:
 			gameState = GameState::ABORTED;
@@ -300,4 +299,11 @@ void Game::displaySubMenu() {
 		}
 	} while (!handled);
 
+}
+
+void Game::restartGame() {
+	playerA.restartGame();
+	playerB.restartGame();
+	timeStamp = 0;
+	drawBoard();
 }

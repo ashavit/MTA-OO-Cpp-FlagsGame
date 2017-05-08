@@ -31,10 +31,12 @@ class Game {
     void handlePlayerTurn(Player& p);
 	void handleBattle(Ship* shipA, Ship* shipB, Cell* cell);
 	void handleKeyboardInput();
-    bool isGameOver();
+
+	bool isGameOver();
 	void endGame();
     void awardWinner();
 	void notifyKeyHit(char ch);
+	void restartGame();
 	void displaySubMenu();
 
 public:

@@ -136,6 +136,12 @@ void Player::restartGame() {
 	for (int i = 0; i < FLEET_SIZE; ++i) {
 		ships[i]->resetToInitialState();
 	}
+
+	// If not auto mode - reset all moves as well
+	if (!autoMode) {
+		delete movesMap;
+		movesMap = nullptr;
+	}
 }
 
 void Player::clearFleetData() {
