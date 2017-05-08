@@ -23,6 +23,7 @@
     <ClInclude Include="Cell.h" />
     <ClInclude Include="Config.h" />
     <ClInclude Include="ConfigurationManager.h" />
+    <ClInclude Include="FileManager.h" />
     <ClInclude Include="Flags.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameLoader.h" />
@@ -36,6 +37,7 @@
     <ClCompile Include="Cell.cpp" />
     <ClCompile Include="Config.cpp" />
     <ClCompile Include="ConfigurationManager.cpp" />
+    <ClCompile Include="FileManager.cpp" />
     <ClCompile Include="Flags.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameLoader.cpp" />

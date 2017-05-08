@@ -9,6 +9,7 @@
 #include "Flags.h"
 #include <iostream>
 #include "Utils.h"
+#include "FileManager.h"
 
 using namespace std;
 
@@ -29,6 +30,10 @@ Flags::~Flags() {
 
 void Flags::configure(int argc, const char * argv[]) {
 	ConfigurationManager::sharedInstance().setup(argc, argv);
+
+	if (ConfigurationManager::sharedInstance().boardMode() == ConfigurationManager::BoardMode::BOARD_FILE) {
+		FileManager::sharedInstance().loadAvailableFiles(ConfigurationManager::sharedInstance().path());
+	}
 }
 
 void Flags::run() {
