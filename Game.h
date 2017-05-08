@@ -18,8 +18,8 @@ class Game {
 
     Player& playerB;
     Player& playerA;
-    Flags* gameManager;
-    Board* gameBoard;
+    Flags* gameManager = nullptr;
+    Board* gameBoard = nullptr;
 	std::string gameName;
     
     bool isRecordMode = false;

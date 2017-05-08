@@ -31,7 +31,8 @@ Game::Game(Player& playerA, Player& playerB, Flags* manager)
 
 Game::~Game() {
 	aliveIns--;
-	delete gameBoard;
+	if (gameBoard != nullptr)
+		delete gameBoard;
 }
 
 void Game::setRecordMode(bool isRecordMode) {

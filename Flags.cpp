@@ -122,8 +122,8 @@ void Flags::startGame() {
 
 	bool loadSuccess;
     if (ConfigurationManager::sharedInstance().boardMode() == ConfigurationManager::BoardMode::BOARD_FILE) {
-        /// TODO: remove harcoded file name and itterate in folder path
-        loadSuccess = currentGame->loadBoardFromFile("board_ok_1");
+		loadSuccess = FileManager::sharedInstance().hasMoreBoards() &&
+			currentGame->loadBoardFromFile(FileManager::sharedInstance().nextFileName());
     }
     else {
         loadSuccess = currentGame->loadRandomBoard();

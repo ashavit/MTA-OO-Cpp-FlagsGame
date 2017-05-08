@@ -48,26 +48,27 @@ bool GameLoader::loadGameFromFile(const string& fileName) {
 	ifstream* boardFile = openFileToRead(fileName + BOARD_FILE_EXTENSION);
 	if (boardFile) {
 		_gameBoard = loadBoardFromFile(*boardFile, fileName);
-
-		// Check configuration flag to load moves from files
-		if (ConfigurationManager::sharedInstance().movesMode() == ConfigurationManager::MovesMode::MOVES_FILE) {
-			// Try to load player moves
-			ifstream* playerAFile = openFileToRead(fileName + PLAYER_A_FILE_EXTENSION);
-			if (playerAFile) {
-				PlayerMoves* movesA = loadPlayerMovesFromFile(*playerAFile);
-				if (movesA->moveCount() > 0) {
-					playerA.setMoves(movesA);
+		if (_gameBoard != nullptr) {
+			// Check configuration flag to load moves from files
+			if (ConfigurationManager::sharedInstance().movesMode() == ConfigurationManager::MovesMode::MOVES_FILE) {
+				// Try to load player moves
+				ifstream* playerAFile = openFileToRead(fileName + PLAYER_A_FILE_EXTENSION);
+				if (playerAFile) {
+					PlayerMoves* movesA = loadPlayerMovesFromFile(*playerAFile);
+					if (movesA->moveCount() > 0) {
+						playerA.setMoves(movesA);
+					}
+					closeAndReleaseFile(playerAFile);
 				}
-				closeAndReleaseFile(playerAFile);
-			}
 
-			ifstream* playerBFile = openFileToRead(fileName + PLAYER_B_FILE_EXTENSION);
-			if (playerBFile) {
-				PlayerMoves* movesB = loadPlayerMovesFromFile(*playerBFile);
-				if (movesB->moveCount() > 0) {
-					playerB.setMoves(movesB);
+				ifstream* playerBFile = openFileToRead(fileName + PLAYER_B_FILE_EXTENSION);
+				if (playerBFile) {
+					PlayerMoves* movesB = loadPlayerMovesFromFile(*playerBFile);
+					if (movesB->moveCount() > 0) {
+						playerB.setMoves(movesB);
+					}
+					closeAndReleaseFile(playerBFile);
 				}
-				closeAndReleaseFile(playerBFile);
 			}
 		}
 		closeAndReleaseFile(boardFile);
@@ -242,6 +243,8 @@ Board* GameLoader::loadBoardFromFile(ifstream& boardFile, const string& fileName
 
 	// If errors were found
 	if (errors.size()) {
+		playerA.clearFleetData();
+		playerB.clearFleetData();
 		delete b;
 		return nullptr;
 	}

@@ -27,10 +27,22 @@ void FileManager::loadAvailableFiles(const string& path) {
 	_pclose(fp);
 
 	parseFileNames(data);
+	filesLeft = boardFiles.size();
 }
 
 string FileManager::nextFileName() {
-	return "";
+	static auto& next = boardFiles.begin();
+	string name;
+	if (next != boardFiles.end()) {
+		name.assign(*next);
+		++next;
+		--filesLeft;
+	}
+	return name;
+}
+
+bool FileManager::hasMoreBoards() {
+	return filesLeft;
 }
 
 void FileManager::regulatePath(const std::string path) {
@@ -79,6 +91,11 @@ void FileManager::parseFileNames(string& data) {
 		fileName.assign(data, 0, end);
 		boardFiles.push_back(fileName);
 		data.erase(0, end + 1);
+	}
+
+	// Remove extension from name
+	for (auto& name : boardFiles) {
+		name.erase(name.find_last_of("."));
 	}
 	boardFiles.sort(compare_nocase);
 }

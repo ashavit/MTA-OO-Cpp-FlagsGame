@@ -14,6 +14,7 @@ class FileManager
 
 	void regulatePath(const std::string path);
 	void parseFileNames(std::string& data);
+	int filesLeft = 0;
 
 public:
 
@@ -24,5 +25,6 @@ public:
 
 	void loadAvailableFiles(const std::string& path);
 	std::string nextFileName();
+	bool hasMoreBoards();
 };
 

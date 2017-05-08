@@ -147,7 +147,8 @@ void Player::restartGame() {
 void Player::clearFleetData() {
 	setActiveShip(nullptr);
 	for (int i = 0; i < FLEET_SIZE; ++i) {
-		delete ships[i];
+		if (ships[i] != nullptr)
+			delete ships[i];
 		ships[i] = nullptr;
 	}
 	delete movesMap;
