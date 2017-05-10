@@ -10,7 +10,7 @@
 #include "Ship.h"
 #include "Cell.h"
 
-#pragma mark - Ctor
+//*********** Ctor ***********//
 
 Ship::Ship(Player& player, ShipType type, Cell* startingCell)
     : shipOwner(player), shipType(type), initialCell(startingCell), currentCell(startingCell)
@@ -25,7 +25,7 @@ Ship::~Ship() {
 
 int Ship::aliveIns = 0;
 
-#pragma mark - Getters
+//*********** Getters ***********//
 
 Cell* Ship::cell() {
     return currentCell;
@@ -46,7 +46,7 @@ const Player& Ship::owner() {
     return shipOwner;
 }
 
-#pragma mark - 
+//*********** Other functions ***********//
 
 ShipType Ship::type() {
     return shipType;

@@ -8,7 +8,7 @@
 
 using namespace std;
 
-#pragma mark - Life Cycle
+//*********** Life Cycle ***********//
 
 int Board::aliveIns = 0;
 
@@ -34,7 +34,7 @@ Board::~Board() {
     delete board;
 }
 
-#pragma mark - Public Functions
+//*********** Public functions ***********//
 
 Cell* Board::getRandomCellInRows(size_t from, size_t to) {
     Cell *ptrRes = nullptr;
@@ -81,7 +81,7 @@ Cell* Board::getNextCell(const Cell* cell, Direction direction) {
     return nullptr;
 }
 
-#pragma mark Outputs
+//*********** Outputs ***********//
 
 void Board::drawBoard() {
     Cell* cell;
@@ -197,7 +197,7 @@ int Board::getPlayerStatsLocation() {
 	return width + 30;
 }
 
-#pragma mark - Private Functions
+//*********** Private functions ***********//
 
 void Board::randomPlaceSpecialCells(CellType type, int count) {
     for (int i = 0; i < count; ++i) {

@@ -13,7 +13,7 @@
 
 using namespace std;
 
-#pragma mark - Ctor
+//*********** Ctor ***********//
 
 // Init players with default names
 Flags::Flags() : playerA("Player A"), playerB("Player B") { }
@@ -26,7 +26,7 @@ Flags::~Flags() {
     }
 }
 
-#pragma mark - Public
+//*********** Public ***********//
 
 void Flags::configure(int argc, const char * argv[]) {
 	ConfigurationManager::sharedInstance().setup(argc, argv);
@@ -91,7 +91,7 @@ void Flags::finishGame(bool _shouldExit) {
 	clearScreen();
 }
 
-#pragma mark - Private
+//*********** Private ***********//
 
 void Flags::selectPlayerNames() {
     playerA.updateName();
@@ -135,7 +135,7 @@ void Flags::startGame() {
 		finishGame(true);
 }
 
-#pragma mark - Test functions
+//*********** Test functions ***********//
 
 void Flags::test_setupStates() {
 

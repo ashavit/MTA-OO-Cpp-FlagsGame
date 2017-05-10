@@ -13,7 +13,7 @@
 
 using namespace std;
 
-#pragma mark - Ctor
+//*********** Ctor ***********//
 
 Player::Player(std::string name) : playerName(name) {
 	aliveIns++;
@@ -25,7 +25,7 @@ Player::~Player() {
 
 int Player::aliveIns = 0;
 
-#pragma mark - Public functions
+//*********** Public functions ***********//
 
 void Player::updateName() {
     cout << "Please enter player name (old name is " << playerName << "):" << endl;
@@ -40,8 +40,7 @@ void Player::resetScore() {
     playerScore = 0;
 }
 
-void Player::incrementScore(int byPoints)
-{
+void Player::incrementScore(int byPoints) {
     playerScore += byPoints;
 }
 
@@ -49,16 +48,14 @@ int Player::score() {
     return playerScore;
 }
 
-void Player::setKeys(const char* keys)
-{
+void Player::setKeys(const char* keys) {
 	int i = 0;
 	for (char& key : controlKeys) {
 		key = keys[i++];
 	}
 }
 
-void Player::notifyKeyHit(char ch, unsigned long ts)
-{
+void Player::notifyKeyHit(char ch, unsigned long ts) {
 	// Ignore if auto mode
 	if (autoMode) { return; }
 
@@ -155,7 +152,7 @@ void Player::clearFleetData() {
 	movesMap = nullptr;
 }
 
-#pragma mark - Private functions
+//*********** Private functions ***********//
 
 void Player::setActiveShip(Ship* active) {
 	activeShip = active;

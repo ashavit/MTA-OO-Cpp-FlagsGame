@@ -92,7 +92,7 @@ void Game::run() {
 	endGame();
 }
 
-#pragma mark - Private Helpers
+//*********** Private Helpers ***********//
 
 void Game::drawBoard() {
 	gameBoard->drawBoard();

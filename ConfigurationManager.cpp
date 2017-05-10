@@ -15,7 +15,7 @@
 #define PARAM_KEY_QUIET "-quiet"
 #define PARAM_KEY_DELAY "-delay"
 
-#pragma mark - Ctor
+//*********** Ctor ***********//
 
 ConfigurationManager& ConfigurationManager::sharedInstance() {
 	static ConfigurationManager instance{};
