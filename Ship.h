@@ -21,6 +21,8 @@ class Ship {
 public:
     Ship(Player& player, ShipType type, Cell* startingCell);
 	~Ship();
+	Ship(Ship const&) = delete;
+	void operator=(Ship const&) = delete;
 	static int aliveInstances() { return aliveIns; }
 
     Cell* cell();

@@ -20,6 +20,8 @@ public:
 	public:
 		Move(int type, char dir) : _shipType(type), _direction(dir) { aliveIns++; }
 		~Move() { aliveIns--; };
+		Move(Move const&) = delete;
+		void operator=(Move const&) = delete;
 		static int aliveInstances() { return aliveIns; }
 
 		int shipType() const { return _shipType; }
@@ -35,6 +37,8 @@ private:
 public:
 	PlayerMoves();
 	~PlayerMoves();
+	PlayerMoves(PlayerMoves const&) = delete;
+	void operator=(PlayerMoves const&) = delete;
 	static int aliveInstances() { return aliveIns; }
 
 	void addMove(unsigned long ts, int ship, char dir);

@@ -29,6 +29,8 @@ class Player {
 public:
     Player(std::string name);
 	~Player();
+	Player(Player const&) = delete;
+	void operator=(Player const&) = delete;
 	static int aliveInstances() { return aliveIns; }
 
     void updateName();

@@ -24,10 +24,11 @@ class Flags {
     void test_setupStates();
 
 public:
-    
-    Flags();
-    ~Flags();
-    
+	Flags();
+	~Flags();
+	Flags(Flags const&) = delete;
+	void operator=(Flags const&) = delete;
+
     void configure(int argc, const char * argv[]);
     void run();
     void finishGame(bool shouldExitProgram);

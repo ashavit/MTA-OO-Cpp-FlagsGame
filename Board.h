@@ -17,7 +17,9 @@ class Board {
 
     Board() : Board(DEFAULT_BOARD_SIZE, DEFAULT_BOARD_SIZE) {}
     Board(UINT width, UINT height);
-    
+	Board(Board const&) = delete;
+	void operator=(Board const&) = delete;
+
     void randomPlaceSpecialCells(CellType type, int count);
 
 	friend GameLoader;

@@ -7,6 +7,9 @@
 enum CellType {REGULAR, FORREST, SEA, FLAG_A, FLAG_B};
 
 class Cell {
+	Cell(Cell const&) = delete;
+	void operator=(Cell const&) = delete;
+
 	static int aliveIns;
 	const UINT   row ;
     const UINT   column;

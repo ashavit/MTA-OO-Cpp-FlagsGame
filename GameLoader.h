@@ -42,6 +42,9 @@ public:
 	/* Methods take in Players to support reverse games */
 	GameLoader(Player& playerA, Player& playerB);
 	~GameLoader();
+	GameLoader(GameLoader const&) = delete;
+	void operator=(GameLoader const&) = delete;
+
 	static int aliveInstances() { return aliveIns; }
 
 	bool loadRandomGame();

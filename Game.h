@@ -42,6 +42,9 @@ class Game {
 public:
     Game(Player& playerA, Player& playerB, Flags* manager);
 	~Game();
+	Game(Game const&) = delete;
+	void operator=(Game const&) = delete;
+
 	static int aliveInstances() { return aliveIns; }
 
     void setRecordMode(bool isRecordMode);
