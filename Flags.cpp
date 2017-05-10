@@ -115,6 +115,8 @@ void Flags::resetPlayerScores() {
 
 void Flags::toggleRecordMode() {
     isRecordMode = !isRecordMode;
+	clearScreen();
+	cout << "Record mode is now " << (isRecordMode ? "enabled" : "disblaed") << endl << endl;
 }
 
 void Flags::startGame() {
