@@ -10,6 +10,7 @@
 #include <fstream>
 #include "Utils.h"
 #include "ConfigurationManager.h"
+#include "FileManager.h"
 #include "GameLoader.h"
 #include "Player.h"
 #include "Board.h"
@@ -17,11 +18,6 @@
 #include "PlayerMoves.h"
 
 using namespace std;
-
-#define RANDOM_FILE_NAME "random_"
-#define BOARD_FILE_EXTENSION ".gboard"
-#define PLAYER_A_FILE_EXTENSION ".moves-a_small"
-#define PLAYER_B_FILE_EXTENSION ".moves-b_small"
 
 #define SET_BIT(NUM, I)             NUM |= ( 1 << (I) )
 #define IS_BIT_I_SET(NUM, I)        ( (NUM >> I) & 1 )
@@ -45,14 +41,15 @@ bool GameLoader::loadRandomGame()
 }
 
 bool GameLoader::loadGameFromFile(const string& fileName) {
-	ifstream* boardFile = openFileToRead(fileName + BOARD_FILE_EXTENSION);
+	const string pathFileName = FileManager::sharedInstance().fileNameWithPath(fileName);
+	ifstream* boardFile = openFileToRead(pathFileName + BOARD_FILE_EXTENSION);
 	if (boardFile) {
 		_gameBoard = loadBoardFromFile(*boardFile, fileName);
 		if (_gameBoard != nullptr) {
 			// Check configuration flag to load moves from files
 			if (ConfigurationManager::sharedInstance().movesMode() == ConfigurationManager::MovesMode::MOVES_FILE) {
 				// Try to load player moves
-				ifstream* playerAFile = openFileToRead(fileName + PLAYER_A_FILE_EXTENSION);
+				ifstream* playerAFile = openFileToRead(pathFileName + PLAYER_A_FILE_EXTENSION);
 				if (playerAFile) {
 					PlayerMoves* movesA = loadPlayerMovesFromFile(*playerAFile);
 					if (movesA->moveCount() > 0) {
@@ -61,7 +58,7 @@ bool GameLoader::loadGameFromFile(const string& fileName) {
 					closeAndReleaseFile(playerAFile);
 				}
 
-				ifstream* playerBFile = openFileToRead(fileName + PLAYER_B_FILE_EXTENSION);
+				ifstream* playerBFile = openFileToRead(pathFileName + PLAYER_B_FILE_EXTENSION);
 				if (playerBFile) {
 					PlayerMoves* movesB = loadPlayerMovesFromFile(*playerBFile);
 					if (movesB->moveCount() > 0) {
@@ -95,7 +92,8 @@ string GameLoader::newRandomFileName() {
 }
 
 void GameLoader::saveBoardToFile(const string& fileName) {
-	ofstream* boardFile = openFileToWrite(fileName + BOARD_FILE_EXTENSION);
+	const string pathFileName = FileManager::sharedInstance().fileNameWithPath(fileName);
+	ofstream* boardFile = openFileToWrite(pathFileName + BOARD_FILE_EXTENSION);
 	if (boardFile) {
 		saveBoardToFile(*boardFile);
 		closeAndReleaseFile(boardFile);
@@ -112,10 +110,10 @@ void GameLoader::printErrors() {
 	waitForAnyKeyToContinue();
 }
 
-void GameLoader::savePlayerMovesToFile(const string& fileName)
-{
+void GameLoader::savePlayerMovesToFile(const string& fileName) {
+	const string pathFileName = FileManager::sharedInstance().fileNameWithPath(fileName);
 	if (!playerA.isAutoMode() && playerA.moves().moveCount()) {
-		ofstream* playerAFile = openFileToWrite(fileName + PLAYER_A_FILE_EXTENSION);
+		ofstream* playerAFile = openFileToWrite(pathFileName + PLAYER_A_FILE_EXTENSION);
 		if (playerAFile) {
 			saveMovesToFile(*playerAFile, playerA.moves(), 1);
 			closeAndReleaseFile(playerAFile);
@@ -123,7 +121,7 @@ void GameLoader::savePlayerMovesToFile(const string& fileName)
 	}
 
 	if (!playerB.isAutoMode() && playerB.moves().moveCount()) {
-		ofstream* playerBFile = openFileToWrite(fileName + PLAYER_B_FILE_EXTENSION);
+		ofstream* playerBFile = openFileToWrite(pathFileName + PLAYER_B_FILE_EXTENSION);
 		if (playerBFile) {
 			saveMovesToFile(*playerBFile, playerB.moves(), 0);
 			closeAndReleaseFile(playerBFile);

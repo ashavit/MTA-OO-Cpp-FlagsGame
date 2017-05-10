@@ -16,7 +16,7 @@ void FileManager::loadAvailableFiles(const string& path) {
 	char buffer[4096];
 	string data;
 	string command = "2>NUL dir /a-d /b ";
-	command.append(regulatedPath).append("*.gboard");
+	command.append(regulatedPath).append("*").append(BOARD_FILE_EXTENSION);
 
 	FILE* fp = _popen(command.c_str(), "r");
 
@@ -30,7 +30,7 @@ void FileManager::loadAvailableFiles(const string& path) {
 	filesLeft = boardFiles.size();
 }
 
-string FileManager::nextFileName() {
+const string FileManager::nextFileName() {
 	static auto& next = boardFiles.begin();
 	string name;
 	if (next != boardFiles.end()) {
@@ -45,7 +45,12 @@ bool FileManager::hasMoreBoards() {
 	return filesLeft;
 }
 
-void FileManager::regulatePath(const std::string path) {
+const string FileManager::fileNameWithPath(const string fileName)
+{
+	return regulatedPath + fileName;
+}
+
+void FileManager::regulatePath(const string path) {
 	// Check if relative path or full path - if contains :
 	if (path.empty()) {
 		regulatedPath = ".\\";
@@ -70,7 +75,7 @@ void FileManager::regulatePath(const std::string path) {
 }
 
 // comparison, not case sensitive.
-bool compare_nocase(const std::string& first, const std::string& second)
+bool compare_nocase(const string& first, const string& second)
 {
 	unsigned int i = 0;
 	while ((i<first.length()) && (i<second.length()))

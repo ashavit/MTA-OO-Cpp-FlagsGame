@@ -4,6 +4,11 @@
 #include <vector>
 #include <list>
 
+#define RANDOM_FILE_NAME "random_"
+#define BOARD_FILE_EXTENSION ".gboard"
+#define PLAYER_A_FILE_EXTENSION ".moves-a_small"
+#define PLAYER_B_FILE_EXTENSION ".moves-b_small"
+
 class FileManager
 {
 	FileManager() {};
@@ -24,7 +29,9 @@ public:
 	void operator=(FileManager const&) = delete;
 
 	void loadAvailableFiles(const std::string& path);
-	std::string nextFileName();
+	const std::string nextFileName();
 	bool hasMoreBoards();
+
+	const std::string fileNameWithPath(const std::string fileName);
 };
 
