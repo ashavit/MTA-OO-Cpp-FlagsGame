@@ -27,6 +27,7 @@
     <ClInclude Include="Flags.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameLoader.h" />
+    <ClInclude Include="Commons.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerMoves.h" />
     <ClInclude Include="Ship.h" />

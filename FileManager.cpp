@@ -1,5 +1,6 @@
 #include "FileManager.h"
 #include <string>
+#include "Commons.h"
 
 using namespace std;
 
@@ -45,8 +46,7 @@ bool FileManager::hasMoreBoards() {
 	return filesLeft;
 }
 
-const string FileManager::fileNameWithPath(const string fileName)
-{
+const string FileManager::fileNameWithPath(const string fileName) {
 	return regulatedPath + fileName;
 }
 

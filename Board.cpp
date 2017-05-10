@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <list>
+#include "Commons.h"
 #include "Board.h"
 #include "Cell.h"
 #include "Utils.h"
@@ -115,19 +116,19 @@ void Board::drawCell(Cell* cell) {
 		switch (cell->getCellType()) {
         case CellType::SEA:
 			setTextColor(YELLOW, BLUE);
-			cout << 'S';
+			cout << BOARD_MARK_SEA;
 			break;
 		case CellType::FORREST:
 			setTextColor(BLUE, GREEN);
-			cout << 'F';
+			cout << BOARD_MARK_FOREST;
 			break;
 		case CellType::FLAG_A:
 			setTextColor(BLACK, RED);
-			cout << 'A';
+			cout << BOARD_MARK_FLAG_A;
 			break;
 		case CellType::FLAG_B:
 			setTextColor(BLACK, YELLOW);
-			cout << 'B';
+			cout << BOARD_MARK_FLAG_B;
 			break;
 		case CellType::REGULAR:
 		default:
@@ -152,16 +153,16 @@ void Board::printBoard()
 				else {
 					switch (c->getCellType()) {
 					case FORREST:
-						cout << "F";
+						cout << BOARD_MARK_FOREST;
 						break;
 					case SEA:
-						cout << "S";
+						cout << BOARD_MARK_SEA;
 						break;
 					case FLAG_A:
-						cout << "A";
+						cout << BOARD_MARK_FLAG_A;
 						break;
 					case FLAG_B:
-						cout << "B";
+						cout << BOARD_MARK_FLAG_B;
 						break;
 
 					default:

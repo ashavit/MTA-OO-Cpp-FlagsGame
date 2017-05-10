@@ -9,6 +9,7 @@
 #include <iostream>
 #include <fstream>
 #include "Utils.h"
+#include "Commons.h"
 #include "ConfigurationManager.h"
 #include "FileManager.h"
 #include "GameLoader.h"
@@ -22,6 +23,8 @@ using namespace std;
 #define SET_BIT(NUM, I)             NUM |= ( 1 << (I) )
 #define IS_BIT_I_SET(NUM, I)        ( (NUM >> I) & 1 )
 #define MASK_WITH_N_LSBS_SET(N)     ( (1 << N) - 1 )
+
+#define PLAYER_HOME_ROW_COUNT 5
 
 int GameLoader::aliveIns = 0;
 
@@ -132,6 +135,11 @@ void GameLoader::savePlayerMovesToFile(const string& fileName) {
 Board* GameLoader::loadRandomBoard(UINT width, UINT height) {
 	Board *b = new Board(width, height);
 
+	int playerAHomeMin = 1;
+	int playerAHomeMax = PLAYER_HOME_ROW_COUNT - playerAHomeMin + 1;
+	int playerBHomeMax = height;
+	int playerBHomeMin = playerBHomeMax - PLAYER_HOME_ROW_COUNT + 1;
+
 	int seas = Board::BoardDensity::REGULAR;
 	int forests = Board::BoardDensity::REGULAR;
 
@@ -139,20 +147,20 @@ Board* GameLoader::loadRandomBoard(UINT width, UINT height) {
 	b->randomPlaceSpecialCells(CellType::FORREST, forests);
 	b->printBoard();
 
-	b->getRandomCellInRows(1, 5)->setCellType(FLAG_A);
-	b->getRandomCellInRows(9, 13)->setCellType(FLAG_B);
+	b->getRandomCellInRows(playerAHomeMin, playerAHomeMax)->setCellType(FLAG_A);
+	b->getRandomCellInRows(playerBHomeMin, playerBHomeMax)->setCellType(FLAG_B);
 
 	// Init ships
 	for (int type = ShipType::SHIP1; type <= ShipType::SHIP3; ++type)
 	{
-		Cell *c = b->getRandomCellInRows(1, 5);
+		Cell *c = b->getRandomCellInRows(playerAHomeMin, playerAHomeMax);
 		Ship *ship = new Ship(playerA, (ShipType)type, c);
 		c->setStandingShip(ship);
 	}
 
 	for (int type = ShipType::SHIP7; type <= ShipType::SHIP9; ++type)
 	{
-		Cell *c = b->getRandomCellInRows(9, 13);
+		Cell *c = b->getRandomCellInRows(playerBHomeMin, playerBHomeMax);
 		Ship *ship = new Ship(playerB, (ShipType)type, c);
 		c->setStandingShip(ship);
 	}
@@ -174,18 +182,18 @@ Board* GameLoader::loadBoardFromFile(ifstream& boardFile, const string& fileName
 		for (UINT col = 0; col < width; ++col) {
 			char ch = buff[col];
 			switch (ch) {
-			case 'S':
+			case BOARD_MARK_SEA:
 				b->board[col][row]->setCellType(CellType::SEA);
 				break;
-			case 'T':
+			case BOARD_MARK_FOREST:
 				b->board[col][row]->setCellType(CellType::FORREST);
 				break;
-			case 'A':
+			case BOARD_MARK_FLAG_A:
 				if (IS_BIT_I_SET(validateToolsA, 0)) { isPlayerToolsValidA = false; break; } // Make sure FlagA is set only once
 				b->board[col][row]->setCellType(CellType::FLAG_A);
 				SET_BIT(validateToolsA, 0);
 				break;
-			case 'B':
+			case BOARD_MARK_FLAG_B:
 				if (IS_BIT_I_SET(validateToolsB, 0)) { isPlayerToolsValidB = false; break; } // Make sure FlagB is set only once
 				b->board[col][row]->setCellType(CellType::FLAG_B);
 				SET_BIT(validateToolsB, 0);
@@ -286,16 +294,16 @@ void GameLoader::saveBoardToFile(ofstream& boardFile) {
 			else {
 				switch (c->getCellType()) {
 				case FORREST:
-					boardFile << "T";
+					boardFile << BOARD_MARK_FOREST;
 					break;
 				case SEA:
-					boardFile << "S";
+					boardFile << BOARD_MARK_SEA;
 					break;
 				case FLAG_A:
-					boardFile << "A";
+					boardFile << BOARD_MARK_FLAG_A;
 					break;
 				case FLAG_B:
-					boardFile << "B";
+					boardFile << BOARD_MARK_FLAG_B;
 					break;
 
 				default:
@@ -353,8 +361,7 @@ void GameLoader::closeAndReleaseFile(ofstream* file) {
 }
 
 void GameLoader::addUniqueError(const string& error) {
-	for (string str : errors)
-	{
+	for (string str : errors) {
 		if (error.compare(str) == 0) {
 			return;
 		}

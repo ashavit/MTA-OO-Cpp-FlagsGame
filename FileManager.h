@@ -4,11 +4,6 @@
 #include <vector>
 #include <list>
 
-#define RANDOM_FILE_NAME "random_"
-#define BOARD_FILE_EXTENSION ".gboard"
-#define PLAYER_A_FILE_EXTENSION ".moves-a_small"
-#define PLAYER_B_FILE_EXTENSION ".moves-b_small"
-
 class FileManager
 {
 	FileManager() {};
