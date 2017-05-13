@@ -30,10 +30,11 @@ public:
 
     void setup(int argc, const char * argv[]);
     
-    BoardMode boardMode();
-    MovesMode movesMode();
-    std::string path();
-    bool quietMode();
-    int delay();
+    BoardMode boardMode() const;
+    MovesMode movesMode() const;
+    std::string path() const;
+    bool quietMode() const;
+    int delay() const;
+	int delayBetweenGames() const;
     
 };
