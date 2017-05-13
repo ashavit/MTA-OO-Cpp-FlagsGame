@@ -27,13 +27,10 @@ void test_printMemoryLeakStatus() {
 }
 
 int main(int argc, const char* argv[]) {
-
-	Flags flags;
-
 	if (argc > 1) {
-		flags.configure(argc - 1, argv + 1);
+		Flags::configure(argc - 1, argv + 1);
 	}
-	flags.run();
+	Flags().run();
 
 	if (DEBUG)
 		test_printMemoryLeakStatus();
