@@ -32,6 +32,8 @@ public:
 	void operator=(Flags const&) = delete;
 
 	static void configure(int argc, const char * argv[]);
+	static void test_printMemoryLeakStatus();
+
     void run();
     void finishGame(bool shouldExitProgram);
 	void displayMenu() const;
