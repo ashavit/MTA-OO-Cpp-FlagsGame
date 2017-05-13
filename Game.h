@@ -41,6 +41,7 @@ protected:
 	virtual bool loadBoard(const std::string& fileName) = 0;
 	virtual void handleKeyboardInput() = 0;
 	virtual std::string endGameMessage() const = 0;
+	virtual void delayEndGame() const = 0;
 	virtual void postGameActions() const = 0;
 
 	virtual bool isGameOver() const;

@@ -175,7 +175,7 @@ void Board::printBoard() const {
 	}
 }
 
-void Board::printMessage(const string message, bool onFullScreen, bool waitForResponse) const {
+void Board::printMessage(const string message, bool onFullScreen) const {
 	setTextColor(WHITE);
 	if (onFullScreen) {
 		clearScreen();
@@ -185,10 +185,6 @@ void Board::printMessage(const string message, bool onFullScreen, bool waitForRe
 		gotoxy(10, height + 5);
 	}
 	cout << message << endl;
-
-	if (waitForResponse) {
-		waitForAnyKeyToContinue();
-	}
 }
 
 int Board::getPlayerStatsLocation() const {

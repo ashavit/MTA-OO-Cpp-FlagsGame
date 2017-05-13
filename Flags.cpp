@@ -38,7 +38,6 @@ void Flags::run() {
 	if (isAutoModeEnabled()) {
 		while (!shouldExitProgram && FileManager::sharedInstance().hasMoreBoards()) {
 			startAutoGame();
-			Sleep(ConfigurationManager::sharedInstance().delayBetweenGames());
 		}
 	}
 	else {

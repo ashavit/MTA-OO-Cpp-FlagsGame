@@ -1,6 +1,7 @@
 #include "AutoGame.h"
 #include "Player.h"
 #include "GameLoader.h"
+#include "ConfigurationManager.h"
 
 int AutoGame::aliveIns = 0;
 
@@ -57,6 +58,10 @@ std::string AutoGame::endGameMessage() const {
 		message = "No winners!";
 	}
 	return message;
+}
+
+void AutoGame::delayEndGame() const {
+	Sleep(ConfigurationManager::sharedInstance().delayBetweenGames());
 }
 
 bool AutoGame::isGameOver() const {

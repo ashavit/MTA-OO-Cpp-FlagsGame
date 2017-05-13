@@ -1,6 +1,7 @@
 #include "KeyboardGame.h"
 #include "Player.h"
 #include "GameLoader.h"
+#include "Utils.h"
 
 int KeyboardGame::aliveIns = 0;
 
@@ -71,6 +72,10 @@ std::string KeyboardGame::endGameMessage() const {
 		message = "No winners!";
 	}
 	return message;
+}
+
+void KeyboardGame::delayEndGame() const {
+	waitForAnyKeyToContinue();
 }
 
 void KeyboardGame::postGameActions() const {

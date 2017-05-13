@@ -13,6 +13,7 @@ class AutoGame : public Game
 	virtual bool loadBoard(const std::string& fileName) override;
 	virtual void handleKeyboardInput() override;
 	virtual std::string endGameMessage() const override;
+	virtual void delayEndGame() const override;
 	virtual void postGameActions() const override { }
 
 	virtual bool isGameOver() const override;

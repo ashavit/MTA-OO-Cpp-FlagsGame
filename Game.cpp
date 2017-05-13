@@ -141,7 +141,7 @@ void Game::handleBattle(Ship* shipA, Ship* shipB, Cell* cell) const {
 	const std::string message = std::string("Ship") + std::to_string(static_cast<int>(winner->type())) +
 		" won Ship" + std::to_string(static_cast<int>(loser->type())) +
 		" @ cell (" + cell->getColumn() + "," + std::to_string(cell->getRow()) + ")";
-	gameBoard->printMessage(message, false, false);
+	gameBoard->printMessage(message, false);
 
 	loser->setDead();
 	winner->moveToCell(cell);
@@ -160,7 +160,8 @@ void Game::endGame() const {
 	awardWinner();
 
 	// Print message to board
-	gameBoard->printMessage(endGameMessage(), true, true);
+	gameBoard->printMessage(endGameMessage(), true);
+	delayEndGame();
 
 	postGameActions();
 
