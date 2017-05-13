@@ -39,33 +39,41 @@ bool GameLoader::loadGameFromFile(const string& fileName) {
 	ifstream* boardFile = openFileToRead(pathFileName + BOARD_FILE_EXTENSION);
 	if (boardFile) {
 		_gameBoard = loadBoardFromFile(*boardFile, fileName);
-		if (_gameBoard != nullptr) {
-			// Check configuration flag to load moves from files
-			if (ConfigurationManager::sharedInstance().movesMode() == ConfigurationManager::MovesMode::MOVES_FILE) {
-				// Try to load player moves
-				ifstream* playerAFile = openFileToRead(pathFileName + PLAYER_A_FILE_EXTENSION);
-				if (playerAFile) {
-					PlayerMoves* movesA = loadPlayerMovesFromFile(*playerAFile);
-					if (movesA->moveCount() > 0) {
-						playerA.setMoves(movesA);
-					}
-					closeAndReleaseFile(playerAFile);
-				}
-
-				ifstream* playerBFile = openFileToRead(pathFileName + PLAYER_B_FILE_EXTENSION);
-				if (playerBFile) {
-					PlayerMoves* movesB = loadPlayerMovesFromFile(*playerBFile);
-					if (movesB->moveCount() > 0) {
-						playerB.setMoves(movesB);
-					}
-					closeAndReleaseFile(playerBFile);
-				}
-			}
-		}
 		closeAndReleaseFile(boardFile);
 	}
 
 	return (_gameBoard != nullptr);
+}
+
+bool GameLoader::loadGameMovesFromFile(const string& fileName) {
+	bool didLoadMoves = false;
+	const string pathFileName = FileManager::sharedInstance().fileNameWithPath(fileName);
+
+	// Try to load player moves
+	ifstream* playerAFile = openFileToRead(pathFileName + PLAYER_A_FILE_EXTENSION);
+	if (playerAFile) {
+		PlayerMoves* movesA = loadPlayerMovesFromFile(*playerAFile);
+		if (movesA->moveCount() > 0) {
+			playerA.setMoves(movesA);
+			didLoadMoves = true;
+		}
+		closeAndReleaseFile(playerAFile);
+	}
+
+	ifstream* playerBFile = openFileToRead(pathFileName + PLAYER_B_FILE_EXTENSION);
+	if (playerBFile) {
+		PlayerMoves* movesB = loadPlayerMovesFromFile(*playerBFile);
+		if (movesB->moveCount() > 0) {
+			playerB.setMoves(movesB);
+			didLoadMoves = true;
+		}
+		closeAndReleaseFile(playerBFile);
+	}
+
+	// Fail if no moves found
+	if (!didLoadMoves)
+		errors.push_front("Move files were not found for board " + fileName);
+	return didLoadMoves;
 }
 
 string GameLoader::newRandomFileName() const {
@@ -97,11 +105,12 @@ void GameLoader::saveBoardToFile(const string& fileName) const {
 
 void GameLoader::printErrors() {
 	cout << endl;
-	for (string err : errors) {
-		cout << err << endl;
+	if (errors.size() > 0) {
+		for (string err : errors) {
+			cout << err << endl;
+		}
+		cout << endl << "The game will now exit" << endl;
 	}
-	cout << endl << "The game will now exit" << endl;
-	waitForAnyKeyToContinue();
 }
 
 void GameLoader::savePlayerMovesToFile(const string& fileName) const {

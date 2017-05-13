@@ -36,6 +36,7 @@ protected:
 
 	void drawBoard() const;
 	void notifyKeyHit(char ch);
+	void clearPlayerGameData() const;
 	unsigned long timeStamp() const { return _timeStamp; };
 
 	virtual bool loadBoard(const std::string& fileName) = 0;

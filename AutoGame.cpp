@@ -29,10 +29,15 @@ bool AutoGame::loadBoard(const std::string& fileName) {
 
 	if (success) {
 		gameBoard = loader.gameBoard();
-		drawBoard();
+		success = loader.loadGameMovesFromFile(fileName);
+		if (success)
+			drawBoard();
 	}
-	else {
+
+	if (!success) {
 		loader.printErrors();
+		clearPlayerGameData();
+		delayEndGame();
 	}
 
 	return success;

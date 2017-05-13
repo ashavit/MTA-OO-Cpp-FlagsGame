@@ -164,10 +164,7 @@ void Game::endGame() const {
 	delayEndGame();
 
 	postGameActions();
-
-	// Delete ships and clear memory
-	playerA.clearFleetData();
-	playerB.clearFleetData();
+	clearPlayerGameData();
 
 	// End game
 	gameManager->finishGame(gameState == GameState::ABORT_AND_QUIT);
@@ -186,6 +183,12 @@ void Game::awardWinner() const {
 	else if (playerB.didPlayerLose()) {
 		playerA.incrementScore(Awards::LOSS);
 	}
+}
+
+void Game::clearPlayerGameData() const {
+	// Delete ships and clear memory
+	playerA.clearFleetData();
+	playerB.clearFleetData();
 }
 
 void Game::notifyKeyHit(char ch) {

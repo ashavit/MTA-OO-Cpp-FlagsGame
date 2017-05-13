@@ -46,6 +46,7 @@ bool KeyboardGame::loadBoard(const std::string& fileName) {
 	}
 	else {
 		loader.printErrors();
+		delayEndGame();
 	}
 
 	return success;
