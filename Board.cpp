@@ -54,9 +54,8 @@ Cell* Board::getRandomCellInRows(size_t from, size_t to) const {
 }
 
 Cell* Board::getNextCell(const Cell* cell, Direction direction) const {
-	int r, c;
-	r = cell->row;
-	c = cell->column;
+	int r = cell->row;
+	int c = cell->column;
 
 	switch (direction) {
 	case Direction::UP:
@@ -85,7 +84,6 @@ Cell* Board::getNextCell(const Cell* cell, Direction direction) const {
 //*********** Outputs ***********//
 
 void Board::drawBoard() const {
-	Cell* cell;
 	clearScreen();
 	for (int column = 1; column <= width; ++column) {
 		gotoxy(column, 0);
@@ -99,7 +97,7 @@ void Board::drawBoard() const {
 
 	for (int column = 0; column < width; ++column) {
 		for (int row = 0; row < height; ++row) {
-			cell = board[column][row];
+			Cell * cell = board[column][row];
 			drawCell(cell);
 		}
 	}

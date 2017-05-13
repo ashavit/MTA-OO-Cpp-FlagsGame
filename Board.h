@@ -1,7 +1,5 @@
 #pragma once
 
-#include <stdio.h>
-#include <list>
 #include "Cell.h"
 
 class Cell;
