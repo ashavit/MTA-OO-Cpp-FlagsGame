@@ -24,8 +24,8 @@ public:
 	void operator=(FileManager const&) = delete;
 
 	void loadAvailableFiles(const std::string& path);
-	const std::string nextFileName();
+	std::string nextFileName();
 	bool hasMoreBoards() const;
 
-	const std::string fileNameWithPath(const std::string fileName) const;
+	std::string fileNameWithPath(const std::string fileName, const std::string ext) const;
 };

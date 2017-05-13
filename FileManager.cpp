@@ -16,7 +16,7 @@ void FileManager::loadAvailableFiles(const string& path) {
 	char buffer[4096];
 	string data;
 	string command = "2>NUL dir /a-d /b ";
-	command.append(regulatedPath).append("*").append(BOARD_FILE_EXTENSION);
+	command.append(fileNameWithPath("*", BOARD_FILE_EXTENSION));
 
 	FILE* fp = _popen(command.c_str(), "r");
 
@@ -29,7 +29,7 @@ void FileManager::loadAvailableFiles(const string& path) {
 	filesLeft = boardFiles.size();
 }
 
-const string FileManager::nextFileName() {
+string FileManager::nextFileName() {
 	static auto& next = boardFiles.begin();
 	string name;
 	if (next != boardFiles.end()) {
@@ -44,8 +44,9 @@ bool FileManager::hasMoreBoards() const {
 	return filesLeft;
 }
 
-const string FileManager::fileNameWithPath(const string fileName) const {
-	return regulatedPath + fileName;
+string FileManager::fileNameWithPath(const string fileName, const std::string ext) const {
+	string fullPath = regulatedPath + fileName + "." + ext;
+	return fullPath;
 }
 
 void FileManager::regulatePath(const string path) {
@@ -54,6 +55,7 @@ void FileManager::regulatePath(const string path) {
 		regulatedPath = ".\\";
 	}
 	else if (path.find(':') == std::string::npos) {
+		// Relative Path
 		regulatedPath = ".";
 		if (path.substr(0, 1).compare("\\") != 0) {
 			regulatedPath.append("\\");
