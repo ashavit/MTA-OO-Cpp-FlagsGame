@@ -11,12 +11,12 @@ Authors:
 ##### Dear Instructor
 1. When downloading the project from MAMA, please uncomment the definition of `// #define Windows` in Config.h file.
 This definition allows compilation on MAMA for tests.
-
-2. When playing make sure to be on english keyboard no caps :)
+2. In same file, use the Debug flag to test memory leaks, and other print outs
+3. When playing make sure to be on english keyboard no caps :)
 
 
 ## Known Issues
 * Game board UI is not very spacious
+* File path for game loading/saving does not support spaces
 
 ## Open Tasks
-* Move save board logic to loader class
