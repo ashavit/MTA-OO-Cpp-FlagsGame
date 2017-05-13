@@ -19,7 +19,7 @@ KeyboardGame::~KeyboardGame() {
 }
 
 void KeyboardGame::setRecordMode(bool isRecordMode) {
-	isRecordMode = isRecordMode;
+	_isRecordMode = isRecordMode;
 }
 
 bool KeyboardGame::loadBoard(const std::string& fileName) {
@@ -37,7 +37,7 @@ bool KeyboardGame::loadBoard(const std::string& fileName) {
 	if (success) {
 		setGameBoard(loader.gameBoard());
 
-		if (!fromFile && isRecordMode) {
+		if (!fromFile && _isRecordMode) {
 			setGameName(loader.newRandomFileName());
 			loader.saveBoardToFile(gameName());
 		}
@@ -81,7 +81,7 @@ void KeyboardGame::delayEndGame() const {
 
 void KeyboardGame::postGameActions() const {
 	// Save move files if record mode
-	if (isRecordMode && gameName().size() > 0) {
+	if (_isRecordMode && gameName().size() > 0) {
 		playerA().endMoveList(timeStamp());
 		playerB().endMoveList(timeStamp());
 		GameLoader loader(playerA(), playerB());

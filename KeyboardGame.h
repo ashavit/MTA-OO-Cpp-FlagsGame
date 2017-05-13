@@ -8,7 +8,7 @@ class KeyboardGame : public Game
 {
 	static int aliveIns;
 
-	bool isRecordMode = false;
+	bool _isRecordMode = false;
 
 	virtual bool loadBoard(const std::string& fileName) override;
 	virtual void drawCellIfNeeded(Cell *cell) const override { drawCell(cell);  };
