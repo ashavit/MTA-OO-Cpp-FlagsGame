@@ -47,6 +47,8 @@ void Flags::run() {
 		}
 		while (!shouldExitProgram);
 	}
+
+	printGameSummary();
 }
 
 /* Called from Game when a game ends. If _shouldExit=true need to exit program */
@@ -163,4 +165,11 @@ void Flags::startAutoGame() {
 		currentGame->run();
 	else
 		finishGame(true);
+}
+
+void Flags::printGameSummary() const {
+	cout << "Game Summary" << endl;
+	cout << "A points: " << playerA.score() << endl;
+	cout << "B points: " << playerB.score() << endl;
+	waitForAnyKeyToContinue();
 }

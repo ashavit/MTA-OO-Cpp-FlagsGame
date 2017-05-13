@@ -23,6 +23,7 @@ class Flags {
 
 	void startKeyboardGame();
 	void startAutoGame();
+	void printGameSummary() const;
 
 public:
 	Flags();
