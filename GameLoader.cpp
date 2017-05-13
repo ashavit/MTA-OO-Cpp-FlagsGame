@@ -332,22 +332,22 @@ void GameLoader::saveMovesToFile(ofstream& movesFile, PlayerMoves& moves, int ro
 	movesFile << endl;
 }
 
-ifstream* GameLoader::openFileToRead(const std::string fileName) const {
+ifstream* GameLoader::openFileToRead(const std::string fileName) {
 	ifstream* file = new ifstream();
 	file->open(fileName); // default is text!
 	if (!file->good()) {
-		/// TODO: Handle Error
+		addUniqueError("Error opening " + fileName + " file to read");
 		file->close();
 		return nullptr;
 	}
 	return file;
 }
 
-ofstream* GameLoader::openFileToWrite(const std::string fileName) const {
+ofstream* GameLoader::openFileToWrite(const std::string fileName) {
 	ofstream* file = new ofstream();
 	file->open(fileName); // default is text!
 	if (!file->good()) {
-		/// TODO: Handle Error
+		addUniqueError("Error opening " + fileName + " file to write");
 		file->close();
 		return nullptr;
 	}

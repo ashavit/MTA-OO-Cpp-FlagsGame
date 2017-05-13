@@ -25,8 +25,8 @@ class GameLoader
 	void saveBoardToFile(std::ofstream& boardFile) const;
 	void saveMovesToFile(std::ofstream& movesFile, PlayerMoves& moves, int roundToMod2) const;
 
-	std::ifstream* openFileToRead(const std::string fileName) const;
-	std::ofstream* openFileToWrite(const std::string fileName) const;
+	std::ifstream* openFileToRead(const std::string fileName);
+	std::ofstream* openFileToWrite(const std::string fileName);
 	void closeAndReleaseFile(std::ifstream* file) const;
 	void closeAndReleaseFile(std::ofstream* file) const;
 
