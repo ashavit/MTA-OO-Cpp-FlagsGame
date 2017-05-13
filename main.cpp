@@ -11,6 +11,7 @@
 using namespace std;
 
 #include "Flags.h"
+#include "Utils.h"
 #include "GameLoader.h"
 #include "AutoGame.h"
 #include "KeyboardGame.h"
@@ -31,8 +32,7 @@ void test_printMemoryLeakStatus() {
 	cout << "There are " << PlayerMoves::aliveInstances() << " instances of PlayerMoves objects alive" << endl;
 	cout << "There are " << PlayerMoves::Move::aliveInstances() << " instances of Move objects alive" << endl;
 
-	char t;
-	cin >> t;
+	waitForAnyKeyToContinue();
 }
 
 int main(int argc, const char * argv[]) {

@@ -45,4 +45,5 @@ void waitForAnyKeyToContinue()
 {
 	cout << endl << "Press any key to continue..." << endl;
 	while (!_kbhit()) {	}
+	_getch(); // Clear out last key hit from buffer
 }
