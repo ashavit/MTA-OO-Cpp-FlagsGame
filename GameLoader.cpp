@@ -136,7 +136,6 @@ Board* GameLoader::loadRandomBoard(UINT width, UINT height) const {
 
 	b->randomPlaceSpecialCells(CellType::SEA, seas);
 	b->randomPlaceSpecialCells(CellType::FORREST, forests);
-	b->printBoard();
 
 	b->getRandomCellInRows(playerAHomeMin, playerAHomeMax)->setCellType(FLAG_A);
 	b->getRandomCellInRows(playerBHomeMin, playerBHomeMax)->setCellType(FLAG_B);
@@ -153,8 +152,6 @@ Board* GameLoader::loadRandomBoard(UINT width, UINT height) const {
 		Ship* ship = new Ship(playerB, static_cast<ShipType>(type), c);
 		c->setStandingShip(ship);
 	}
-
-	b->printBoard();
 
 	return b;
 }
@@ -256,7 +253,6 @@ Board* GameLoader::loadBoardFromFile(ifstream& boardFile, const string& fileName
 		return nullptr;
 	}
 
-	b->printBoard();
 	return b;
 }
 

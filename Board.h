@@ -39,7 +39,6 @@ public:
 
 	Cell* getNextCell(const Cell* cell, Direction direction) const;
 
-	void printBoard() const;
 	void drawBoard() const;
 	void drawCell(Cell* cell) const;
 	void printMessage(const std::string message, bool onFullScreen) const;

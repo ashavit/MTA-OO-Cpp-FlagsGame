@@ -138,43 +138,6 @@ void Board::drawCell(Cell* cell) const {
 	cout.flush();
 }
 
-void Board::printBoard() const {
-	if (DEBUG) {
-		for (UINT row = 0; row < height; ++row) {
-			cout << "  ";
-			for (UINT col = 0; col < width; ++col) {
-				Cell* c = board[col][row];
-				if (c->getStandingShip() != nullptr) {
-					cout << static_cast<int>(c->getStandingShip()->type());
-				}
-				else {
-					switch (c->getCellType()) {
-					case FORREST:
-						cout << BOARD_MARK_FOREST;
-						break;
-					case SEA:
-						cout << BOARD_MARK_SEA;
-						break;
-					case FLAG_A:
-						cout << BOARD_MARK_FLAG_A;
-						break;
-					case FLAG_B:
-						cout << BOARD_MARK_FLAG_B;
-						break;
-
-					default:
-						cout << '-';
-						break;
-					}
-				}
-				cout << "  ";
-			}
-			cout << endl;
-		}
-		cout << endl << endl;
-	}
-}
-
 void Board::printMessage(const string message, bool onFullScreen) const {
 	setTextColor(WHITE);
 	if (onFullScreen) {
