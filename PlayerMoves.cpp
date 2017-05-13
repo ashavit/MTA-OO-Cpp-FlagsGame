@@ -24,7 +24,7 @@ void PlayerMoves::addMove(unsigned long ts, Ship& ship, Direction dir) {
 	addMove(ts, static_cast<int>(ship.type()), PlayerMoves::charFromDirection(dir));
 }
 
-const PlayerMoves::Move*const PlayerMoves::getMove(unsigned long ts) {
+const PlayerMoves::Move* PlayerMoves::getMove(unsigned long ts) {
 	PlayerMoves::Move* res = nullptr;
 	auto itr = _moves.find(ts);
 	if (itr != _moves.end() && itr->second->isMoveValid()) // Ignore bad moves

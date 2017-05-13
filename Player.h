@@ -1,6 +1,5 @@
 #pragma once
 
-#include <stdio.h>
 #include <string>
 #include "Ship.h"
 
@@ -34,7 +33,7 @@ class Player
 
 	void setActiveShip(Ship* active);
 	void setActiveShipDirection(Direction direction, unsigned long timeStamp);
-	int shipIndexByType(ShipType type);
+	int shipIndexByType(ShipType type) const;
 
 	bool autoMode = false;
 	PlayerMoves* movesMap = nullptr;

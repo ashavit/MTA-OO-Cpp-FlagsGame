@@ -7,6 +7,7 @@
 #include "KeyboardGame.h"
 #include "GameLoader.h"
 #include "PlayerMoves.h"
+#include "ConfigurationManager.h"
 
 using namespace std;
 

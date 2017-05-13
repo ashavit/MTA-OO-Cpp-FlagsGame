@@ -1,7 +1,5 @@
 #pragma once
 
-#include <stdio.h>
-#include "ConfigurationManager.h"
 #include "Game.h"
 #include "Player.h"
 

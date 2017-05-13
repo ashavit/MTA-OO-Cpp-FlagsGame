@@ -38,13 +38,12 @@ Board::~Board() {
 
 Cell* Board::getRandomCellInRows(size_t from, size_t to) const {
 	Cell* ptrRes = nullptr;
-	Cell* ptrTemp = nullptr;
 	size_t range = to - from + 1;
 
 	do {
 		int r = static_cast<int>((rand() % range) + from - 1);
 		int c = rand() % width;
-		ptrTemp = board[c][r];
+		Cell * ptrTemp = board[c][r];
 		if (ptrTemp->getCellType() == CellType::REGULAR && ptrTemp->getStandingShip() == nullptr) {
 			ptrRes = ptrTemp;;
 		}

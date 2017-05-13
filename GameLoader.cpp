@@ -1,15 +1,13 @@
 #include <iostream>
 #include <fstream>
-#include "Utils.h"
+#include <sstream>
 #include "Commons.h"
-#include "ConfigurationManager.h"
 #include "FileManager.h"
 #include "GameLoader.h"
 #include "Player.h"
 #include "Board.h"
 #include "Cell.h"
 #include "PlayerMoves.h"
-#include <sstream>
 
 using namespace std;
 
@@ -46,7 +44,7 @@ bool GameLoader::loadGameFromFile(const string& fileName) {
 	return (_gameBoard != nullptr);
 }
 
-bool GameLoader::loadGameMovesFromFile(const string& fileName) {
+bool GameLoader::loadGameMovesFromFile(const string& fileName) const {
 	bool didLoadMoves = false;
 
 	// Try to load player moves
@@ -165,7 +163,7 @@ Board* GameLoader::loadRandomBoard(UINT width, UINT height) const {
 	return b;
 }
 
-Board* GameLoader::loadBoardFromFile(ifstream& boardFile, const string& fileName, UINT width, UINT height) {
+Board* GameLoader::loadBoardFromFile(ifstream& boardFile, const string& fileName, UINT width, UINT height) const {
 	Board* b = new Board(width, height);
 
 	char validateToolsA = 0, validateToolsB = 0;
@@ -265,7 +263,7 @@ Board* GameLoader::loadBoardFromFile(ifstream& boardFile, const string& fileName
 	return b;
 }
 
-PlayerMoves* GameLoader::loadPlayerMovesFromFile(ifstream& movesFile) {
+PlayerMoves* GameLoader::loadPlayerMovesFromFile(ifstream& movesFile) const {
 	PlayerMoves* res = new PlayerMoves();
 	long ts, last = 0;
 	int ship;

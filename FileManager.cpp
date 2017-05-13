@@ -30,7 +30,7 @@ void FileManager::loadAvailableFiles(const string& path) {
 }
 
 string FileManager::nextFileName() {
-	static auto& next = boardFiles.begin();
+	static auto next = boardFiles.begin();
 	string name;
 	if (next != boardFiles.end()) {
 		name.assign(*next);
@@ -86,7 +86,7 @@ bool compare_nocase(const string& first, const string& second) {
 }
 
 void FileManager::parseFileNames(string& data) {
-	int end = 0;
+	int end;
 
 	while ((end = data.find('\n')) != string::npos) {
 		string fileName;

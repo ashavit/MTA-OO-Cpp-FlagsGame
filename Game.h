@@ -1,6 +1,5 @@
 #pragma once
 
-#include <stdio.h>
 #include <string>
 
 class Flags;

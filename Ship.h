@@ -1,7 +1,5 @@
 #pragma once
 
-#include <stdio.h>
-
 class Player;
 class Cell;
 

@@ -44,7 +44,7 @@ public:
 
 	void addMove(unsigned long ts, int ship, char dir);
 	void addMove(unsigned long ts, Ship& ship, Direction dir);
-	const Move* const getMove(unsigned long timeStamp);
+	const Move* getMove(unsigned long timeStamp);
 
 	std::map<unsigned long, Move*> getMovesList() const { return _moves; }
 	unsigned int moveCount() const { return _moves.size(); }

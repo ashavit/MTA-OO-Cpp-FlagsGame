@@ -1,3 +1,4 @@
+#include <iostream>
 #include "Config.h"
 #include "Game.h"
 #include "GameLoader.h"
@@ -12,7 +13,7 @@ int Game::staticRoundCounter = 0;
 int Game::aliveIns = 0;
 
 Game::Game(Player& playerA, Player& playerB, Flags* manager, int delay)
-	: _gameManager(manager), _playerA(playerA), _playerB(playerB), _delayTurnPeriod(delay) {
+	: _playerA(playerA), _playerB(playerB), _delayTurnPeriod(delay), _gameManager(manager) {
 	aliveIns++;
 	staticRoundCounter++;
 }

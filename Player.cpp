@@ -160,7 +160,7 @@ void Player::setActiveShipDirection(Direction direction, unsigned long ts) {
 	}
 }
 
-int Player::shipIndexByType(ShipType type) {
+int Player::shipIndexByType(ShipType type) const {
 	return ((type - 1) % FLEET_SIZE);
 }
 

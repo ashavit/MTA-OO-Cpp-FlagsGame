@@ -1,6 +1,5 @@
 #pragma once
 
-#include <iostream>
 #include "Config.h"
 #include "Ship.h"
 
