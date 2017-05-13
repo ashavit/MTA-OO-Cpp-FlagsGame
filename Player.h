@@ -45,8 +45,9 @@ public:
 	void handleLoadedMoveIfNeeded(unsigned long timeStamp);
 
 	PlayerMoves& moves(); // Lazy init + convert pointer to reff
-	void setMoves(PlayerMoves *moves);
+	void setMoves(PlayerMoves *moves) { movesMap = moves; };
 	bool didFinishAutoMoves(unsigned long timeStamp);
+	void setAutoMode(bool isAuto) { autoMode = isAuto; }
 	bool isAutoMode() {	return autoMode; };
 	void endMoveList(unsigned long timeStamp);
 

@@ -12,16 +12,17 @@ class Flags {
     Game* currentGame = nullptr;
     bool shouldExitProgram = false;
     bool isRecordMode = false;
+
+	static bool isAutoModeEnabled();
     
     void selectPlayerNames();
-    void beginNewGame();
-    void beginReverseGame();
+    void beginKeyboardGame();
+    void beginReverseKeyboardGame();
     void resetPlayerScores();
     void toggleRecordMode();
 
-    void startGame();
-
-    void test_setupStates();
+	void startKeyboardGame();
+	void startAutoGame();
 
 public:
 	Flags();
@@ -29,8 +30,9 @@ public:
 	Flags(Flags const&) = delete;
 	void operator=(Flags const&) = delete;
 
-    void configure(int argc, const char * argv[]);
+	static void configure(int argc, const char * argv[]);
     void run();
     void finishGame(bool shouldExitProgram);
-
+	void displayMenu() const;
+	void HandleMenuInput();
 };

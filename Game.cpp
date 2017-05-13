@@ -1,11 +1,3 @@
-//
-//  Game.cpp
-//  Cpp-FlagsProject
-//
-//  Created by Amir Shavit on 28/03/2017.
-//  Copyright © 2017 Amir Shavit. All rights reserved.
-//
-
 #include "Config.h"
 #include "Game.h"
 #include "GameLoader.h"
@@ -19,24 +11,16 @@
 int Game::roundCounter = 0;
 int Game::aliveIns = 0;
 
-Game::Game(Player& playerA, Player& playerB, Flags* manager)
-	: playerA(playerA), playerB(playerB), gameManager(manager) {
+Game::Game(Player& playerA, Player& playerB, Flags* manager, int delay)
+	: gameManager(manager), playerA(playerA), playerB(playerB), delayTurnPeriod(delay) {
 	aliveIns++;
 	roundCounter++;
-
-	// Define player keys
-	playerA.setKeys("123wxads");
-	playerB.setKeys("789imjlk");
 }
 
 Game::~Game() {
 	aliveIns--;
 	if (gameBoard != nullptr)
 		delete gameBoard;
-}
-
-void Game::setRecordMode(bool isRecordMode) {
-	this->isRecordMode = isRecordMode;
 }
 
 bool Game::loadRandomBoard() {
@@ -47,45 +31,16 @@ bool Game::loadBoardFromFile(const std::string& fileName) {
 	return loadBoard(fileName);
 }
 
-bool Game::loadBoard(const std::string& fileName) {
-	GameLoader loader(playerA, playerB);
-	bool fromFile = (fileName.size() > 0);
-	bool success;
-	if (fromFile) {
-		gameName = fileName;
-		success = loader.loadGameFromFile(fileName);
-	}
-	else {
-		success = loader.loadRandomGame();
-	}
-
-	if (success) {
-		gameBoard = loader.gameBoard();
-
-		if (!fromFile && isRecordMode) {
-			gameName = loader.newRandomFileName();
-			loader.saveBoardToFile(gameName);
-		}
-
-		drawBoard();
-	}
-	else {
-		loader.printErrors();
-	}
-
-	return success;
-}
-
 void Game::run() {
 	// Verify board was loaded
 	bool boardReady = (gameBoard != nullptr);
 
 	while (boardReady) {
-		++timeStamp;
-		Player& activePlayer = ((timeStamp % 2) ? playerA : playerB);
+		++_timeStamp;
+		Player& activePlayer = ((_timeStamp % 2) ? playerA : playerB);
 		handlePlayerTurn(activePlayer);
 		if (isGameOver()) break;
-		Sleep(100);
+		Sleep(delayTurnPeriod);
 		handleKeyboardInput();
 	}
 
@@ -115,7 +70,7 @@ void Game::drawBoard() const {
 }
 
 void Game::handlePlayerTurn(Player& p) const {
-	p.handleLoadedMoveIfNeeded(timeStamp);
+	p.handleLoadedMoveIfNeeded(_timeStamp);
 
 	for (int i = 0; i < FLEET_SIZE; ++i) {
 		Ship* s = p.getShip(i);
@@ -192,23 +147,12 @@ void Game::handleBattle(Ship* shipA, Ship* shipB, Cell* cell) const {
 	winner->moveToCell(cell);
 }
 
-void Game::handleKeyboardInput() {
-	if (_kbhit()) {
-		char ch = _getch();
-		playerA.notifyKeyHit(ch, timeStamp);
-		playerB.notifyKeyHit(ch, timeStamp);
-		notifyKeyHit(ch);
-	}
-}
-
 bool Game::isGameOver() const {
 	return (gameState != GameState::IN_PROGRESS ||
 		playerA.didPlayerWin() ||
 		playerB.didPlayerWin() ||
 		playerA.didPlayerLose() ||
-		playerB.didPlayerLose() ||
-		(playerA.didFinishAutoMoves(timeStamp) && playerB.didFinishAutoMoves(timeStamp))
-	);
+		playerB.didPlayerLose());
 }
 
 void Game::endGame() const {
@@ -216,25 +160,9 @@ void Game::endGame() const {
 	awardWinner();
 
 	// Print message to board
-	std::string message;
-	if (playerA.didPlayerWin() || playerB.didPlayerLose()) {
-		message = playerA.name() + " won !!!!!";
-	}
-	else if (playerA.didPlayerLose() || playerB.didPlayerWin()) {
-		message = playerB.name() + " won !!!!!";
-	}
-	else {
-		message = "No winners!";
-	}
-	gameBoard->printMessage(message, true, true);
+	gameBoard->printMessage(endGameMessage(), true, true);
 
-	// Save move files if record mode
-	if (isRecordMode && gameName.size() > 0) {
-		playerA.endMoveList(timeStamp);
-		playerB.endMoveList(timeStamp);
-		GameLoader loader(playerA, playerB);
-		loader.savePlayerMovesToFile(gameName);
-	}
+	postGameActions();
 
 	// Delete ships and clear memory
 	playerA.clearFleetData();
@@ -307,6 +235,5 @@ void Game::displaySubMenu() {
 void Game::restartGame() {
 	playerA.restartGame();
 	playerB.restartGame();
-	timeStamp = 0;
-	drawBoard();
+	_timeStamp = 0;
 }

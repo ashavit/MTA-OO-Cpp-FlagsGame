@@ -177,14 +177,8 @@ PlayerMoves & Player::moves() {
 	// Lazy init
 	if (movesMap == nullptr) {
 		movesMap = new PlayerMoves();
-		autoMode = false;
 	}
 	return *movesMap;
-}
-
-void Player::setMoves(PlayerMoves * moves) {
-	movesMap = moves;
-	autoMode = true;
 }
 
 bool Player::didFinishAutoMoves(unsigned long ts) {

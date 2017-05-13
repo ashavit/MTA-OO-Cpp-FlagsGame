@@ -39,6 +39,8 @@ const PlayerMoves::Move *const  PlayerMoves::getMove(unsigned long ts) {
 
 bool PlayerMoves::isEnded(unsigned long ts)
 {
+	if (_moves.crbegin() == _moves.crend())
+		return true;;
 	return (ts > _moves.crbegin()->first);
 }
 

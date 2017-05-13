@@ -8,8 +8,11 @@
 
 #include "Flags.h"
 #include <iostream>
+#include "Config.h"
 #include "Utils.h"
 #include "FileManager.h"
+#include "AutoGame.h"
+#include "KeyboardGame.h"
 
 using namespace std;
 
@@ -38,46 +41,21 @@ void Flags::configure(int argc, const char * argv[]) {
 
 void Flags::run() {
     
-    int selection;
 	hideCursor();
 
-    do {
-        //test_setupStates();
-
-        cout << "Please select an option:" << endl;
-        cout << "1. Select Players Name" << endl;
-        cout << "2. Begin a new game" << endl;
-        cout << "3. Begin a new reverse game" << endl;
-        cout << "4. Reset players score" << endl;
-        cout << "5. " << (isRecordMode ? "Stop" : "Start") << " record mode" << endl;
-        cout << "9. Quit" << endl;
-        cin >> selection;
-        
-        switch (selection) {
-            case 1:
-                selectPlayerNames();
-                break;
-            case 2:
-                beginNewGame();
-                break;
-            case 3:
-                beginReverseGame();
-                break;
-            case 4:
-                resetPlayerScores();
-                break;
-            case 5:
-                toggleRecordMode();
-                break;
-            case 9:
-                finishGame(true);
-                break;
-                
-            default:
-                cout << "Selection undefined" << endl;
-                break;
-        }
-    } while (!shouldExitProgram);
+	if (isAutoModeEnabled()) {
+		while(!shouldExitProgram && FileManager::sharedInstance().hasMoreBoards()) {
+			startAutoGame();
+			Sleep(ConfigurationManager::sharedInstance().delayBetweenGames());
+		}
+	}
+	else
+	{
+		do {
+			displayMenu();
+			HandleMenuInput();
+		} while (!shouldExitProgram);
+	}
 }
 
 /* Called from Game when a game ends. If _shouldExit=true need to exit program */
@@ -93,19 +71,61 @@ void Flags::finishGame(bool _shouldExit) {
 
 //*********** Private ***********//
 
+void Flags::displayMenu() const
+{
+	cout << "Please select an option:" << endl;
+	cout << "1. Select Players Name" << endl;
+	cout << "2. Begin a new game" << endl;
+	cout << "3. Begin a new reverse game" << endl;
+	cout << "4. Reset players score" << endl;
+	cout << "5. " << (isRecordMode ? "Stop" : "Start") << " record mode" << endl;
+	cout << "9. Quit" << endl;
+}
+
+void Flags::HandleMenuInput()
+{
+	int selection;
+	cin >> selection;
+
+	switch (selection) {
+	case 1:
+		selectPlayerNames();
+		break;
+	case 2:
+		beginKeyboardGame();
+		break;
+	case 3:
+		beginReverseKeyboardGame();
+		break;
+	case 4:
+		resetPlayerScores();
+		break;
+	case 5:
+		toggleRecordMode();
+		break;
+	case 9:
+		finishGame(true);
+		break;
+
+	default:
+		cout << "Selection undefined" << endl;
+		break;
+	}
+}
+
 void Flags::selectPlayerNames() {
     playerA.updateName();
     playerB.updateName();
 }
 
-void Flags::beginNewGame() {
-    currentGame = new Game(playerA, playerB, this);
-    startGame();
+void Flags::beginKeyboardGame() {
+    currentGame = new KeyboardGame(playerA, playerB, this, ConfigurationManager::sharedInstance().delay());
+    startKeyboardGame();
 }
 
-void Flags::beginReverseGame() {
-    currentGame = new Game(playerB, playerA, this);
-    startGame();
+void Flags::beginReverseKeyboardGame() {
+    currentGame = new KeyboardGame(playerB, playerA, this, ConfigurationManager::sharedInstance().delay());
+    startKeyboardGame();
 }
 
 void Flags::resetPlayerScores() {
@@ -119,7 +139,12 @@ void Flags::toggleRecordMode() {
 	cout << "Record mode is now " << (isRecordMode ? "enabled" : "disblaed") << endl << endl;
 }
 
-void Flags::startGame() {
+bool Flags::isAutoModeEnabled() {
+	ConfigurationManager& cManager = ConfigurationManager::sharedInstance();
+	return cManager.boardMode() == ConfigurationManager::BOARD_FILE && cManager.movesMode() == ConfigurationManager::MOVES_FILE;
+}
+
+void Flags::startKeyboardGame() {
     currentGame->setRecordMode(isRecordMode);
 
 	bool loadSuccess;
@@ -137,18 +162,14 @@ void Flags::startGame() {
 		finishGame(true);
 }
 
-//*********** Test functions ***********//
+void Flags::startAutoGame() {
+	currentGame = new AutoGame(playerA, playerB, this, ConfigurationManager::sharedInstance().delay());
 
-void Flags::test_setupStates() {
+	bool loadSuccess = FileManager::sharedInstance().hasMoreBoards() &&
+			currentGame->loadBoardFromFile(FileManager::sharedInstance().nextFileName());
 
-    static int runTwice = 0;
-    if (runTwice < 2) {
-        playerA.incrementScore(40);
-        playerB.incrementScore(70);
-        runTwice++;
-    }
- 
-    cout << endl << "player A = " << playerA.name() << ", player b = " << playerB.name() << endl;
-    cout << "player A score= " << playerA.score() << ", player B score = " << playerB.score() << endl << endl;
-
+	if (loadSuccess)
+		currentGame->run();
+	else
+		finishGame(true);
 }

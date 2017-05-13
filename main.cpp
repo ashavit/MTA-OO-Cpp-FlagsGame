@@ -12,11 +12,15 @@ using namespace std;
 
 #include "Flags.h"
 #include "GameLoader.h"
+#include "AutoGame.h"
+#include "KeyboardGame.h"
 #include "Board.h"
 #include "PlayerMoves.h"
 
 void test_printMemoryLeakStatus() {
 	cout << endl << "There are " << Game::aliveInstances() << " instances of Game objects alive" << endl;
+	cout << endl << "There are " << KeyboardGame::aliveInstances() << " instances of KeybaordGame objects alive" << endl;
+	cout << endl << "There are " << AutoGame::aliveInstances() << " instances of AutoGame objects alive" << endl;
 	cout << "There are " << GameLoader::aliveInstances() << " instances of GameLoader objects alive" << endl;
 	cout << "There are " << Board::aliveInstances() << " instances of Board objects alive" << endl;
 	cout << "There are " << Cell::aliveInstances() << " instances of Cell objects alive" << endl << endl;

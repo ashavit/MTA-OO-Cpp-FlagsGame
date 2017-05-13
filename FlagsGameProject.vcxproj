@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AutoGame.h" />
     <ClInclude Include="Board.h" />
     <ClInclude Include="Cell.h" />
     <ClInclude Include="Config.h" />
@@ -28,12 +29,14 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameLoader.h" />
     <ClInclude Include="Commons.h" />
+    <ClInclude Include="KeyboardGame.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerMoves.h" />
     <ClInclude Include="Ship.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AutoGame.cpp" />
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="Cell.cpp" />
     <ClCompile Include="Config.cpp" />
@@ -42,6 +45,7 @@
     <ClCompile Include="Flags.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameLoader.cpp" />
+    <ClCompile Include="KeyboardGame.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerMoves.cpp" />
