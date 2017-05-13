@@ -16,8 +16,8 @@ class Game {
 	enum Awards { WIN = 50, LOSS = 30 };
 	enum GameState { IN_PROGRESS, ABORTED, ABORT_AND_QUIT };
 
-    Player& playerB;
-    Player& playerA;
+	Player& playerA;
+	Player& playerB;
     Flags* gameManager = nullptr;
     Board* gameBoard = nullptr;
 	std::string gameName;
@@ -27,14 +27,14 @@ class Game {
 	unsigned long timeStamp = 0;
 
 	bool loadBoard(const std::string& fileName);
-	void drawBoard();
-    void handlePlayerTurn(Player& p);
-	void handleBattle(Ship* shipA, Ship* shipB, Cell* cell);
+	void drawBoard() const;
+    void handlePlayerTurn(Player& p) const;
+	void handleBattle(Ship* shipA, Ship* shipB, Cell* cell) const;
 	void handleKeyboardInput();
 
-	bool isGameOver();
-	void endGame();
-    void awardWinner();
+	bool isGameOver() const;
+	void endGame() const;
+    void awardWinner() const;
 	void notifyKeyHit(char ch);
 	void restartGame();
 	void displaySubMenu();

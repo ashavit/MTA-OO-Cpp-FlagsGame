@@ -20,11 +20,11 @@ int Game::roundCounter = 0;
 int Game::aliveIns = 0;
 
 Game::Game(Player& playerA, Player& playerB, Flags* manager)
-    : playerA(playerA), playerB(playerB), gameManager(manager) {
+	: playerA(playerA), playerB(playerB), gameManager(manager) {
 	aliveIns++;
-    roundCounter++;
+	roundCounter++;
 
-    // Define player keys
+	// Define player keys
 	playerA.setKeys("123wxads");
 	playerB.setKeys("789imjlk");
 }
@@ -36,7 +36,7 @@ Game::~Game() {
 }
 
 void Game::setRecordMode(bool isRecordMode) {
-    this->isRecordMode = isRecordMode;
+	this->isRecordMode = isRecordMode;
 }
 
 bool Game::loadRandomBoard() {
@@ -50,7 +50,7 @@ bool Game::loadBoardFromFile(const std::string& fileName) {
 bool Game::loadBoard(const std::string& fileName) {
 	GameLoader loader(playerA, playerB);
 	bool fromFile = (fileName.size() > 0);
-	bool success = false;
+	bool success;
 	if (fromFile) {
 		gameName = fileName;
 		success = loader.loadGameFromFile(fileName);
@@ -80,21 +80,21 @@ void Game::run() {
 	// Verify board was loaded
 	bool boardReady = (gameBoard != nullptr);
 
-    while (boardReady) {
+	while (boardReady) {
 		++timeStamp;
 		Player& activePlayer = ((timeStamp % 2) ? playerA : playerB);
-        handlePlayerTurn(activePlayer);
-        if (isGameOver()) break;
+		handlePlayerTurn(activePlayer);
+		if (isGameOver()) break;
 		Sleep(100);
 		handleKeyboardInput();
-    }
+	}
 
 	endGame();
 }
 
 //*********** Private Helpers ***********//
 
-void Game::drawBoard() {
+void Game::drawBoard() const {
 	gameBoard->drawBoard();
 
 	// Draw Players Names
@@ -114,41 +114,42 @@ void Game::drawBoard() {
 	std::cout.flush();
 }
 
-void Game::handlePlayerTurn(Player& p) {
+void Game::handlePlayerTurn(Player& p) const {
 	p.handleLoadedMoveIfNeeded(timeStamp);
 
-    for (int i = 0; i < FLEET_SIZE; ++i) {
-        Ship* s = p.getShip(i);
-        Cell *moveTo = (s->alive() ? gameBoard->getNextCell(s->cell(), s->direction()) : nullptr);
-        
-        if (moveTo != nullptr && s->canMoveToCell(moveTo)) {
-            if (moveTo->getStandingShip() == nullptr) { // If cell is empty - move there
-				Cell *old = s->cell();
+	for (int i = 0; i < FLEET_SIZE; ++i) {
+		Ship* s = p.getShip(i);
+		Cell* moveTo = (s->alive() ? gameBoard->getNextCell(s->cell(), s->direction()) : nullptr);
+
+		if (moveTo != nullptr && s->canMoveToCell(moveTo)) {
+			if (moveTo->getStandingShip() == nullptr) { // If cell is empty - move there
+				Cell* old = s->cell();
 				s->moveToCell(moveTo);
 				gameBoard->drawCell(s->cell());
 				gameBoard->drawCell(old);
 			}
-            else if (moveTo->getStandingShip()->owner() != p) { // If Cell is occupied by other player - fight
-				Cell *old = s->cell();
+			else if (moveTo->getStandingShip()->owner() != p) { // If Cell is occupied by other player - fight
+				Cell* old = s->cell();
 				handleBattle((p == playerA ? s : moveTo->getStandingShip()),
-					(p == playerB ? s : moveTo->getStandingShip()),
-					moveTo);
+				             (p == playerB ? s : moveTo->getStandingShip()),
+				             moveTo);
 
 				// Redraw both cells no matter who won
 				gameBoard->drawCell(moveTo);
 				gameBoard->drawCell(old);
 			}
-        }
-        // Else don't move ship
-    }
+		}
+		// Else don't move ship
+	}
 }
 
-void Game::handleBattle(Ship* shipA, Ship* shipB, Cell* cell) {
+void Game::handleBattle(Ship* shipA, Ship* shipB, Cell* cell) const {
 	// PlayerA ships lose in most cases
 	Ship *winner = shipB, *loser = shipA;
 
 	switch (shipA->type()) {
-		case ShipType::SHIP1: {
+	case ShipType::SHIP1:
+		{
 			// Ship1 always wins except colD or rows 10-13
 			if (cell->getColumn() != 'D' &&
 				!(cell->getRow() >= 10 && cell->getRow() <= 13)) {
@@ -157,17 +158,19 @@ void Game::handleBattle(Ship* shipA, Ship* shipB, Cell* cell) {
 			}
 			break;
 		}
-		case ShipType::SHIP2: {
+	case ShipType::SHIP2:
+		{
 			// Ship2 only wins ships7/8 at col K and rows 3-4
 			if (shipB->type() != ShipType::SHIP9 &&
 				(cell->getColumn() == 'K' ||
-				(cell->getRow() >= 3 && cell->getRow() <= 4))) {
+					(cell->getRow() >= 3 && cell->getRow() <= 4))) {
 				winner = shipA;
 				loser = shipB;
 			}
 			break;
 		}
-		case ShipType::SHIP3: {
+	case ShipType::SHIP3:
+		{
 			// Ship3 always wins at col G and row 8
 			if (cell->getColumn() == 'G' || cell->getRow() == 8) {
 				winner = shipA;
@@ -175,13 +178,13 @@ void Game::handleBattle(Ship* shipA, Ship* shipB, Cell* cell) {
 			}
 			break;
 		}
-		default:
-			break;
+	default:
+		break;
 	}
 
 	// Print message at bottom of board
-	const std::string message = std::string("Ship") + std::to_string((int)winner->type()) + 
-		" won Ship" + std::to_string((int)loser->type()) + 
+	const std::string message = std::string("Ship") + std::to_string(static_cast<int>(winner->type())) +
+		" won Ship" + std::to_string(static_cast<int>(loser->type())) +
 		" @ cell (" + cell->getColumn() + "," + std::to_string(cell->getRow()) + ")";
 	gameBoard->printMessage(message, false, false);
 
@@ -190,26 +193,25 @@ void Game::handleBattle(Ship* shipA, Ship* shipB, Cell* cell) {
 }
 
 void Game::handleKeyboardInput() {
-	char ch = 0;
 	if (_kbhit()) {
-		ch = _getch();
+		char ch = _getch();
 		playerA.notifyKeyHit(ch, timeStamp);
 		playerB.notifyKeyHit(ch, timeStamp);
 		notifyKeyHit(ch);
 	}
 }
 
-bool Game::isGameOver() {
-    return (gameState != GameState::IN_PROGRESS ||
-			playerA.didPlayerWin() ||
-            playerB.didPlayerWin() ||
-            playerA.didPlayerLose() ||
-            playerB.didPlayerLose() ||
-			(playerA.didFinishAutoMoves(timeStamp) && playerB.didFinishAutoMoves(timeStamp))
-		);
+bool Game::isGameOver() const {
+	return (gameState != GameState::IN_PROGRESS ||
+		playerA.didPlayerWin() ||
+		playerB.didPlayerWin() ||
+		playerA.didPlayerLose() ||
+		playerB.didPlayerLose() ||
+		(playerA.didFinishAutoMoves(timeStamp) && playerB.didFinishAutoMoves(timeStamp))
+	);
 }
 
-void Game::endGame() {
+void Game::endGame() const {
 	// Add points to winner
 	awardWinner();
 
@@ -242,13 +244,13 @@ void Game::endGame() {
 	gameManager->finishGame(gameState == GameState::ABORT_AND_QUIT);
 }
 
-void Game::awardWinner() {
-    if (playerA.didPlayerWin()) {
-        playerA.incrementScore(Awards::WIN);
-    }
-    else if (playerB.didPlayerWin()) {
-        playerB.incrementScore(Awards::WIN);
-    }
+void Game::awardWinner() const {
+	if (playerA.didPlayerWin()) {
+		playerA.incrementScore(Awards::WIN);
+	}
+	else if (playerB.didPlayerWin()) {
+		playerB.incrementScore(Awards::WIN);
+	}
 	else if (playerA.didPlayerLose()) {
 		playerB.incrementScore(Awards::LOSS);
 	}
@@ -298,8 +300,8 @@ void Game::displaySubMenu() {
 			handled = false;
 			break;
 		}
-	} while (!handled);
-
+	}
+	while (!handled);
 }
 
 void Game::restartGame() {
