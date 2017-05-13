@@ -13,6 +13,8 @@ class AutoGame : public Game
 	void drawBoardIfNeeded() const;
 
 	virtual bool loadBoard(const std::string& fileName) override;
+	virtual void drawCellIfNeeded(Cell *cell) const override;
+	virtual void printBattleResultIfNeeded(std::string result) const override;
 	virtual void handleKeyboardInput() override;
 	virtual std::string endGameMessage() const override;
 	virtual void delayEndGame() const override;

@@ -11,6 +11,8 @@ class KeyboardGame : public Game
 	bool isRecordMode = false;
 
 	virtual bool loadBoard(const std::string& fileName) override;
+	virtual void drawCellIfNeeded(Cell *cell) const override { drawCell(cell);  };
+	virtual void printBattleResultIfNeeded(std::string result) const override { printBattleResult(result); };
 	virtual void handleKeyboardInput() override;
 	virtual std::string endGameMessage() const override;
 	virtual void delayEndGame() const override;

@@ -69,6 +69,14 @@ void Game::drawBoard() const {
 	std::cout.flush();
 }
 
+void Game::drawCell(Cell *cell) const {
+	gameBoard->drawCell(cell);
+}
+
+void Game::printBattleResult(std::string result) const {
+	gameBoard->printMessage(result, false, 10, 5);
+}
+
 void Game::handlePlayerTurn(Player& p) const {
 	p.handleLoadedMoveIfNeeded(_timeStamp);
 
@@ -80,8 +88,8 @@ void Game::handlePlayerTurn(Player& p) const {
 			if (moveTo->getStandingShip() == nullptr) { // If cell is empty - move there
 				Cell* old = s->cell();
 				s->moveToCell(moveTo);
-				gameBoard->drawCell(s->cell());
-				gameBoard->drawCell(old);
+				drawCellIfNeeded(s->cell());
+				drawCellIfNeeded(old);
 			}
 			else if (moveTo->getStandingShip()->owner() != p) { // If Cell is occupied by other player - fight
 				Cell* old = s->cell();
@@ -90,8 +98,8 @@ void Game::handlePlayerTurn(Player& p) const {
 				             moveTo);
 
 				// Redraw both cells no matter who won
-				gameBoard->drawCell(moveTo);
-				gameBoard->drawCell(old);
+				drawCellIfNeeded(moveTo);
+				drawCellIfNeeded(old);
 			}
 		}
 		// Else don't move ship
@@ -141,7 +149,7 @@ void Game::handleBattle(Ship* shipA, Ship* shipB, Cell* cell) const {
 	const std::string message = std::string("Ship") + std::to_string(static_cast<int>(winner->type())) +
 		" won Ship" + std::to_string(static_cast<int>(loser->type())) +
 		" @ cell (" + cell->getColumn() + "," + std::to_string(cell->getRow()) + ")";
-	gameBoard->printMessage(message, false, 10, 5);
+	printBattleResultIfNeeded(message);
 
 	loser->setDead();
 	winner->moveToCell(cell);

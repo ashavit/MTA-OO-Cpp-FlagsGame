@@ -48,6 +48,16 @@ bool AutoGame::loadBoard(const std::string& fileName) {
 	return success;
 }
 
+void AutoGame::drawCellIfNeeded(Cell* cell) const {
+	if (!isQuietMode)
+		drawCell(cell);
+}
+
+void AutoGame::printBattleResultIfNeeded(std::string result) const {
+	if (!isQuietMode)
+		printBattleResult(result);
+}
+
 void AutoGame::handleKeyboardInput() {
 	if (_kbhit()) {
 		char ch = _getch();

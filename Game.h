@@ -36,11 +36,15 @@ protected:
 	int roundCounter() const { return staticRoundCounter; }
 
 	void drawBoard() const;
+	void drawCell(Cell *cell) const;
+	virtual void printBattleResult(std::string result) const;
 	void notifyKeyHit(char ch);
 	void clearPlayerGameData() const;
 	unsigned long timeStamp() const { return _timeStamp; };
 
 	virtual bool loadBoard(const std::string& fileName) = 0;
+	virtual void drawCellIfNeeded(Cell *cell) const = 0;
+	virtual void printBattleResultIfNeeded(std::string result) const = 0;
 	virtual void handleKeyboardInput() = 0;
 	virtual std::string endGameMessage() const = 0;
 	virtual void delayEndGame() const = 0;
