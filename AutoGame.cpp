@@ -19,6 +19,11 @@ AutoGame::~AutoGame() {
 	aliveIns--;
 }
 
+void AutoGame::drawBoardIfNeeded() const {
+	if (!isQuietMode)
+		drawBoard();
+}
+
 bool AutoGame::loadBoard(const std::string& fileName) {
 	// Make sure file name exist
 	if (fileName.size() == 0) return false;
@@ -31,7 +36,7 @@ bool AutoGame::loadBoard(const std::string& fileName) {
 		gameBoard = loader.gameBoard();
 		success = loader.loadGameMovesFromFile(fileName);
 		if (success)
-			drawBoard();
+			drawBoardIfNeeded();
 	}
 
 	if (!success) {
@@ -63,7 +68,7 @@ std::string AutoGame::endGameMessage() const {
 		message.append(playerB.name());
 	}
 	else {
-		message = "None";
+		message.append("None");
 	}
 
 	return message.append("\n");
@@ -71,6 +76,10 @@ std::string AutoGame::endGameMessage() const {
 
 void AutoGame::delayEndGame() const {
 	Sleep(ConfigurationManager::sharedInstance().delayBetweenGames());
+}
+
+void AutoGame::unpauseGame() const {
+	drawBoardIfNeeded();
 }
 
 bool AutoGame::isGameOver() const {

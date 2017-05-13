@@ -152,7 +152,9 @@ void Flags::startKeyboardGame() {
 }
 
 void Flags::startAutoGame() {
-	currentGame = new AutoGame(playerA, playerB, this, ConfigurationManager::sharedInstance().delay());
+	AutoGame *game = new AutoGame(playerA, playerB, this, ConfigurationManager::sharedInstance().delay());
+	game->setQuietMode(ConfigurationManager::sharedInstance().quietMode());
+	currentGame = game;
 
 	bool loadSuccess = FileManager::sharedInstance().hasMoreBoards() &&
 		currentGame->loadBoardFromFile(FileManager::sharedInstance().nextFileName());

@@ -215,7 +215,7 @@ void Game::displaySubMenu() {
 
 		switch (selection) {
 		case 1:
-			drawBoard(); // And continue playing
+			unpauseGame();
 			break;
 		case 2:
 			restartGame();

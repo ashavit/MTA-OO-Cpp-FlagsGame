@@ -15,7 +15,7 @@ class KeyboardGame : public Game
 	virtual std::string endGameMessage() const override;
 	virtual void delayEndGame() const override;
 	virtual void postGameActions() const override;
-
+	virtual void unpauseGame() const override { drawBoard(); }
 	virtual void restartGame() override;
 
 public:

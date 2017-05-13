@@ -45,6 +45,7 @@ protected:
 	virtual std::string endGameMessage() const = 0;
 	virtual void delayEndGame() const = 0;
 	virtual void postGameActions() const = 0;
+	virtual void unpauseGame() const = 0;
 
 	virtual bool isGameOver() const;
 	virtual void restartGame();

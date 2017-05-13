@@ -8,13 +8,16 @@ class AutoGame : public Game
 {
 	static int aliveIns;
 
-	bool isRecordMode = false;
+	bool isQuietMode = false;
+
+	void drawBoardIfNeeded() const;
 
 	virtual bool loadBoard(const std::string& fileName) override;
 	virtual void handleKeyboardInput() override;
 	virtual std::string endGameMessage() const override;
 	virtual void delayEndGame() const override;
 	virtual void postGameActions() const override { }
+	virtual void unpauseGame() const override;
 
 	virtual bool isGameOver() const override;
 
@@ -25,4 +28,5 @@ public:
 	virtual ~AutoGame() override;
 
 	virtual void setRecordMode(bool isRecordMode) override {};
+	void setQuietMode(bool isQuiet) { isQuietMode = isQuiet; }
 };
