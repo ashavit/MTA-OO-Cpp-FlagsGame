@@ -71,8 +71,6 @@ bool GameLoader::loadGameMovesFromFile(const string& fileName) {
 	}
 
 	// Fail if no moves found
-	if (!didLoadMoves)
-		errors.push_front("Move files were not found for board " + fileName);
 	return didLoadMoves;
 }
 
@@ -103,13 +101,12 @@ void GameLoader::saveBoardToFile(const string& fileName) const {
 	}
 }
 
-void GameLoader::printErrors() {
+void GameLoader::printErrors() const {
 	cout << endl;
 	if (errors.size() > 0) {
 		for (string err : errors) {
 			cout << err << endl;
 		}
-		cout << endl << "The game will now exit" << endl;
 	}
 }
 
@@ -332,7 +329,7 @@ void GameLoader::saveMovesToFile(ofstream& movesFile, PlayerMoves& moves, int ro
 	movesFile << endl;
 }
 
-ifstream* GameLoader::openFileToRead(const std::string fileName) {
+ifstream* GameLoader::openFileToRead(const std::string fileName) const {
 	ifstream* file = new ifstream();
 	file->open(fileName); // default is text!
 	if (!file->good()) {
@@ -343,7 +340,7 @@ ifstream* GameLoader::openFileToRead(const std::string fileName) {
 	return file;
 }
 
-ofstream* GameLoader::openFileToWrite(const std::string fileName) {
+ofstream* GameLoader::openFileToWrite(const std::string fileName) const {
 	ofstream* file = new ofstream();
 	file->open(fileName); // default is text!
 	if (!file->good()) {
@@ -364,7 +361,7 @@ void GameLoader::closeAndReleaseFile(ofstream* file) const {
 	delete file;
 }
 
-void GameLoader::addUniqueError(const string& error) {
+void GameLoader::addUniqueError(const string& error) const {
 	for (string str : errors) {
 		if (error.compare(str) == 0) {
 			return;

@@ -16,7 +16,7 @@ class GameLoader
 	Player& playerB;
 	Player& playerA;
 	Board* _gameBoard = nullptr;
-	std::list<std::string> errors;
+	mutable std::list<std::string> errors;
 
 	Board* loadRandomBoard(UINT width = Board::DEFAULT_BOARD_SIZE, UINT height = Board::DEFAULT_BOARD_SIZE) const;
 	Board* loadBoardFromFile(std::ifstream& boardFile, const std::string& fileName, UINT width = Board::DEFAULT_BOARD_SIZE, UINT height = Board::DEFAULT_BOARD_SIZE);
@@ -25,12 +25,12 @@ class GameLoader
 	void saveBoardToFile(std::ofstream& boardFile) const;
 	void saveMovesToFile(std::ofstream& movesFile, PlayerMoves& moves, int roundToMod2) const;
 
-	std::ifstream* openFileToRead(const std::string fileName);
-	std::ofstream* openFileToWrite(const std::string fileName);
+	std::ifstream* openFileToRead(const std::string fileName) const;
+	std::ofstream* openFileToWrite(const std::string fileName) const;
 	void closeAndReleaseFile(std::ifstream* file) const;
 	void closeAndReleaseFile(std::ofstream* file) const;
 
-	void addUniqueError(const std::string& error);
+	void addUniqueError(const std::string& error) const;
 
 public:
 	/* Methods take in Players to support reverse games */
@@ -44,7 +44,7 @@ public:
 	bool loadRandomGame();
 	bool loadGameFromFile(const std::string& fileName);
 	bool loadGameMovesFromFile(const std::string& fileName);
-	void printErrors();
+	void printErrors() const;
 
 	Board* gameBoard() const { return _gameBoard; }
 
