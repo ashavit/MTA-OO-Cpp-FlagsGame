@@ -9,6 +9,7 @@
 #include "Board.h"
 #include "Cell.h"
 #include "PlayerMoves.h"
+#include <sstream>
 
 using namespace std;
 
@@ -271,19 +272,23 @@ PlayerMoves* GameLoader::loadPlayerMovesFromFile(ifstream& movesFile) {
 	char dir;
 
 	while (!movesFile.eof()) {
+		string line;
+		getline(movesFile, line);
+		// Skip empty lines
+		if (line.length() > 0) {
+			istringstream str(line);
 
-		movesFile >> skipws >> ts;
-		movesFile.ignore(100, ',');
+			str >> skipws >> ts;
+			str.ignore(100, ',');
+			str >> skipws >> ship;
+			str.ignore(100, ',');
+			str >> skipws >> dir;
 
-		movesFile >> skipws >> ship;
-		movesFile.ignore(100, ',');
-
-		movesFile >> skipws >> dir;
-
-		/// TODO: Fix bug of duplicate last move because of not stopping at eof
-		if (last < ts) {
-			res->addMove(ts, ship, dir);
-			last = ts;
+			// Make sure lines are in order
+			if (last < ts) {
+				res->addMove(ts, ship, dir);
+				last = ts;
+			}
 		}
 	}
 	return res;
