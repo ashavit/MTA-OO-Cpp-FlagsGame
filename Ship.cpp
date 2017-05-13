@@ -1,11 +1,3 @@
-//
-//  Ship.cpp
-//  Cpp-FlagsProject
-//
-//  Created by Amir Shavit on 26/03/2017.
-//  Copyright © 2017 Amir Shavit. All rights reserved.
-//
-
 #include "Player.h"
 #include "Ship.h"
 #include "Cell.h"
@@ -13,8 +5,7 @@
 //*********** Ctor ***********//
 
 Ship::Ship(Player& player, ShipType type, Cell* startingCell)
-    : shipOwner(player), shipType(type), initialCell(startingCell), currentCell(startingCell)
-{
+	: shipOwner(player), shipType(type), initialCell(startingCell), currentCell(startingCell) {
 	aliveIns++;
 	shipOwner.addShip(this);
 }
@@ -27,12 +18,12 @@ int Ship::aliveIns = 0;
 
 //*********** Getters ***********//
 
-Cell* Ship::cell() {
-    return currentCell;
+Cell* Ship::cell() const {
+	return currentCell;
 }
 
-bool Ship::alive() {
-    return isAlive;
+bool Ship::alive() const {
+	return isAlive;
 }
 
 void Ship::setDead() {
@@ -42,31 +33,31 @@ void Ship::setDead() {
 	currentCell = nullptr;
 }
 
-const Player& Ship::owner() {
-    return shipOwner;
+const Player& Ship::owner() const {
+	return shipOwner;
 }
 
 //*********** Other functions ***********//
 
-ShipType Ship::type() {
-    return shipType;
+ShipType Ship::type() const {
+	return shipType;
 }
 
-Direction Ship::direction() {
-    return shipDirection;
+Direction Ship::direction() const {
+	return shipDirection;
 }
 
 void Ship::setDirection(Direction d) {
-    shipDirection = d;
+	shipDirection = d;
 }
 
-bool Ship::canMoveToCell(const Cell* cell) {
-    if (cell->getCellType() == CellType::FORREST) {
-        return (shipType == SHIP2 || shipType == SHIP7 || shipType == SHIP8);
-    }
-    else if (cell->getCellType() == CellType::SEA) {
-        return (shipType == SHIP2 || shipType == SHIP3 || shipType == SHIP7);
-    }
+bool Ship::canMoveToCell(const Cell* cell) const {
+	if (cell->getCellType() == CellType::FORREST) {
+		return (shipType == SHIP2 || shipType == SHIP7 || shipType == SHIP8);
+	}
+	else if (cell->getCellType() == CellType::SEA) {
+		return (shipType == SHIP2 || shipType == SHIP3 || shipType == SHIP7);
+	}
 	else if (cell->getCellType() == CellType::FLAG_A) {
 		return (shipType == SHIP7 || shipType == SHIP8 || shipType == SHIP9);
 	}
@@ -77,27 +68,27 @@ bool Ship::canMoveToCell(const Cell* cell) {
 }
 
 void Ship::moveToCell(Cell* cell) {
-    // Set current cell's ship to nil
-    currentCell->setStandingShip(nullptr);
-    
-    // Set initial cell's ship to this
-    currentCell = cell;
-    currentCell->setStandingShip(this);
+	// Set current cell's ship to nil
+	currentCell->setStandingShip(nullptr);
+
+	// Set initial cell's ship to this
+	currentCell = cell;
+	currentCell->setStandingShip(this);
 }
 
 void Ship::resetToInitialState() {
 	isAlive = true;
 	setDirection(Direction::STOP);
-	
+
 	// Set current cell's ship to nil
-    currentCell->setStandingShip(nullptr);
-    
-    // Set initial cell's ship to this
-    currentCell = initialCell;
-    currentCell->setStandingShip(this);
+	currentCell->setStandingShip(nullptr);
+
+	// Set initial cell's ship to this
+	currentCell = initialCell;
+	currentCell->setStandingShip(this);
 }
 
-bool Ship::didFindFlag() {
-    return (currentCell->getCellType() == CellType::FLAG_A ||
-            currentCell->getCellType() == CellType::FLAG_B);
+bool Ship::didFindFlag() const {
+	return (currentCell->getCellType() == CellType::FLAG_A ||
+		currentCell->getCellType() == CellType::FLAG_B);
 }

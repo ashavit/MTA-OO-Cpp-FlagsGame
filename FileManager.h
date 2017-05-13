@@ -25,8 +25,7 @@ public:
 
 	void loadAvailableFiles(const std::string& path);
 	const std::string nextFileName();
-	bool hasMoreBoards();
+	bool hasMoreBoards() const;
 
-	const std::string fileNameWithPath(const std::string fileName);
+	const std::string fileNameWithPath(const std::string fileName) const;
 };
-

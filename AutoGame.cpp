@@ -2,12 +2,10 @@
 #include "Player.h"
 #include "GameLoader.h"
 
-
 int AutoGame::aliveIns = 0;
 
 AutoGame::AutoGame(Player& playerA, Player& playerB, Flags* manager, int delay)
-	: Game(playerA, playerB, manager, delay)
-{
+	: Game(playerA, playerB, manager, delay) {
 	aliveIns++;
 
 	// Define player as auto
@@ -16,8 +14,7 @@ AutoGame::AutoGame(Player& playerA, Player& playerB, Flags* manager, int delay)
 }
 
 
-AutoGame::~AutoGame()
-{
+AutoGame::~AutoGame() {
 	aliveIns--;
 }
 
@@ -67,4 +64,3 @@ bool AutoGame::isGameOver() const {
 		(playerA.didFinishAutoMoves(timeStamp()) &&
 			playerB.didFinishAutoMoves(timeStamp())));
 }
-

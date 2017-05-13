@@ -1,13 +1,4 @@
-//
-//  Player.cpp
-//  Cpp-FlagsProject
-//
-//  Created by Amir Shavit on 26/03/2017.
-//  Copyright © 2017 Amir Shavit. All rights reserved.
-//
-
 #include <iostream>
-
 #include "Player.h"
 #include "PlayerMoves.h"
 
@@ -28,24 +19,24 @@ int Player::aliveIns = 0;
 //*********** Public functions ***********//
 
 void Player::updateName() {
-    cout << "Please enter player name (old name is " << playerName << "):" << endl;
-    cin >> playerName;
+	cout << "Please enter player name (old name is " << playerName << "):" << endl;
+	cin >> playerName;
 }
 
-std::string Player::name() {
-    return playerName;
+std::string Player::name() const {
+	return playerName;
 }
 
 void Player::resetScore() {
-    playerScore = 0;
+	playerScore = 0;
 }
 
 void Player::incrementScore(int byPoints) {
-    playerScore += byPoints;
+	playerScore += byPoints;
 }
 
-int Player::score() {
-    return playerScore;
+int Player::score() const {
+	return playerScore;
 }
 
 void Player::setKeys(const char* keys) {
@@ -89,9 +80,9 @@ void Player::notifyKeyHit(char ch, unsigned long ts) {
 void Player::handleLoadedMoveIfNeeded(unsigned long ts) {
 	if (!autoMode) { return; }
 
-	const PlayerMoves::Move * const turn = moves().getMove(ts);
+	const PlayerMoves::Move* const turn = moves().getMove(ts);
 	if (turn) {
-		int shipIndex = shipIndexByType((ShipType)turn->shipType());
+		int shipIndex = shipIndexByType(static_cast<ShipType>(turn->shipType()));
 		setActiveShip(ships[shipIndex]);
 		Direction d = turn->direction();
 		setActiveShipDirection(d, ts);
@@ -99,30 +90,30 @@ void Player::handleLoadedMoveIfNeeded(unsigned long ts) {
 }
 
 bool Player::didPlayerWin() {
-    for (int i = 0; i < FLEET_SIZE; ++i) {
-        if (ships[i] != nullptr && ships[i]->alive() &&
-            ships[i]->didFindFlag()) {
-            return true;
-        }
-    }
-    return false;
+	for (int i = 0; i < FLEET_SIZE; ++i) {
+		if (ships[i] != nullptr && ships[i]->alive() &&
+			ships[i]->didFindFlag()) {
+			return true;
+		}
+	}
+	return false;
 }
 
 bool Player::didPlayerLose() {
-    for (int i = 0; i < FLEET_SIZE; ++i) {
-        if (ships[i] != nullptr && ships[i]->alive()) {
-            return false;
-        }
-    }
-    return true;
+	for (int i = 0; i < FLEET_SIZE; ++i) {
+		if (ships[i] != nullptr && ships[i]->alive()) {
+			return false;
+		}
+	}
+	return true;
 }
 
 bool Player::addShip(Ship* ship) {
 	int index = shipIndexByType(ship->type());
 	if (ships[index] == nullptr) {
-        ships[index] = ship;
-        return true;
-    }
+		ships[index] = ship;
+		return true;
+	}
 	else {
 		return false;
 	}
@@ -161,7 +152,7 @@ void Player::setActiveShip(Ship* active) {
 void Player::setActiveShipDirection(Direction direction, unsigned long ts) {
 	if (activeShip != nullptr) {
 		activeShip->setDirection(direction);
-		
+
 		//Save move if not auto
 		if (!autoMode) {
 			moves().addMove(ts, *activeShip, direction);
@@ -173,7 +164,7 @@ int Player::shipIndexByType(ShipType type) {
 	return ((type - 1) % FLEET_SIZE);
 }
 
-PlayerMoves & Player::moves() {
+PlayerMoves& Player::moves() {
 	// Lazy init
 	if (movesMap == nullptr) {
 		movesMap = new PlayerMoves();

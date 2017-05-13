@@ -4,31 +4,27 @@
 int PlayerMoves::aliveIns = 0;
 int PlayerMoves::Move::aliveIns = 0;
 
-PlayerMoves::PlayerMoves()
-{
+PlayerMoves::PlayerMoves() {
 	aliveIns++;
 }
 
 
-PlayerMoves::~PlayerMoves()
-{
+PlayerMoves::~PlayerMoves() {
 	for (auto& turn : _moves) {
 		delete turn.second;
 	}
 	aliveIns--;
 }
 
-void PlayerMoves::addMove(unsigned long ts, int ship, char dir)
-{
+void PlayerMoves::addMove(unsigned long ts, int ship, char dir) {
 	_moves[ts] = new Move(ship, dir);
 }
 
-void PlayerMoves::addMove(unsigned long ts, Ship & ship, Direction dir)
-{
-	addMove(ts, (int)ship.type(), PlayerMoves::charFromDirection(dir));
+void PlayerMoves::addMove(unsigned long ts, Ship& ship, Direction dir) {
+	addMove(ts, static_cast<int>(ship.type()), PlayerMoves::charFromDirection(dir));
 }
 
-const PlayerMoves::Move *const  PlayerMoves::getMove(unsigned long ts) {
+const PlayerMoves::Move*const PlayerMoves::getMove(unsigned long ts) {
 	PlayerMoves::Move* res = nullptr;
 	auto itr = _moves.find(ts);
 	if (itr != _moves.end() && itr->second->isMoveValid()) // Ignore bad moves
@@ -37,8 +33,7 @@ const PlayerMoves::Move *const  PlayerMoves::getMove(unsigned long ts) {
 	return res;
 }
 
-bool PlayerMoves::isEnded(unsigned long ts)
-{
+bool PlayerMoves::isEnded(unsigned long ts) const {
 	if (_moves.crbegin() == _moves.crend())
 		return true;;
 	return (ts > _moves.crbegin()->first);
@@ -87,7 +82,7 @@ Direction PlayerMoves::Move::direction() const {
 	return PlayerMoves::directionFromChar(_direction);
 }
 
-bool PlayerMoves::Move::isMoveValid() {
+bool PlayerMoves::Move::isMoveValid() const {
 	return ((PlayerMoves::directionFromChar(_direction) != Direction::INVALID) &&
 		(_shipType == ShipType::SHIP1 || _shipType == ShipType::SHIP2 ||
 			_shipType == ShipType::SHIP3 || _shipType == ShipType::SHIP7 ||
@@ -97,4 +92,3 @@ bool PlayerMoves::Move::isMoveValid() {
 std::ostream& operator<<(std::ostream& out, const PlayerMoves::Move& move) {
 	return out << move._shipType << ", " << move._direction;
 }
-

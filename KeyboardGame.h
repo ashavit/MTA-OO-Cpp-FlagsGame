@@ -24,6 +24,5 @@ public:
 	virtual ~KeyboardGame() override;
 
 	virtual void setRecordMode(bool isRecordMode) override;
-
 };
 

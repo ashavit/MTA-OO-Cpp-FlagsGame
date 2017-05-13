@@ -4,8 +4,7 @@
 
 using namespace std;
 
-FileManager & FileManager::sharedInstance()
-{
+FileManager& FileManager::sharedInstance() {
 	static FileManager instance{};
 	return instance;
 }
@@ -21,8 +20,7 @@ void FileManager::loadAvailableFiles(const string& path) {
 
 	FILE* fp = _popen(command.c_str(), "r");
 
-	while (fgets(buffer, 4095, fp))
-	{
+	while (fgets(buffer, 4095, fp)) {
 		data.append(string(buffer));
 	}
 	_pclose(fp);
@@ -42,11 +40,11 @@ const string FileManager::nextFileName() {
 	return name;
 }
 
-bool FileManager::hasMoreBoards() {
+bool FileManager::hasMoreBoards() const {
 	return filesLeft;
 }
 
-const string FileManager::fileNameWithPath(const string fileName) {
+const string FileManager::fileNameWithPath(const string fileName) const {
 	return regulatedPath + fileName;
 }
 
@@ -61,7 +59,7 @@ void FileManager::regulatePath(const string path) {
 			regulatedPath.append("\\");
 		}
 		regulatedPath.append(path);
-		if (path.substr(path.length()-1, 1).compare("\\") != 0) {
+		if (path.substr(path.length() - 1, 1).compare("\\") != 0) {
 			regulatedPath.append("\\");
 		}
 	}
@@ -75,13 +73,11 @@ void FileManager::regulatePath(const string path) {
 }
 
 // comparison, not case sensitive.
-bool compare_nocase(const string& first, const string& second)
-{
+bool compare_nocase(const string& first, const string& second) {
 	unsigned int i = 0;
-	while ((i<first.length()) && (i<second.length()))
-	{
-		if (tolower(first[i])<tolower(second[i])) return true;
-		else if (tolower(first[i])>tolower(second[i])) return false;
+	while ((i < first.length()) && (i < second.length())) {
+		if (tolower(first[i]) < tolower(second[i])) return true;
+		else if (tolower(first[i]) > tolower(second[i])) return false;
 		++i;
 	}
 	return (first.length() < second.length());
@@ -90,8 +86,7 @@ bool compare_nocase(const string& first, const string& second)
 void FileManager::parseFileNames(string& data) {
 	int end = 0;
 
-	while ((end = data.find('\n')) != string::npos)
-	{
+	while ((end = data.find('\n')) != string::npos) {
 		string fileName;
 		fileName.assign(data, 0, end);
 		boardFiles.push_back(fileName);
@@ -104,4 +99,3 @@ void FileManager::parseFileNames(string& data) {
 	}
 	boardFiles.sort(compare_nocase);
 }
-

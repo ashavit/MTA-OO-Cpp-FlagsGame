@@ -1,11 +1,3 @@
-//
-//  Flags.cpp
-//  Cpp-FlagsProject
-//
-//  Created by Amir Shavit on 28/03/2017.
-//  Copyright © 2017 Amir Shavit. All rights reserved.
-//
-
 #include "Flags.h"
 #include <iostream>
 #include "Config.h"
@@ -22,16 +14,16 @@ using namespace std;
 Flags::Flags() : playerA("Player A"), playerB("Player B") { }
 
 Flags::~Flags() {
-    // Make sure we do not leave used memory
-    if (currentGame != nullptr) {
-        delete currentGame;
-        currentGame = nullptr;
-    }
+	// Make sure we do not leave used memory
+	if (currentGame != nullptr) {
+		delete currentGame;
+		currentGame = nullptr;
+	}
 }
 
 //*********** Public ***********//
 
-void Flags::configure(int argc, const char * argv[]) {
+void Flags::configure(int argc, const char* argv[]) {
 	ConfigurationManager::sharedInstance().setup(argc, argv);
 
 	if (ConfigurationManager::sharedInstance().boardMode() == ConfigurationManager::BoardMode::BOARD_FILE) {
@@ -40,21 +32,21 @@ void Flags::configure(int argc, const char * argv[]) {
 }
 
 void Flags::run() {
-    
+
 	hideCursor();
 
 	if (isAutoModeEnabled()) {
-		while(!shouldExitProgram && FileManager::sharedInstance().hasMoreBoards()) {
+		while (!shouldExitProgram && FileManager::sharedInstance().hasMoreBoards()) {
 			startAutoGame();
 			Sleep(ConfigurationManager::sharedInstance().delayBetweenGames());
 		}
 	}
-	else
-	{
+	else {
 		do {
 			displayMenu();
 			HandleMenuInput();
-		} while (!shouldExitProgram);
+		}
+		while (!shouldExitProgram);
 	}
 }
 
@@ -64,15 +56,14 @@ void Flags::finishGame(bool _shouldExit) {
 		delete currentGame;
 		currentGame = nullptr;
 	}
-    shouldExitProgram = _shouldExit;
+	shouldExitProgram = _shouldExit;
 	setTextColor(WHITE);
 	clearScreen();
 }
 
 //*********** Private ***********//
 
-void Flags::displayMenu() const
-{
+void Flags::displayMenu() const {
 	cout << "Please select an option:" << endl;
 	cout << "1. Select Players Name" << endl;
 	cout << "2. Begin a new game" << endl;
@@ -82,8 +73,7 @@ void Flags::displayMenu() const
 	cout << "9. Quit" << endl;
 }
 
-void Flags::HandleMenuInput()
-{
+void Flags::HandleMenuInput() {
 	int selection;
 	cin >> selection;
 
@@ -114,27 +104,27 @@ void Flags::HandleMenuInput()
 }
 
 void Flags::selectPlayerNames() {
-    playerA.updateName();
-    playerB.updateName();
+	playerA.updateName();
+	playerB.updateName();
 }
 
 void Flags::beginKeyboardGame() {
-    currentGame = new KeyboardGame(playerA, playerB, this, ConfigurationManager::sharedInstance().delay());
-    startKeyboardGame();
+	currentGame = new KeyboardGame(playerA, playerB, this, ConfigurationManager::sharedInstance().delay());
+	startKeyboardGame();
 }
 
 void Flags::beginReverseKeyboardGame() {
-    currentGame = new KeyboardGame(playerB, playerA, this, ConfigurationManager::sharedInstance().delay());
-    startKeyboardGame();
+	currentGame = new KeyboardGame(playerB, playerA, this, ConfigurationManager::sharedInstance().delay());
+	startKeyboardGame();
 }
 
 void Flags::resetPlayerScores() {
-    playerA.resetScore();
-    playerB.resetScore();
+	playerA.resetScore();
+	playerB.resetScore();
 }
 
 void Flags::toggleRecordMode() {
-    isRecordMode = !isRecordMode;
+	isRecordMode = !isRecordMode;
 	clearScreen();
 	cout << "Record mode is now " << (isRecordMode ? "enabled" : "disblaed") << endl << endl;
 }
@@ -145,16 +135,16 @@ bool Flags::isAutoModeEnabled() {
 }
 
 void Flags::startKeyboardGame() {
-    currentGame->setRecordMode(isRecordMode);
+	currentGame->setRecordMode(isRecordMode);
 
 	bool loadSuccess;
-    if (ConfigurationManager::sharedInstance().boardMode() == ConfigurationManager::BoardMode::BOARD_FILE) {
+	if (ConfigurationManager::sharedInstance().boardMode() == ConfigurationManager::BoardMode::BOARD_FILE) {
 		loadSuccess = FileManager::sharedInstance().hasMoreBoards() &&
 			currentGame->loadBoardFromFile(FileManager::sharedInstance().nextFileName());
-    }
-    else {
-        loadSuccess = currentGame->loadRandomBoard();
-    }
+	}
+	else {
+		loadSuccess = currentGame->loadRandomBoard();
+	}
 
 	if (loadSuccess)
 		currentGame->run();
@@ -166,7 +156,7 @@ void Flags::startAutoGame() {
 	currentGame = new AutoGame(playerA, playerB, this, ConfigurationManager::sharedInstance().delay());
 
 	bool loadSuccess = FileManager::sharedInstance().hasMoreBoards() &&
-			currentGame->loadBoardFromFile(FileManager::sharedInstance().nextFileName());
+		currentGame->loadBoardFromFile(FileManager::sharedInstance().nextFileName());
 
 	if (loadSuccess)
 		currentGame->run();

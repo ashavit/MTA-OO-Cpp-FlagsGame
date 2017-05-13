@@ -1,15 +1,4 @@
-//
-//  main.cpp
-//  Cpp-FlagsProject
-//
-//  Created by Amir Shavit on 25/03/2017.
-//  Copyright © 2017 Amir Shavit. All rights reserved.
-//
-
 #include <iostream>
-
-using namespace std;
-
 #include "Flags.h"
 #include "Utils.h"
 #include "GameLoader.h"
@@ -17,6 +6,8 @@ using namespace std;
 #include "KeyboardGame.h"
 #include "Board.h"
 #include "PlayerMoves.h"
+
+using namespace std;
 
 void test_printMemoryLeakStatus() {
 	cout << endl << "There are " << Game::aliveInstances() << " instances of Game objects alive" << endl;
@@ -35,16 +26,16 @@ void test_printMemoryLeakStatus() {
 	waitForAnyKeyToContinue();
 }
 
-int main(int argc, const char * argv[]) {
+int main(int argc, const char* argv[]) {
 
-    Flags flags;
-    
-    if (argc > 1) {
-        flags.configure(argc-1, argv + 1);
-    }
-    flags.run();
+	Flags flags;
+
+	if (argc > 1) {
+		flags.configure(argc - 1, argv + 1);
+	}
+	flags.run();
 
 	if (DEBUG)
 		test_printMemoryLeakStatus();
-    return 0;
+	return 0;
 }

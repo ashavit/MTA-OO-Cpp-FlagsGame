@@ -2,12 +2,10 @@
 #include "Player.h"
 #include "GameLoader.h"
 
-
 int KeyboardGame::aliveIns = 0;
 
 KeyboardGame::KeyboardGame(Player& playerA, Player& playerB, Flags* manager, int delay)
-	: Game(playerA, playerB, manager, delay)
-{
+	: Game(playerA, playerB, manager, delay) {
 	aliveIns++;
 
 	// Define player keys
@@ -15,9 +13,7 @@ KeyboardGame::KeyboardGame(Player& playerA, Player& playerB, Flags* manager, int
 	playerB.setKeys("789imjlk");
 }
 
-
-KeyboardGame::~KeyboardGame()
-{
+KeyboardGame::~KeyboardGame() {
 	aliveIns--;
 }
 

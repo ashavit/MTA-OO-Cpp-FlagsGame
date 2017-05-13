@@ -21,8 +21,7 @@ void clearScreen() {
 }
 
 // function definition -- requires windows.h
-void gotoxy(int x, int y)
-{
+void gotoxy(int x, int y) {
 	HANDLE hConsoleOutput;
 	COORD dwCursorPosition;
 	cout.flush();
@@ -32,8 +31,7 @@ void gotoxy(int x, int y)
 	SetConsoleCursorPosition(hConsoleOutput, dwCursorPosition);
 }
 
-void hideCursor()
-{
+void hideCursor() {
 	HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
 	CONSOLE_CURSOR_INFO info;
 	info.dwSize = 100;
@@ -41,9 +39,8 @@ void hideCursor()
 	SetConsoleCursorInfo(consoleHandle, &info);
 }
 
-void waitForAnyKeyToContinue()
-{
+void waitForAnyKeyToContinue() {
 	cout << endl << "Press any key to continue..." << endl;
-	while (!_kbhit()) {	}
+	while (!_kbhit()) { }
 	_getch(); // Clear out last key hit from buffer
 }

@@ -9,7 +9,8 @@ enum class Direction;
 class PlayerMoves
 {
 public:
-	class Move {
+	class Move
+	{
 		static int aliveIns;
 
 		int _shipType;
@@ -26,7 +27,7 @@ public:
 
 		int shipType() const { return _shipType; }
 		Direction direction() const;
-		bool isMoveValid();
+		bool isMoveValid() const;
 	};
 
 private:
@@ -45,9 +46,9 @@ public:
 	void addMove(unsigned long ts, Ship& ship, Direction dir);
 	const Move* const getMove(unsigned long timeStamp);
 
-	std::map<unsigned long, Move*> getMovesList() {	return _moves; }
-	unsigned int moveCount() { return _moves.size(); }
-	bool isEnded(unsigned long ts);
+	std::map<unsigned long, Move*> getMovesList() const { return _moves; }
+	unsigned int moveCount() const { return _moves.size(); }
+	bool isEnded(unsigned long ts) const;
 
 	static Direction directionFromChar(char _direction);
 	static char charFromDirection(Direction _direction);

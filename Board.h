@@ -7,20 +7,26 @@
 class Cell;
 class GameLoader;
 
-class Board {
+class Board
+{
 	static int aliveIns;
-    UINT  height;
-    UINT  width;
-    Cell*** board;
+	UINT height;
+	UINT width;
+	Cell*** board;
 
-	enum BoardDensity { LOW = 10, REGULAR = 20, HIGH = 30 };
+	enum BoardDensity
+	{
+		LOW = 10,
+		REGULAR = 20,
+		HIGH = 30
+	};
 
-    Board() : Board(DEFAULT_BOARD_SIZE, DEFAULT_BOARD_SIZE) {}
-    Board(UINT width, UINT height);
+	Board() : Board(DEFAULT_BOARD_SIZE, DEFAULT_BOARD_SIZE) {}
+	Board(UINT width, UINT height);
 	Board(Board const&) = delete;
 	void operator=(Board const&) = delete;
 
-    void randomPlaceSpecialCells(CellType type, int count);
+	void randomPlaceSpecialCells(CellType type, int count) const;
 
 	friend GameLoader;
 
@@ -29,15 +35,15 @@ public:
 
 	static int aliveInstances() { return aliveIns; }
 
-    ~Board();
+	~Board();
 
-    Cell* getRandomCellInRows(size_t from, size_t to);
+	Cell* getRandomCellInRows(size_t from, size_t to) const;
 
-    Cell* getNextCell(const Cell* cell, Direction direction);
-    
-    void printBoard();
-    void drawBoard();
-	void drawCell(Cell* cell);
-	void printMessage(const std::string message, bool onFullScreen, bool waitForResponse);
-	int getPlayerStatsLocation();    
+	Cell* getNextCell(const Cell* cell, Direction direction) const;
+
+	void printBoard() const;
+	void drawBoard() const;
+	void drawCell(Cell* cell) const;
+	void printMessage(const std::string message, bool onFullScreen, bool waitForResponse) const;
+	int getPlayerStatsLocation() const;
 };

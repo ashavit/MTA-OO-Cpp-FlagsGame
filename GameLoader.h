@@ -18,24 +18,27 @@ class GameLoader
 	Board* _gameBoard = nullptr;
 	std::list<std::string> errors;
 
-	Board* loadRandomBoard() {
-		return loadRandomBoard(Board::DEFAULT_BOARD_SIZE, Board::DEFAULT_BOARD_SIZE); 
+	Board* loadRandomBoard() const {
+		return loadRandomBoard(Board::DEFAULT_BOARD_SIZE, Board::DEFAULT_BOARD_SIZE);
 	}
-	Board* loadRandomBoard(UINT width, UINT height);
+
+	Board* loadRandomBoard(UINT width, UINT height) const;
+
 	Board* loadBoardFromFile(std::ifstream& boardFile, const std::string& fileName) {
-		return loadBoardFromFile(boardFile, fileName, Board::DEFAULT_BOARD_SIZE, Board::DEFAULT_BOARD_SIZE); 
+		return loadBoardFromFile(boardFile, fileName, Board::DEFAULT_BOARD_SIZE, Board::DEFAULT_BOARD_SIZE);
 	}
+
 	Board* loadBoardFromFile(std::ifstream& boardFile, const std::string& fileName, UINT width, UINT height);
 	PlayerMoves* loadPlayerMovesFromFile(std::ifstream& movesFile);
 
-	void saveBoardToFile(std::ofstream& boardFile);
-	void saveMovesToFile(std::ofstream& movesFile, PlayerMoves& moves, int roundToMod2);
+	void saveBoardToFile(std::ofstream& boardFile) const;
+	void saveMovesToFile(std::ofstream& movesFile, PlayerMoves& moves, int roundToMod2) const;
 
-	std::ifstream* openFileToRead(const std::string fileName);
-	std::ofstream* openFileToWrite(const std::string fileName);
-	void closeAndReleaseFile(std::ifstream* file);
-	void closeAndReleaseFile(std::ofstream* file);
-		
+	std::ifstream* openFileToRead(const std::string fileName) const;
+	std::ofstream* openFileToWrite(const std::string fileName) const;
+	void closeAndReleaseFile(std::ifstream* file) const;
+	void closeAndReleaseFile(std::ofstream* file) const;
+
 	void addUniqueError(const std::string& error);
 
 public:
@@ -51,10 +54,10 @@ public:
 	bool loadGameFromFile(const std::string& fileName);
 	void printErrors();
 
-	Board* gameBoard() { return _gameBoard; }
+	Board* gameBoard() const { return _gameBoard; }
 
-	std::string newRandomFileName();
-	void saveBoardToFile(const std::string& fileName);
-	void savePlayerMovesToFile(const std::string& fileName);
+	std::string newRandomFileName() const;
+	void saveBoardToFile(const std::string& fileName) const;
+	void savePlayerMovesToFile(const std::string& fileName) const;
 };
 

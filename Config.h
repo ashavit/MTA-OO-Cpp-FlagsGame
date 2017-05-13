@@ -10,18 +10,18 @@
 
 #ifdef WINDOWS
 
-    #include <Windows.h>
-    #include <conio.h>
+#include <Windows.h>
+#include <conio.h>
 
 #else
 
-    #ifndef FALSE
+#ifndef FALSE
     #define FALSE   0
-    #endif
+#endif
 
-    #ifndef TRUE
+#ifndef TRUE
     #define TRUE    1
-    #endif
+#endif
 
     typedef unsigned short WORD;
     typedef unsigned long DWORD;

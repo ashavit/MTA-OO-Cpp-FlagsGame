@@ -1,11 +1,3 @@
-//
-//  Game.cpp
-//  Cpp-FlagsProject
-//
-//  Created by Amir Shavit on 05/05/2017.
-//  Copyright © 2017 Amir Shavit. All rights reserved.
-//
-
 #include <iostream>
 #include <fstream>
 #include "Utils.h"
@@ -28,7 +20,7 @@ using namespace std;
 
 int GameLoader::aliveIns = 0;
 
-GameLoader::GameLoader(Player & playerA, Player & playerB)
+GameLoader::GameLoader(Player& playerA, Player& playerB)
 	: playerA(playerA), playerB(playerB) {
 	aliveIns++;
 }
@@ -37,8 +29,7 @@ GameLoader::~GameLoader() {
 	aliveIns--;
 }
 
-bool GameLoader::loadRandomGame()
-{
+bool GameLoader::loadRandomGame() {
 	_gameBoard = loadRandomBoard();
 	return true;
 }
@@ -77,24 +68,25 @@ bool GameLoader::loadGameFromFile(const string& fileName) {
 	return (_gameBoard != nullptr);
 }
 
-string GameLoader::newRandomFileName() {
+string GameLoader::newRandomFileName() const {
 	bool foundName = false;
 	int counter = 1;
-	string fileName, fileNameWExt;
+	string fileName;
 
 	do {
 		fileName = RANDOM_FILE_NAME + to_string(counter);
-		fileNameWExt = fileName + BOARD_FILE_EXTENSION;
+		string fileNameWExt = fileName + BOARD_FILE_EXTENSION;
 		++counter;
 		if (!ifstream(fileNameWExt)) { // File does not exist
 			foundName = true;
 		}
-	} while (!foundName);
-	
+	}
+	while (!foundName);
+
 	return fileName;
 }
 
-void GameLoader::saveBoardToFile(const string& fileName) {
+void GameLoader::saveBoardToFile(const string& fileName) const {
 	const string pathFileName = FileManager::sharedInstance().fileNameWithPath(fileName);
 	ofstream* boardFile = openFileToWrite(pathFileName + BOARD_FILE_EXTENSION);
 	if (boardFile) {
@@ -105,15 +97,14 @@ void GameLoader::saveBoardToFile(const string& fileName) {
 
 void GameLoader::printErrors() {
 	cout << endl;
-	for (string err : errors)
-	{
+	for (string err : errors) {
 		cout << err << endl;
 	}
 	cout << endl << "The game will now exit" << endl;
 	waitForAnyKeyToContinue();
 }
 
-void GameLoader::savePlayerMovesToFile(const string& fileName) {
+void GameLoader::savePlayerMovesToFile(const string& fileName) const {
 	const string pathFileName = FileManager::sharedInstance().fileNameWithPath(fileName);
 	if (!playerA.isAutoMode() && playerA.moves().moveCount()) {
 		ofstream* playerAFile = openFileToWrite(pathFileName + PLAYER_A_FILE_EXTENSION);
@@ -132,8 +123,8 @@ void GameLoader::savePlayerMovesToFile(const string& fileName) {
 	}
 }
 
-Board* GameLoader::loadRandomBoard(UINT width, UINT height) {
-	Board *b = new Board(width, height);
+Board* GameLoader::loadRandomBoard(UINT width, UINT height) const {
+	Board* b = new Board(width, height);
 
 	int playerAHomeMin = 1;
 	int playerAHomeMax = PLAYER_HOME_ROW_COUNT - playerAHomeMin + 1;
@@ -151,17 +142,15 @@ Board* GameLoader::loadRandomBoard(UINT width, UINT height) {
 	b->getRandomCellInRows(playerBHomeMin, playerBHomeMax)->setCellType(FLAG_B);
 
 	// Init ships
-	for (int type = ShipType::SHIP1; type <= ShipType::SHIP3; ++type)
-	{
-		Cell *c = b->getRandomCellInRows(playerAHomeMin, playerAHomeMax);
-		Ship *ship = new Ship(playerA, (ShipType)type, c);
+	for (int type = ShipType::SHIP1; type <= ShipType::SHIP3; ++type) {
+		Cell* c = b->getRandomCellInRows(playerAHomeMin, playerAHomeMax);
+		Ship* ship = new Ship(playerA, static_cast<ShipType>(type), c);
 		c->setStandingShip(ship);
 	}
 
-	for (int type = ShipType::SHIP7; type <= ShipType::SHIP9; ++type)
-	{
-		Cell *c = b->getRandomCellInRows(playerBHomeMin, playerBHomeMax);
-		Ship *ship = new Ship(playerB, (ShipType)type, c);
+	for (int type = ShipType::SHIP7; type <= ShipType::SHIP9; ++type) {
+		Cell* c = b->getRandomCellInRows(playerBHomeMin, playerBHomeMax);
+		Ship* ship = new Ship(playerB, static_cast<ShipType>(type), c);
 		c->setStandingShip(ship);
 	}
 
@@ -171,7 +160,7 @@ Board* GameLoader::loadRandomBoard(UINT width, UINT height) {
 }
 
 Board* GameLoader::loadBoardFromFile(ifstream& boardFile, const string& fileName, UINT width, UINT height) {
-	Board *b = new Board(width, height);
+	Board* b = new Board(width, height);
 
 	char validateToolsA = 0, validateToolsB = 0;
 	bool isPlayerToolsValidA = true, isPlayerToolsValidB = true;
@@ -189,53 +178,65 @@ Board* GameLoader::loadBoardFromFile(ifstream& boardFile, const string& fileName
 				b->board[col][row]->setCellType(CellType::FORREST);
 				break;
 			case BOARD_MARK_FLAG_A:
-				if (IS_BIT_I_SET(validateToolsA, 0)) { isPlayerToolsValidA = false; break; } // Make sure FlagA is set only once
+				if (IS_BIT_I_SET(validateToolsA, 0)) {
+					isPlayerToolsValidA = false;
+					break;
+				} // Make sure FlagA is set only once
 				b->board[col][row]->setCellType(CellType::FLAG_A);
 				SET_BIT(validateToolsA, 0);
 				break;
 			case BOARD_MARK_FLAG_B:
-				if (IS_BIT_I_SET(validateToolsB, 0)) { isPlayerToolsValidB = false; break; } // Make sure FlagB is set only once
+				if (IS_BIT_I_SET(validateToolsB, 0)) {
+					isPlayerToolsValidB = false;
+					break;
+				} // Make sure FlagB is set only once
 				b->board[col][row]->setCellType(CellType::FLAG_B);
 				SET_BIT(validateToolsB, 0);
 				break;
 			case '1':
 			case '2':
 			case '3':
-			{
-				int bit = ch - '1' + 1;
-				if (IS_BIT_I_SET(validateToolsA, bit)) { isPlayerToolsValidA = false; break; } // Make sure each ship is set only once
-				Ship *ship = new Ship(playerA, (ShipType)(ch - '0'), b->board[col][row]);
-				b->board[col][row]->setStandingShip(ship);
-				SET_BIT(validateToolsA, bit);
-				break;
-			}
+				{
+					int bit = ch - '1' + 1;
+					if (IS_BIT_I_SET(validateToolsA, bit)) {
+						isPlayerToolsValidA = false;
+						break;
+					} // Make sure each ship is set only once
+					Ship* ship = new Ship(playerA, static_cast<ShipType>(ch - '0'), b->board[col][row]);
+					b->board[col][row]->setStandingShip(ship);
+					SET_BIT(validateToolsA, bit);
+					break;
+				}
 
 			case '7':
 			case '8':
 			case '9':
-			{
-				int bit = ch - '7' + 1;
-				if (IS_BIT_I_SET(validateToolsB, bit)) { isPlayerToolsValidB = false; break; } // Make sure each ship is set only once
-				Ship *ship = new Ship(playerB, (ShipType)(ch - '0'), b->board[col][row]);
-				b->board[col][row]->setStandingShip(ship);
-				SET_BIT(validateToolsB, bit);
-				break;
-			}
+				{
+					int bit = ch - '7' + 1;
+					if (IS_BIT_I_SET(validateToolsB, bit)) {
+						isPlayerToolsValidB = false;
+						break;
+					} // Make sure each ship is set only once
+					Ship* ship = new Ship(playerB, static_cast<ShipType>(ch - '0'), b->board[col][row]);
+					b->board[col][row]->setStandingShip(ship);
+					SET_BIT(validateToolsB, bit);
+					break;
+				}
 
 			case ' ':
-			{
-				// Leave cell empty
-				break;
-			}
+				{
+					// Leave cell empty
+					break;
+				}
 			default:
-			{
-				// Handle unknown char - add error after making sure it wan't printed first
-				string err = "Wrong character on board : ";
-				err.push_back(ch);
-				err.append(" in file " + fileName);
-				addUniqueError(err);
-				break;
-			}
+				{
+					// Handle unknown char - add error after making sure it wan't printed first
+					string err = "Wrong character on board : ";
+					err.push_back(ch);
+					err.append(" in file " + fileName);
+					addUniqueError(err);
+					break;
+				}
 			}
 		}
 	}
@@ -284,12 +285,12 @@ PlayerMoves* GameLoader::loadPlayerMovesFromFile(ifstream& movesFile) {
 	return res;
 }
 
-void GameLoader::saveBoardToFile(ofstream& boardFile) {
+void GameLoader::saveBoardToFile(ofstream& boardFile) const {
 	for (UINT row = 0; row < _gameBoard->height; ++row) {
 		for (UINT col = 0; col < _gameBoard->width; ++col) {
-			Cell *c = _gameBoard->board[col][row];
+			Cell* c = _gameBoard->board[col][row];
 			if (c->getStandingShip() != nullptr) {
-				boardFile << (int)c->getStandingShip()->type();
+				boardFile << static_cast<int>(c->getStandingShip()->type());
 			}
 			else {
 				switch (c->getCellType()) {
@@ -316,21 +317,20 @@ void GameLoader::saveBoardToFile(ofstream& boardFile) {
 	}
 }
 
-void GameLoader::saveMovesToFile(ofstream& movesFile, PlayerMoves& moves, int roundToMod2) {
+void GameLoader::saveMovesToFile(ofstream& movesFile, PlayerMoves& moves, int roundToMod2) const {
 	map<unsigned long, PlayerMoves::Move*> list = moves.getMovesList();
 	for (auto& turn : list) {
 		unsigned long ts = turn.first;
 		if ((ts % 2) != roundToMod2) { ++ts; } // Make sure time stamp fits player's turn
-		movesFile << ts<< ", " << *turn.second << endl;
+		movesFile << ts << ", " << *turn.second << endl;
 	}
 	movesFile << endl;
 }
 
-ifstream* GameLoader::openFileToRead(const std::string fileName) {
+ifstream* GameLoader::openFileToRead(const std::string fileName) const {
 	ifstream* file = new ifstream();
 	file->open(fileName); // default is text!
-	if (!file->good())
-	{
+	if (!file->good()) {
 		/// TODO: Handle Error
 		file->close();
 		return nullptr;
@@ -338,11 +338,10 @@ ifstream* GameLoader::openFileToRead(const std::string fileName) {
 	return file;
 }
 
-ofstream* GameLoader::openFileToWrite(const std::string fileName) {
+ofstream* GameLoader::openFileToWrite(const std::string fileName) const {
 	ofstream* file = new ofstream();
 	file->open(fileName); // default is text!
-	if (!file->good())
-	{
+	if (!file->good()) {
 		/// TODO: Handle Error
 		file->close();
 		return nullptr;
@@ -350,12 +349,12 @@ ofstream* GameLoader::openFileToWrite(const std::string fileName) {
 	return file;
 }
 
-void GameLoader::closeAndReleaseFile(ifstream* file) {
+void GameLoader::closeAndReleaseFile(ifstream* file) const {
 	file->close();
 	delete file;
 }
 
-void GameLoader::closeAndReleaseFile(ofstream* file) {
+void GameLoader::closeAndReleaseFile(ofstream* file) const {
 	file->close();
 	delete file;
 }
@@ -368,4 +367,3 @@ void GameLoader::addUniqueError(const string& error) {
 	}
 	errors.push_back(error);
 }
-
