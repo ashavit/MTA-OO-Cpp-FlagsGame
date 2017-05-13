@@ -8,13 +8,13 @@
 
 #define ESC 27
 
-int Game::roundCounter = 0;
+int Game::staticRoundCounter = 0;
 int Game::aliveIns = 0;
 
 Game::Game(Player& playerA, Player& playerB, Flags* manager, int delay)
 	: gameManager(manager), playerA(playerA), playerB(playerB), delayTurnPeriod(delay) {
 	aliveIns++;
-	roundCounter++;
+	staticRoundCounter++;
 }
 
 Game::~Game() {
@@ -141,7 +141,7 @@ void Game::handleBattle(Ship* shipA, Ship* shipB, Cell* cell) const {
 	const std::string message = std::string("Ship") + std::to_string(static_cast<int>(winner->type())) +
 		" won Ship" + std::to_string(static_cast<int>(loser->type())) +
 		" @ cell (" + cell->getColumn() + "," + std::to_string(cell->getRow()) + ")";
-	gameBoard->printMessage(message, false);
+	gameBoard->printMessage(message, false, 10, 5);
 
 	loser->setDead();
 	winner->moveToCell(cell);

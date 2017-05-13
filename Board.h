@@ -41,6 +41,6 @@ public:
 
 	void drawBoard() const;
 	void drawCell(Cell* cell) const;
-	void printMessage(const std::string message, bool onFullScreen) const;
+	void printMessage(const std::string message, bool onFullScreen, int indent = 0, int rowsDown = 0) const;
 	int getPlayerStatsLocation() const;
 };

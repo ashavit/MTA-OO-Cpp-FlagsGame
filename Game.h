@@ -11,7 +11,7 @@ class Cell;
 
 class Game {
 	static int aliveIns;
-    static int roundCounter;
+    static int staticRoundCounter;
 
 	enum Awards { WIN = 50, LOSS = 30 };
 	enum GameState { IN_PROGRESS, ABORTED, ABORT_AND_QUIT };
@@ -33,6 +33,7 @@ protected:
 	int delayTurnPeriod;
 	Board* gameBoard = nullptr;
 	std::string gameName;
+	int roundCounter() const { return staticRoundCounter; }
 
 	void drawBoard() const;
 	void notifyKeyHit(char ch);

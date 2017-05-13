@@ -138,14 +138,14 @@ void Board::drawCell(Cell* cell) const {
 	cout.flush();
 }
 
-void Board::printMessage(const string message, bool onFullScreen) const {
+void Board::printMessage(const string message, bool onFullScreen, int indent, int rowsDown) const {
 	setTextColor(WHITE);
 	if (onFullScreen) {
 		clearScreen();
-		gotoxy(20, 15);
+		gotoxy(indent, rowsDown);
 	}
 	else {
-		gotoxy(10, height + 5);
+		gotoxy(indent, height + rowsDown);
 	}
 	cout << message << endl;
 }

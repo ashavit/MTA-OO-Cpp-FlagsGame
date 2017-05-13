@@ -51,18 +51,22 @@ void AutoGame::handleKeyboardInput() {
 }
 
 std::string AutoGame::endGameMessage() const {
-	return "Not impl yet";
 	std::string message;
+	message.append("Game cycle : " + std::to_string(roundCounter()) + "\n");
+	message.append("Num moves : " + std::to_string(timeStamp()) + "\n");
+	message.append("Winner : ");
+
 	if (playerA.didPlayerWin() || playerB.didPlayerLose()) {
-		message = playerA.name() + " won !!!!!";
+		message.append(playerA.name());
 	}
 	else if (playerA.didPlayerLose() || playerB.didPlayerWin()) {
-		message = playerB.name() + " won !!!!!";
+		message.append(playerB.name());
 	}
 	else {
-		message = "No winners!";
+		message = "None";
 	}
-	return message;
+
+	return message.append("\n");
 }
 
 void AutoGame::delayEndGame() const {
