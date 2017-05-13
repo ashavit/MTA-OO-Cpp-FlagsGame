@@ -12,15 +12,15 @@ int Game::staticRoundCounter = 0;
 int Game::aliveIns = 0;
 
 Game::Game(Player& playerA, Player& playerB, Flags* manager, int delay)
-	: gameManager(manager), playerA(playerA), playerB(playerB), delayTurnPeriod(delay) {
+	: _gameManager(manager), _playerA(playerA), _playerB(playerB), _delayTurnPeriod(delay) {
 	aliveIns++;
 	staticRoundCounter++;
 }
 
 Game::~Game() {
 	aliveIns--;
-	if (gameBoard != nullptr)
-		delete gameBoard;
+	if (_gameBoard != nullptr)
+		delete _gameBoard;
 }
 
 bool Game::loadRandomBoard() {
@@ -33,14 +33,14 @@ bool Game::loadBoardFromFile(const std::string& fileName) {
 
 void Game::run() {
 	// Verify board was loaded
-	bool boardReady = (gameBoard != nullptr);
+	bool boardReady = (_gameBoard != nullptr);
 
 	while (boardReady) {
 		++_timeStamp;
-		Player& activePlayer = ((_timeStamp % 2) ? playerA : playerB);
+		Player& activePlayer = ((_timeStamp % 2) ? _playerA : _playerB);
 		handlePlayerTurn(activePlayer);
 		if (isGameOver()) break;
-		Sleep(delayTurnPeriod);
+		Sleep(_delayTurnPeriod);
 		handleKeyboardInput();
 	}
 
@@ -50,31 +50,31 @@ void Game::run() {
 //*********** Private Helpers ***********//
 
 void Game::drawBoard() const {
-	gameBoard->drawBoard();
+	_gameBoard->drawBoard();
 
 	// Draw Players Names
-	int pos = gameBoard->getPlayerStatsLocation();
+	int pos = _gameBoard->getPlayerStatsLocation();
 	setTextColor(WHITE);
 
 	gotoxy(pos, 1);
-	std::cout << playerA.name();
+	std::cout << _playerA.name();
 	gotoxy(pos, 2);
-	std::cout << playerA.score();
+	std::cout << _playerA.score();
 
 	gotoxy(pos, 4);
-	std::cout << playerB.name();
+	std::cout << _playerB.name();
 	gotoxy(pos, 5);
-	std::cout << playerB.score();
+	std::cout << _playerB.score();
 
 	std::cout.flush();
 }
 
 void Game::drawCell(Cell *cell) const {
-	gameBoard->drawCell(cell);
+	_gameBoard->drawCell(cell);
 }
 
 void Game::printBattleResult(std::string result) const {
-	gameBoard->printMessage(result, false, 10, 5);
+	_gameBoard->printMessage(result, false, 10, 5);
 }
 
 void Game::handlePlayerTurn(Player& p) const {
@@ -82,7 +82,7 @@ void Game::handlePlayerTurn(Player& p) const {
 
 	for (int i = 0; i < FLEET_SIZE; ++i) {
 		Ship* s = p.getShip(i);
-		Cell* moveTo = (s->alive() ? gameBoard->getNextCell(s->cell(), s->direction()) : nullptr);
+		Cell* moveTo = (s->alive() ? _gameBoard->getNextCell(s->cell(), s->direction()) : nullptr);
 
 		if (moveTo != nullptr && s->canMoveToCell(moveTo)) {
 			if (moveTo->getStandingShip() == nullptr) { // If cell is empty - move there
@@ -93,8 +93,8 @@ void Game::handlePlayerTurn(Player& p) const {
 			}
 			else if (moveTo->getStandingShip()->owner() != p) { // If Cell is occupied by other player - fight
 				Cell* old = s->cell();
-				handleBattle((p == playerA ? s : moveTo->getStandingShip()),
-				             (p == playerB ? s : moveTo->getStandingShip()),
+				handleBattle((p == _playerA ? s : moveTo->getStandingShip()),
+				             (p == _playerB ? s : moveTo->getStandingShip()),
 				             moveTo);
 
 				// Redraw both cells no matter who won
@@ -156,11 +156,11 @@ void Game::handleBattle(Ship* shipA, Ship* shipB, Cell* cell) const {
 }
 
 bool Game::isGameOver() const {
-	return (gameState != GameState::IN_PROGRESS ||
-		playerA.didPlayerWin() ||
-		playerB.didPlayerWin() ||
-		playerA.didPlayerLose() ||
-		playerB.didPlayerLose());
+	return (_gameState != GameState::IN_PROGRESS ||
+		_playerA.didPlayerWin() ||
+		_playerB.didPlayerWin() ||
+		_playerA.didPlayerLose() ||
+		_playerB.didPlayerLose());
 }
 
 void Game::endGame() const {
@@ -168,35 +168,35 @@ void Game::endGame() const {
 	awardWinner();
 
 	// Print message to board
-	gameBoard->printMessage(endGameMessage(), true);
+	_gameBoard->printMessage(endGameMessage(), true);
 	delayEndGame();
 
 	postGameActions();
 	clearPlayerGameData();
 
 	// End game
-	gameManager->finishGame(gameState == GameState::ABORT_AND_QUIT);
+	_gameManager->finishGame(_gameState == GameState::ABORT_AND_QUIT);
 }
 
 void Game::awardWinner() const {
-	if (playerA.didPlayerWin()) {
-		playerA.incrementScore(Awards::WIN);
+	if (_playerA.didPlayerWin()) {
+		_playerA.incrementScore(Awards::WIN);
 	}
-	else if (playerB.didPlayerWin()) {
-		playerB.incrementScore(Awards::WIN);
+	else if (_playerB.didPlayerWin()) {
+		_playerB.incrementScore(Awards::WIN);
 	}
-	else if (playerA.didPlayerLose()) {
-		playerB.incrementScore(Awards::LOSS);
+	else if (_playerA.didPlayerLose()) {
+		_playerB.incrementScore(Awards::LOSS);
 	}
-	else if (playerB.didPlayerLose()) {
-		playerA.incrementScore(Awards::LOSS);
+	else if (_playerB.didPlayerLose()) {
+		_playerA.incrementScore(Awards::LOSS);
 	}
 }
 
 void Game::clearPlayerGameData() const {
 	// Delete ships and clear memory
-	playerA.clearFleetData();
-	playerB.clearFleetData();
+	_playerA.clearFleetData();
+	_playerB.clearFleetData();
 }
 
 void Game::notifyKeyHit(char ch) {
@@ -229,10 +229,10 @@ void Game::displaySubMenu() {
 			restartGame();
 			break;
 		case 8:
-			gameState = GameState::ABORTED;
+			_gameState = GameState::ABORTED;
 			break;
 		case 9:
-			gameState = GameState::ABORT_AND_QUIT;
+			_gameState = GameState::ABORT_AND_QUIT;
 			break;
 
 		default:
@@ -245,7 +245,7 @@ void Game::displaySubMenu() {
 }
 
 void Game::restartGame() {
-	playerA.restartGame();
-	playerB.restartGame();
+	_playerA.restartGame();
+	_playerB.restartGame();
 	_timeStamp = 0;
 }

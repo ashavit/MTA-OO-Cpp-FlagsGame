@@ -28,12 +28,12 @@ bool AutoGame::loadBoard(const std::string& fileName) {
 	// Make sure file name exist
 	if (fileName.size() == 0) return false;
 
-	GameLoader loader(playerA, playerB);
-	gameName = fileName;
+	GameLoader loader(playerA(), playerB());
+	setGameName(fileName);
 	bool success = loader.loadGameFromFile(fileName);
 
 	if (success) {
-		gameBoard = loader.gameBoard();
+		setGameBoard(loader.gameBoard());
 		success = loader.loadGameMovesFromFile(fileName);
 		if (success)
 			drawBoardIfNeeded();
@@ -71,11 +71,11 @@ std::string AutoGame::endGameMessage() const {
 	message.append("Num moves : " + std::to_string(timeStamp()) + "\n");
 	message.append("Winner : ");
 
-	if (playerA.didPlayerWin() || playerB.didPlayerLose()) {
-		message.append(playerA.name());
+	if (playerA().didPlayerWin() || playerB().didPlayerLose()) {
+		message.append(playerA().name());
 	}
-	else if (playerA.didPlayerLose() || playerB.didPlayerWin()) {
-		message.append(playerB.name());
+	else if (playerA().didPlayerLose() || playerB().didPlayerWin()) {
+		message.append(playerB().name());
 	}
 	else {
 		message.append("None");
@@ -94,6 +94,6 @@ void AutoGame::unpauseGame() const {
 
 bool AutoGame::isGameOver() const {
 	return (Game::isGameOver() ||
-		(playerA.didFinishAutoMoves(timeStamp()) &&
-			playerB.didFinishAutoMoves(timeStamp())));
+		(playerA().didFinishAutoMoves(timeStamp()) &&
+			playerB().didFinishAutoMoves(timeStamp())));
 }

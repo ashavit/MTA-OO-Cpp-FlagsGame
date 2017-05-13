@@ -23,11 +23,11 @@ void KeyboardGame::setRecordMode(bool isRecordMode) {
 }
 
 bool KeyboardGame::loadBoard(const std::string& fileName) {
-	GameLoader loader(playerA, playerB);
+	GameLoader loader(playerA(), playerB());
 	bool fromFile = (fileName.size() > 0);
 	bool success;
 	if (fromFile) {
-		gameName = fileName;
+		setGameName(fileName);
 		success = loader.loadGameFromFile(fileName);
 	}
 	else {
@@ -35,11 +35,11 @@ bool KeyboardGame::loadBoard(const std::string& fileName) {
 	}
 
 	if (success) {
-		gameBoard = loader.gameBoard();
+		setGameBoard(loader.gameBoard());
 
 		if (!fromFile && isRecordMode) {
-			gameName = loader.newRandomFileName();
-			loader.saveBoardToFile(gameName);
+			setGameName(loader.newRandomFileName());
+			loader.saveBoardToFile(gameName());
 		}
 
 		drawBoard();
@@ -55,19 +55,19 @@ bool KeyboardGame::loadBoard(const std::string& fileName) {
 void KeyboardGame::handleKeyboardInput() {
 	if (_kbhit()) {
 		char ch = _getch();
-		playerA.notifyKeyHit(ch, timeStamp());
-		playerB.notifyKeyHit(ch, timeStamp());
+		playerA().notifyKeyHit(ch, timeStamp());
+		playerB().notifyKeyHit(ch, timeStamp());
 		notifyKeyHit(ch);
 	}
 }
 
 std::string KeyboardGame::endGameMessage() const {
 	std::string message;
-	if (playerA.didPlayerWin() || playerB.didPlayerLose()) {
-		message = playerA.name() + " won !!!!!";
+	if (playerA().didPlayerWin() || playerB().didPlayerLose()) {
+		message = playerA().name() + " won !!!!!";
 	}
-	else if (playerA.didPlayerLose() || playerB.didPlayerWin()) {
-		message = playerB.name() + " won !!!!!";
+	else if (playerA().didPlayerLose() || playerB().didPlayerWin()) {
+		message = playerB().name() + " won !!!!!";
 	}
 	else {
 		message = "No winners!";
@@ -81,11 +81,11 @@ void KeyboardGame::delayEndGame() const {
 
 void KeyboardGame::postGameActions() const {
 	// Save move files if record mode
-	if (isRecordMode && gameName.size() > 0) {
-		playerA.endMoveList(timeStamp());
-		playerB.endMoveList(timeStamp());
-		GameLoader loader(playerA, playerB);
-		loader.savePlayerMovesToFile(gameName);
+	if (isRecordMode && gameName().size() > 0) {
+		playerA().endMoveList(timeStamp());
+		playerB().endMoveList(timeStamp());
+		GameLoader loader(playerA(), playerB());
+		loader.savePlayerMovesToFile(gameName());
 	}
 }
 
