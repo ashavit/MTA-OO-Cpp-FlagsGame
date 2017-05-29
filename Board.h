@@ -12,6 +12,9 @@ class Board
 	UINT width;
 	Cell*** board;
 
+	UINT rowLabelsSpace = 0;
+	UINT scoreBoardIndentation = 10;
+
 	enum BoardDensity
 	{
 		LOW = 10,

@@ -21,6 +21,13 @@ Board::Board(UINT width, UINT height) : height(height), width(width) {
 			board[col][row] = new Cell(row, col);
 		}
 	}
+
+	UINT temp = width;
+	rowLabelsSpace = 1;
+	while (temp) {
+		++rowLabelsSpace;
+		temp /= 10;
+	}
 }
 
 Board::~Board() {
@@ -84,9 +91,9 @@ Cell* Board::getNextCell(const Cell* cell, Direction direction) const {
 
 void Board::drawBoard() const {
 	clearScreen();
-	for (int column = 1; column <= width; ++column) {
-		gotoxy(column, 0);
-		std::cout << static_cast<char>('A' + column - 1);
+	for (int column = 0; column < width; ++column) {
+		gotoxy(column + rowLabelsSpace, 0);
+		std::cout << static_cast<char>('A' + column);
 	}
 	for (int row = 1; row <= height; ++row) {
 		gotoxy(0, row);
@@ -103,7 +110,7 @@ void Board::drawBoard() const {
 }
 
 void Board::drawCell(Cell* cell) const {
-	gotoxy(cell->column + 1, cell->row + 1);
+	gotoxy(cell->column + rowLabelsSpace, cell->row + 1);
 
 	if (cell->getStandingShip() != nullptr && cell->getStandingShip()->alive()) {
 		setTextColor(BLACK, GREY);
@@ -150,7 +157,7 @@ void Board::printMessage(const string message, bool onFullScreen, int indent, in
 }
 
 int Board::getPlayerStatsLocation() const {
-	return width + 30;
+	return rowLabelsSpace + width + scoreBoardIndentation;
 }
 
 //*********** Private functions ***********//

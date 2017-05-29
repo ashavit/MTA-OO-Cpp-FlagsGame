@@ -75,7 +75,7 @@ void Game::drawCell(Cell *cell) const {
 }
 
 void Game::printBattleResult(std::string result) const {
-	_gameBoard->printMessage(result, false, 10, 5);
+	_gameBoard->printMessage(result, false, 5, 2);
 }
 
 void Game::handlePlayerTurn(Player& p) const {
