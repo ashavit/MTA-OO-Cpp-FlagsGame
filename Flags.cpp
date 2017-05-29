@@ -68,6 +68,7 @@ void Flags::finishGame(bool _shouldExit) {
 //*********** Private ***********//
 
 void Flags::displayMenu() const {
+	clearScreen();
 	cout << "Please select an option:" << endl;
 	cout << "1. Select Players Name" << endl;
 	cout << "2. Begin a new game" << endl;
