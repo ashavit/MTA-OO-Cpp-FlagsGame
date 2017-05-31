@@ -16,8 +16,8 @@ class GameLoader
 	Board* _gameBoard = nullptr;
 	mutable std::list<std::string> errors;
 
-	Board* loadRandomBoard(UINT width = Board::DEFAULT_BOARD_SIZE, UINT height = Board::DEFAULT_BOARD_SIZE) const;
-	Board* loadBoardFromFile(std::ifstream& boardFile, const std::string& fileName, UINT width = Board::DEFAULT_BOARD_SIZE, UINT height = Board::DEFAULT_BOARD_SIZE) const;
+	Board* loadRandomBoard(UINT width = Board::cols, UINT height = Board::rows) const;
+	Board* loadBoardFromFile(std::ifstream& boardFile, const std::string& fileName, UINT width = Board::cols, UINT height = Board::rows) const;
 	PlayerMoves* loadPlayerMovesFromFile(std::ifstream& movesFile) const;
 
 	void saveBoardToFile(std::ofstream& boardFile) const;

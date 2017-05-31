@@ -2,14 +2,15 @@
 
 #include "Config.h"
 #include "Ship.h"
+#include "Commons.h"
 
 enum CellType
 {
-	REGULAR,
-	FORREST,
-	SEA,
-	FLAG_A,
-	FLAG_B
+	REGULAR = ' ',
+	FORREST = BOARD_MARK_FOREST,
+	SEA = BOARD_MARK_SEA,
+	FLAG_A = BOARD_MARK_FLAG_A,
+	FLAG_B = BOARD_MARK_FLAG_B
 };
 
 class Cell
@@ -40,8 +41,8 @@ public:
 	CellType getCellType() const { return type; }
 
 	int getRow() const { return row + 1; }
-
 	char getColumn() const { return column + 'A'; }
+	char charRepresentation() const;
 
 	void setStandingShip(Ship* ship) { standingShip = ship; }
 

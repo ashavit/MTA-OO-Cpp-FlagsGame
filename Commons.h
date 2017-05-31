@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 // File name consts
 const std::string RANDOM_FILE_NAME = "random_";
 const std::string BOARD_FILE_EXTENSION = "gboard";

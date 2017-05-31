@@ -1,11 +1,12 @@
 #pragma once
 
+#include "BoardData.h"
 #include "Cell.h"
 
 class Cell;
 class GameLoader;
 
-class Board
+class Board : public BoardData
 {
 	static int aliveIns;
 	UINT height;
@@ -22,7 +23,7 @@ class Board
 		HIGH = 30
 	};
 
-	Board() : Board(DEFAULT_BOARD_SIZE, DEFAULT_BOARD_SIZE) {}
+	Board() : Board(cols, rows) {}
 	Board(UINT width, UINT height);
 	Board(Board const&) = delete;
 	void operator=(Board const&) = delete;
@@ -32,11 +33,10 @@ class Board
 	friend GameLoader;
 
 public:
-	static const int DEFAULT_BOARD_SIZE = 13;
-
 	static int aliveInstances() { return aliveIns; }
 
-	~Board();
+	virtual ~Board();
+	virtual char charAt(int x, int y) const override;
 
 	Cell* getRandomCellInRows(size_t from, size_t to) const;
 

@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="AutoGame.h" />
     <ClInclude Include="Board.h" />
+    <ClInclude Include="BoardData.h" />
     <ClInclude Include="Cell.h" />
     <ClInclude Include="Config.h" />
     <ClInclude Include="ConfigurationManager.h" />
