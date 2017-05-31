@@ -29,9 +29,9 @@ public:
 	Flags(Flags const&) = delete;
 	void operator=(Flags const&) = delete;
 
-	static void configure(int argc, const char * argv[]);
 	static void test_printMemoryLeakStatus();
 
+	void configure(int argc, const char * argv[]);
     void run();
     void finishGame(bool shouldExitProgram);
 	void displayMenu() const;

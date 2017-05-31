@@ -32,6 +32,9 @@ void Flags::configure(int argc, const char* argv[]) {
 	if (ConfigurationManager::sharedInstance().boardMode() == ConfigurationManager::BoardMode::BOARD_FILE) {
 		FileManager::sharedInstance().loadAvailableFiles(ConfigurationManager::sharedInstance().path());
 	}
+	if (ConfigurationManager::sharedInstance().saveMode()) {
+		isRecordMode = true;
+	}
 }
 
 void Flags::run() {
@@ -129,7 +132,7 @@ void Flags::resetPlayerScores() {
 }
 
 void Flags::toggleRecordMode() {
-	isRecordMode = !isRecordMode;
+	isRecordMode = (!isRecordMode || ConfigurationManager::sharedInstance().saveMode());
 	clearScreen();
 	cout << "Record mode is now " << (isRecordMode ? "enabled" : "disblaed") << endl << endl;
 }

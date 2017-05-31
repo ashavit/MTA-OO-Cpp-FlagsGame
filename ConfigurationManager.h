@@ -27,6 +27,7 @@ private:
 	MovesMode _movesMode = MovesMode::KEYBOARD;
 	std::string _path = "";
 	bool _quietMode = false;
+	bool _saveMode = false;
 	int _delay = 20;
 
 public:
@@ -42,6 +43,7 @@ public:
 	MovesMode movesMode() const;
 	std::string path() const;
 	bool quietMode() const;
+	bool saveMode() const;
 	int delay() const;
 	int delayBetweenGames() const;
 };

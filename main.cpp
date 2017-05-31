@@ -6,7 +6,7 @@ using namespace std;
 
 int main(int argc, const char* argv[]) {
 	if (argc > 1) {
-		Flags::configure(argc - 1, argv + 1);
+		Flags().configure(argc - 1, argv + 1);
 	}
 	Flags().run();
 
