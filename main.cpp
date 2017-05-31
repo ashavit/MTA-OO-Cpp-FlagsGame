@@ -5,10 +5,11 @@
 using namespace std;
 
 int main(int argc, const char* argv[]) {
+	Flags flags;
 	if (argc > 1) {
-		Flags().configure(argc - 1, argv + 1);
+		flags.configure(argc - 1, argv + 1);
 	}
-	Flags().run();
+	flags.run();
 
 	if (DEBUG)
 		Flags::test_printMemoryLeakStatus();
