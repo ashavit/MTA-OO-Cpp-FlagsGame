@@ -11,7 +11,6 @@ class Cell;
 class Game
 {
 	static int aliveIns;
-	static int staticRoundCounter;
 
 	enum Awards
 	{
@@ -50,7 +49,7 @@ protected:
 	void setGameBoard(Board *board) { _gameBoard = board; }
 	std::string gameName() const { return _gameName; };
 	void setGameName(std::string name) { _gameName = name; }
-	int roundCounter() const { return staticRoundCounter; }
+	int roundNumber() const;
 
 	void drawBoard() const;
 	void drawCell(Cell* cell) const;

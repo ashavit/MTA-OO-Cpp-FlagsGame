@@ -67,7 +67,7 @@ void AutoGame::handleKeyboardInput() {
 
 std::string AutoGame::endGameMessage() const {
 	std::string message;
-	message.append("Game cycle : " + std::to_string(roundCounter()) + "\n");
+	message.append("Game cycle : " + std::to_string(roundNumber()) + "\n");
 	message.append("Num moves : " + std::to_string(timeStamp()) + "\n");
 	message.append("Winner : ");
 

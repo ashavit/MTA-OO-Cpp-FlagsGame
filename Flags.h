@@ -10,6 +10,7 @@ class Flags {
     Game* currentGame = nullptr;
     bool shouldExitProgram = false;
     bool isRecordMode = false;
+	unsigned int roundCounter = 0;
 
 	static bool isAutoModeEnabled();
     
@@ -23,6 +24,9 @@ class Flags {
 	void startAutoGame();
 	void printGameSummary() const;
 
+	void displayMenu() const;
+	void HandleMenuInput();
+
 public:
 	Flags();
 	~Flags();
@@ -34,6 +38,5 @@ public:
 	void configure(int argc, const char * argv[]);
     void run();
     void finishGame(bool shouldExitProgram);
-	void displayMenu() const;
-	void HandleMenuInput();
+	unsigned int roundsPlayed() const { return roundCounter; }
 };

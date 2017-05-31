@@ -9,13 +9,11 @@
 
 #define ESC 27
 
-int Game::staticRoundCounter = 0;
 int Game::aliveIns = 0;
 
 Game::Game(Player& playerA, Player& playerB, Flags* manager, int delay)
 	: _playerA(playerA), _playerB(playerB), _delayTurnPeriod(delay), _gameManager(manager) {
 	aliveIns++;
-	staticRoundCounter++;
 }
 
 Game::~Game() {
@@ -49,6 +47,10 @@ void Game::run() {
 }
 
 //*********** Private Helpers ***********//
+
+int Game::roundNumber() const {
+	return _gameManager->roundsPlayed();
+}
 
 void Game::drawBoard() const {
 	_gameBoard->drawBoard();

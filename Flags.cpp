@@ -42,8 +42,15 @@ void Flags::run() {
 	hideCursor();
 
 	if (isAutoModeEnabled()) {
-		while (!shouldExitProgram && FileManager::sharedInstance().hasMoreBoards()) {
-			startAutoGame();
+		while (!shouldExitProgram) {
+			ConfigurationManager& cManager = ConfigurationManager::sharedInstance();
+			if((cManager.boardMode() == ConfigurationManager::BOARD_FILE &&
+				FileManager::sharedInstance().hasMoreBoards()) || // has unplayed board file
+				(cManager.limitRounds() && roundCounter < cManager.roundsToPlay())) { // algo limit not reached
+				startAutoGame();				
+			} else {
+				shouldExitProgram = true;
+			}
 		}
 	}
 	else {
@@ -155,9 +162,10 @@ void Flags::startKeyboardGame() {
 		loadSuccess = currentGame->loadRandomBoard();
 	}
 
-	if (loadSuccess)
+	if (loadSuccess) {
+		++roundCounter;
 		currentGame->run();
-	else
+	} else
 		finishGame(true);
 }
 
@@ -169,9 +177,10 @@ void Flags::startAutoGame() {
 	bool loadSuccess = FileManager::sharedInstance().hasMoreBoards() &&
 		currentGame->loadBoardFromFile(FileManager::sharedInstance().nextFileName());
 
-	if (loadSuccess)
+	if (loadSuccess) {
+		++roundCounter;
 		currentGame->run();
-	else
+	} else
 		finishGame(true);
 }
 

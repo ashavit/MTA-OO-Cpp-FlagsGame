@@ -29,6 +29,7 @@ private:
 	bool _quietMode = false;
 	bool _saveMode = false;
 	int _delay = 20;
+	unsigned int _rounds = 0;
 
 public:
 
@@ -46,4 +47,7 @@ public:
 	bool saveMode() const;
 	int delay() const;
 	int delayBetweenGames() const;
+
+	bool limitRounds() const;
+	unsigned int roundsToPlay() const;
 };
