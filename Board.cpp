@@ -51,7 +51,7 @@ Cell* Board::getRandomCellInRows(size_t from, size_t to) const {
 		int r = static_cast<int>((rand() % range) + from - 1);
 		int c = rand() % width;
 		Cell * ptrTemp = board[c][r];
-		if (ptrTemp->getCellType() == CellType::REGULAR && ptrTemp->getStandingShip() == nullptr) {
+		if (ptrTemp && ptrTemp->getCellType() == CellType::REGULAR && ptrTemp->getStandingShip() == nullptr) {
 			ptrRes = ptrTemp;;
 		}
 	}
