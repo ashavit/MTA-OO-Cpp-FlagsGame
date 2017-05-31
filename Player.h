@@ -31,7 +31,7 @@ class Player
 
 	char controlKeys[_keyOptionsSize];
 
-	void setActiveShip(Ship* active);
+	void setActiveShip(Ship* active, unsigned long timeStamp);
 	void setActiveShipDirection(Direction direction, unsigned long timeStamp);
 	int shipIndexByType(ShipType type) const;
 

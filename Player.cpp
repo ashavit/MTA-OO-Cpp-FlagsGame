@@ -52,13 +52,13 @@ void Player::notifyKeyHit(char ch, unsigned long ts) {
 
 	// TODO: Consider using map / dictionary instead ?
 	if (tolower(ch) == controlKeys[_SHIP1]) {
-		setActiveShip(ships[_SHIP1]);
+		setActiveShip(ships[_SHIP1], ts);
 	}
 	else if (tolower(ch) == controlKeys[_SHIP2]) {
-		setActiveShip(ships[_SHIP2]);
+		setActiveShip(ships[_SHIP2], ts);
 	}
 	else if (tolower(ch) == controlKeys[_SHIP3]) {
-		setActiveShip(ships[_SHIP3]);
+		setActiveShip(ships[_SHIP3], ts);
 	}
 	else if (tolower(ch) == controlKeys[_UPWARDS]) {
 		setActiveShipDirection(Direction::UP, ts);
@@ -83,7 +83,7 @@ void Player::handleLoadedMoveIfNeeded(unsigned long ts) {
 	const PlayerMoves::Move* const turn = moves().getMove(ts);
 	if (turn) {
 		int shipIndex = shipIndexByType(static_cast<ShipType>(turn->shipType()));
-		setActiveShip(ships[shipIndex]);
+		setActiveShip(ships[shipIndex], ts);
 		Direction d = turn->direction();
 		setActiveShipDirection(d, ts);
 	}
@@ -120,7 +120,7 @@ bool Player::addShip(Ship* ship) {
 }
 
 void Player::restartGame() {
-	setActiveShip(nullptr);
+	setActiveShip(nullptr, 0);
 	for (int i = 0; i < FLEET_SIZE; ++i) {
 		ships[i]->resetToInitialState();
 	}
@@ -133,7 +133,7 @@ void Player::restartGame() {
 }
 
 void Player::clearFleetData() {
-	setActiveShip(nullptr);
+	setActiveShip(nullptr,0);
 	for (int i = 0; i < FLEET_SIZE; ++i) {
 		if (ships[i] != nullptr)
 			delete ships[i];
@@ -145,8 +145,11 @@ void Player::clearFleetData() {
 
 //*********** Private functions ***********//
 
-void Player::setActiveShip(Ship* active) {
-	activeShip = active;
+void Player::setActiveShip(Ship* active, unsigned long ts) {
+	if (activeShip != active) {
+		setActiveShipDirection(Direction::STOP, ts);
+		activeShip = active;
+	}
 }
 
 void Player::setActiveShipDirection(Direction direction, unsigned long ts) {
