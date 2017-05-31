@@ -15,7 +15,8 @@ public:
 	enum MovesMode
 	{
 		KEYBOARD,
-		MOVES_FILE
+		MOVES_FILE,
+		MOVES_ALGO
 	};
 
 private:

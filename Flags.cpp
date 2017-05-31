@@ -136,7 +136,8 @@ void Flags::toggleRecordMode() {
 
 bool Flags::isAutoModeEnabled() {
 	ConfigurationManager& cManager = ConfigurationManager::sharedInstance();
-	return cManager.boardMode() == ConfigurationManager::BOARD_FILE && cManager.movesMode() == ConfigurationManager::MOVES_FILE;
+	return ((cManager.boardMode() == ConfigurationManager::BOARD_FILE && cManager.movesMode() == ConfigurationManager::MOVES_FILE) ||
+		cManager.movesMode() == ConfigurationManager::MOVES_ALGO);
 }
 
 void Flags::startKeyboardGame() {
