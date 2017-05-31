@@ -42,15 +42,8 @@ void Flags::run() {
 	hideCursor();
 
 	if (isAutoModeEnabled()) {
-		while (!shouldExitProgram) {
-			ConfigurationManager& cManager = ConfigurationManager::sharedInstance();
-			if((cManager.boardMode() == ConfigurationManager::BOARD_FILE &&
-				FileManager::sharedInstance().hasMoreBoards()) || // has unplayed board file
-				(cManager.limitRounds() && roundCounter < cManager.roundsToPlay())) { // algo limit not reached
-				startAutoGame();				
-			} else {
-				shouldExitProgram = true;
-			}
+		while (!shouldExitProgram && shouldContinueAutoMode()) {
+			startAutoGame();				
 		}
 	}
 	else {
@@ -148,6 +141,13 @@ bool Flags::isAutoModeEnabled() {
 	ConfigurationManager& cManager = ConfigurationManager::sharedInstance();
 	return ((cManager.boardMode() == ConfigurationManager::BOARD_FILE && cManager.movesMode() == ConfigurationManager::MOVES_FILE) ||
 		cManager.movesMode() == ConfigurationManager::MOVES_ALGO);
+}
+
+bool Flags::shouldContinueAutoMode() const {
+	ConfigurationManager& cManager = ConfigurationManager::sharedInstance();
+	return ((cManager.limitRounds() && roundCounter < cManager.roundsToPlay()) || // algo limit not reached
+		(cManager.boardMode() == ConfigurationManager::BOARD_FILE && // has unplayed board file
+			FileManager::sharedInstance().hasMoreBoards()));
 }
 
 void Flags::startKeyboardGame() {

@@ -13,7 +13,8 @@ class Flags {
 	unsigned int roundCounter = 0;
 
 	static bool isAutoModeEnabled();
-    
+	bool shouldContinueAutoMode() const;
+
     void selectPlayerNames();
     void beginKeyboardGame();
     void beginReverseKeyboardGame();
