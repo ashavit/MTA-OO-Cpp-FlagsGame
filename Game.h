@@ -14,8 +14,8 @@ class Game
 
 	enum Awards
 	{
-		WIN = 50,
-		LOSS = 30
+		WIN = 10,
+		LOSS = 10
 	};
 
 	enum GameState
