@@ -5,8 +5,8 @@
 
 class Flags {
 
-    Player playerA;
-    Player playerB;
+	Player* playerA = nullptr;
+    Player* playerB = nullptr;
     Game* currentGame = nullptr;
     bool shouldExitProgram = false;
     bool isRecordMode = false;

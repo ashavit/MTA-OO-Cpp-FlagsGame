@@ -5,13 +5,13 @@
 
 int KeyboardGame::aliveIns = 0;
 
-KeyboardGame::KeyboardGame(Player& playerA, Player& playerB, Flags* manager, int delay)
+KeyboardGame::KeyboardGame(Player* playerA, Player* playerB, Flags* manager, int delay)
 	: Game(playerA, playerB, manager, delay) {
 	aliveIns++;
 
 	// Define player keys
-	playerA.setKeys("123wxads");
-	playerB.setKeys("789imjlk");
+	playerA->setKeys("123wxads");
+	playerB->setKeys("789imjlk");
 }
 
 KeyboardGame::~KeyboardGame() {
@@ -55,19 +55,19 @@ bool KeyboardGame::loadBoard(const std::string& fileName) {
 void KeyboardGame::handleKeyboardInput() {
 	if (_kbhit()) {
 		char ch = _getch();
-		playerA().notifyKeyHit(ch, timeStamp());
-		playerB().notifyKeyHit(ch, timeStamp());
+		playerA()->notifyKeyHit(ch, timeStamp());
+		playerB()->notifyKeyHit(ch, timeStamp());
 		notifyKeyHit(ch);
 	}
 }
 
 std::string KeyboardGame::endGameMessage() const {
 	std::string message;
-	if (playerA().didPlayerWin() || playerB().didPlayerLose()) {
-		message = playerA().name() + " won !!!!!";
+	if (playerA()->didPlayerWin() || playerB()->didPlayerLose()) {
+		message = playerA()->name() + " won !!!!!";
 	}
-	else if (playerA().didPlayerLose() || playerB().didPlayerWin()) {
-		message = playerB().name() + " won !!!!!";
+	else if (playerA()->didPlayerLose() || playerB()->didPlayerWin()) {
+		message = playerB()->name() + " won !!!!!";
 	}
 	else {
 		message = "No winners!";
@@ -82,8 +82,8 @@ void KeyboardGame::delayEndGame() const {
 void KeyboardGame::postGameActions() const {
 	// Save move files if record mode
 	if (_isRecordMode && gameName().size() > 0) {
-		playerA().endMoveList(timeStamp());
-		playerB().endMoveList(timeStamp());
+		playerA()->endMoveList(timeStamp());
+		playerB()->endMoveList(timeStamp());
 		GameLoader loader(playerA(), playerB());
 		loader.savePlayerMovesToFile(gameName());
 	}

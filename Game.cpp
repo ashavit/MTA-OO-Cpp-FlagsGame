@@ -11,7 +11,7 @@
 
 int Game::aliveIns = 0;
 
-Game::Game(Player& playerA, Player& playerB, Flags* manager, int delay)
+Game::Game(Player* playerA, Player* playerB, Flags* manager, int delay)
 	: _playerA(playerA), _playerB(playerB), _delayTurnPeriod(delay), _gameManager(manager) {
 	aliveIns++;
 }
@@ -36,7 +36,7 @@ void Game::run() {
 
 	while (boardReady) {
 		++_timeStamp;
-		Player& activePlayer = ((_timeStamp % 2) ? _playerA : _playerB);
+		Player* activePlayer = ((_timeStamp % 2) ? _playerA : _playerB);
 		handlePlayerTurn(activePlayer);
 		if (isGameOver()) break;
 		Sleep(_delayTurnPeriod);
@@ -60,14 +60,14 @@ void Game::drawBoard() const {
 	setTextColor(WHITE);
 
 	gotoxy(pos, 1);
-	std::cout << _playerA.name();
+	std::cout << _playerA->name();
 	gotoxy(pos, 2);
-	std::cout << _playerA.score();
+	std::cout << _playerA->score();
 
 	gotoxy(pos, 4);
-	std::cout << _playerB.name();
+	std::cout << _playerB->name();
 	gotoxy(pos, 5);
-	std::cout << _playerB.score();
+	std::cout << _playerB->score();
 
 	std::cout.flush();
 }
@@ -80,11 +80,11 @@ void Game::printBattleResult(std::string result) const {
 	_gameBoard->printMessage(result, false, 5, 2);
 }
 
-void Game::handlePlayerTurn(Player& p) const {
-	p.handleLoadedMoveIfNeeded(_timeStamp);
+void Game::handlePlayerTurn(Player* p) const {
+	p->handleLoadedMoveIfNeeded(_timeStamp);
 
 	for (int i = 0; i < FLEET_SIZE; ++i) {
-		Ship* s = p.getShip(i);
+		Ship* s = p->getShip(i);
 		Cell* moveTo = (s->alive() ? _gameBoard->getNextCell(s->cell(), s->direction()) : nullptr);
 
 		if (moveTo != nullptr && s->canMoveToCell(moveTo)) {
@@ -160,10 +160,10 @@ void Game::handleBattle(Ship* shipA, Ship* shipB, Cell* cell) const {
 
 bool Game::isGameOver() const {
 	return (_gameState != GameState::IN_PROGRESS ||
-		_playerA.didPlayerWin() ||
-		_playerB.didPlayerWin() ||
-		_playerA.didPlayerLose() ||
-		_playerB.didPlayerLose());
+		_playerA->didPlayerWin() ||
+		_playerB->didPlayerWin() ||
+		_playerA->didPlayerLose() ||
+		_playerB->didPlayerLose());
 }
 
 void Game::endGame() const {
@@ -182,24 +182,24 @@ void Game::endGame() const {
 }
 
 void Game::awardWinner() const {
-	if (_playerA.didPlayerWin()) {
-		_playerA.incrementScore(Awards::WIN);
+	if (_playerA->didPlayerWin()) {
+		_playerA->incrementScore(Awards::WIN);
 	}
-	else if (_playerB.didPlayerWin()) {
-		_playerB.incrementScore(Awards::WIN);
+	else if (_playerB->didPlayerWin()) {
+		_playerB->incrementScore(Awards::WIN);
 	}
-	else if (_playerA.didPlayerLose()) {
-		_playerB.incrementScore(Awards::LOSS);
+	else if (_playerA->didPlayerLose()) {
+		_playerB->incrementScore(Awards::LOSS);
 	}
-	else if (_playerB.didPlayerLose()) {
-		_playerA.incrementScore(Awards::LOSS);
+	else if (_playerB->didPlayerLose()) {
+		_playerA->incrementScore(Awards::LOSS);
 	}
 }
 
 void Game::clearPlayerGameData() const {
 	// Delete ships and clear memory
-	_playerA.clearFleetData();
-	_playerB.clearFleetData();
+	_playerA->clearFleetData();
+	_playerB->clearFleetData();
 }
 
 void Game::notifyKeyHit(char ch) {
@@ -248,7 +248,7 @@ void Game::displaySubMenu() {
 }
 
 void Game::restartGame() {
-	_playerA.restartGame();
-	_playerB.restartGame();
+	_playerA->restartGame();
+	_playerB->restartGame();
 	_timeStamp = 0;
 }

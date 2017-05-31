@@ -14,7 +14,7 @@ using namespace std;
 //*********** Ctor ***********//
 
 // Init players with default names
-Flags::Flags() : playerA("Player A"), playerB("Player B") { }
+Flags::Flags() { }
 
 Flags::~Flags() {
 	// Make sure we do not leave used memory
@@ -28,6 +28,9 @@ Flags::~Flags() {
 
 void Flags::configure(int argc, const char* argv[]) {
 	ConfigurationManager::sharedInstance().setup(argc, argv);
+
+	playerA = new Player("Player A");
+	playerB = new Player("Player B");
 
 	if (ConfigurationManager::sharedInstance().boardMode() == ConfigurationManager::BoardMode::BOARD_FILE) {
 		FileManager::sharedInstance().loadAvailableFiles(ConfigurationManager::sharedInstance().path());
@@ -112,8 +115,8 @@ void Flags::HandleMenuInput() {
 }
 
 void Flags::selectPlayerNames() {
-	playerA.updateName();
-	playerB.updateName();
+	playerA->updateName();
+	playerB->updateName();
 }
 
 void Flags::beginKeyboardGame() {
@@ -127,8 +130,8 @@ void Flags::beginReverseKeyboardGame() {
 }
 
 void Flags::resetPlayerScores() {
-	playerA.resetScore();
-	playerB.resetScore();
+	playerA->resetScore();
+	playerB->resetScore();
 }
 
 void Flags::toggleRecordMode() {
@@ -186,8 +189,8 @@ void Flags::startAutoGame() {
 
 void Flags::printGameSummary() const {
 	cout << "Game Summary" << endl;
-	cout << "A points: " << playerA.score() << endl;
-	cout << "B points: " << playerB.score() << endl;
+	cout << "A points: " << playerA->score() << endl;
+	cout << "B points: " << playerB->score() << endl;
 	waitForAnyKeyToContinue();
 }
 

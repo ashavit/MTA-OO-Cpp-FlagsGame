@@ -4,10 +4,10 @@
 
 //*********** Ctor ***********//
 
-Ship::Ship(Player& player, ShipType type, Cell* startingCell)
+Ship::Ship(Player* player, ShipType type, Cell* startingCell)
 	: shipOwner(player), shipType(type), initialCell(startingCell), currentCell(startingCell) {
 	aliveIns++;
-	shipOwner.addShip(this);
+	shipOwner->addShip(this);
 }
 
 Ship::~Ship() {
@@ -33,7 +33,7 @@ void Ship::setDead() {
 	currentCell = nullptr;
 }
 
-const Player& Ship::owner() const {
+const Player* Ship::owner() const {
 	return shipOwner;
 }
 

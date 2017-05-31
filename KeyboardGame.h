@@ -21,7 +21,7 @@ class KeyboardGame : public Game
 	virtual void restartGame() override;
 
 public:
-	KeyboardGame(Player& playerA, Player& playerB, Flags* manager, int delay);
+	KeyboardGame(Player* playerA, Player* playerB, Flags* manager, int delay);
 	KeyboardGame(KeyboardGame const&) = delete;
 	void operator=(KeyboardGame const&) = delete;
 	virtual ~KeyboardGame() override;

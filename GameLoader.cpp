@@ -19,7 +19,7 @@ using namespace std;
 
 int GameLoader::aliveIns = 0;
 
-GameLoader::GameLoader(Player& playerA, Player& playerB)
+GameLoader::GameLoader(Player* playerA, Player* playerB)
 	: playerA(playerA), playerB(playerB) {
 	aliveIns++;
 }
@@ -53,7 +53,7 @@ bool GameLoader::loadGameMovesFromFile(const string& fileName) const {
 	if (playerAFile) {
 		PlayerMoves* movesA = loadPlayerMovesFromFile(*playerAFile);
 		if (movesA->moveCount() > 0) {
-			playerA.setMoves(movesA);
+			playerA->setMoves(movesA);
 			didLoadMoves = true;
 		}
 		closeAndReleaseFile(playerAFile);
@@ -64,7 +64,7 @@ bool GameLoader::loadGameMovesFromFile(const string& fileName) const {
 	if (playerBFile) {
 		PlayerMoves* movesB = loadPlayerMovesFromFile(*playerBFile);
 		if (movesB->moveCount() > 0) {
-			playerB.setMoves(movesB);
+			playerB->setMoves(movesB);
 			didLoadMoves = true;
 		}
 		closeAndReleaseFile(playerBFile);
@@ -111,20 +111,20 @@ void GameLoader::printErrors() const {
 }
 
 void GameLoader::savePlayerMovesToFile(const string& fileName) const {
-	if (!playerA.isAutoMode() && playerA.moves().moveCount()) {
+	if (!playerA->isAutoMode() && playerA->moves().moveCount()) {
 		string pathFileName = FileManager::sharedInstance().fileNameWithPath(fileName, PLAYER_A_FILE_EXTENSION);
 		ofstream* playerAFile = openFileToWrite(pathFileName);
 		if (playerAFile) {
-			saveMovesToFile(*playerAFile, playerA.moves(), 1);
+			saveMovesToFile(*playerAFile, playerA->moves(), 1);
 			closeAndReleaseFile(playerAFile);
 		}
 	}
 
-	if (!playerB.isAutoMode() && playerB.moves().moveCount()) {
+	if (!playerB->isAutoMode() && playerB->moves().moveCount()) {
 		string pathFileName = FileManager::sharedInstance().fileNameWithPath(fileName, PLAYER_B_FILE_EXTENSION);
 		ofstream* playerBFile = openFileToWrite(pathFileName);
 		if (playerBFile) {
-			saveMovesToFile(*playerBFile, playerB.moves(), 0);
+			saveMovesToFile(*playerBFile, playerB->moves(), 0);
 			closeAndReleaseFile(playerBFile);
 		}
 	}
@@ -254,8 +254,8 @@ Board* GameLoader::loadBoardFromFile(ifstream& boardFile, const string& fileName
 
 	// If errors were found
 	if (errors.size()) {
-		playerA.clearFleetData();
-		playerB.clearFleetData();
+		playerA->clearFleetData();
+		playerB->clearFleetData();
 		delete b;
 		return nullptr;
 	}

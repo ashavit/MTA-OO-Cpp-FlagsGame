@@ -5,13 +5,13 @@
 
 int AutoGame::aliveIns = 0;
 
-AutoGame::AutoGame(Player& playerA, Player& playerB, Flags* manager, int delay)
+AutoGame::AutoGame(Player* playerA, Player* playerB, Flags* manager, int delay)
 	: Game(playerA, playerB, manager, delay) {
 	aliveIns++;
 
 	// Define player as auto
-	playerA.setAutoMode(true);
-	playerB.setAutoMode(true);
+	playerA->setAutoMode(true);
+	playerB->setAutoMode(true);
 }
 
 
@@ -71,11 +71,11 @@ std::string AutoGame::endGameMessage() const {
 	message.append("Num moves : " + std::to_string(timeStamp()) + "\n");
 	message.append("Winner : ");
 
-	if (playerA().didPlayerWin() || playerB().didPlayerLose()) {
-		message.append(playerA().name());
+	if (playerA()->didPlayerWin() || playerB()->didPlayerLose()) {
+		message.append(playerA()->name());
 	}
-	else if (playerA().didPlayerLose() || playerB().didPlayerWin()) {
-		message.append(playerB().name());
+	else if (playerA()->didPlayerLose() || playerB()->didPlayerWin()) {
+		message.append(playerB()->name());
 	}
 	else {
 		message.append("None");
@@ -94,6 +94,6 @@ void AutoGame::unpauseGame() const {
 
 bool AutoGame::isGameOver() const {
 	return (Game::isGameOver() ||
-		(playerA().didFinishAutoMoves(timeStamp()) &&
-			playerB().didFinishAutoMoves(timeStamp())));
+		(playerA()->didFinishAutoMoves(timeStamp()) &&
+			playerB()->didFinishAutoMoves(timeStamp())));
 }

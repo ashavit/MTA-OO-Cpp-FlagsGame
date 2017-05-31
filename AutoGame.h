@@ -24,7 +24,7 @@ class AutoGame : public Game
 	virtual bool isGameOver() const override;
 
 public:
-	AutoGame(Player& playerA, Player& playerB, Flags* manager, int delay);
+	AutoGame(Player* playerA, Player* playerB, Flags* manager, int delay);
 	AutoGame(AutoGame const&) = delete;
 	void operator=(AutoGame const&) = delete;
 	virtual ~AutoGame() override;

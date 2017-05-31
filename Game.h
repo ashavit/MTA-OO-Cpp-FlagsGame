@@ -25,8 +25,8 @@ class Game
 		ABORT_AND_QUIT
 	};
 
-	Player& _playerA;
-	Player& _playerB;
+	Player* _playerA;
+	Player* _playerB;
 	int _delayTurnPeriod;
 	Board* _gameBoard = nullptr;
 	std::string _gameName;
@@ -35,15 +35,15 @@ class Game
 	GameState _gameState = GameState::IN_PROGRESS;
 	unsigned long _timeStamp = 0;
 
-	void handlePlayerTurn(Player& p) const;
+	void handlePlayerTurn(Player* p) const;
 	void handleBattle(Ship* shipA, Ship* shipB, Cell* cell) const;
 	void endGame() const;
 	void awardWinner() const;
 	void displaySubMenu();
 
 protected:
-	Player& playerA() const { return _playerA; };
-	Player& playerB() const { return _playerB; };
+	Player* playerA() const { return _playerA; };
+	Player* playerB() const { return _playerB; };
 	int delayTurnPeriod() const { return _delayTurnPeriod; };
 	Board* gameBoard() const { return _gameBoard; }
 	void setGameBoard(Board *board) { _gameBoard = board; }
@@ -71,7 +71,7 @@ protected:
 	virtual void restartGame();
 
 public:
-	Game(Player& playerA, Player& playerB, Flags* manager, int delay);
+	Game(Player* playerA, Player* playerB, Flags* manager, int delay);
 	virtual ~Game();
 	Game(Game const&) = delete;
 	void operator=(Game const&) = delete;
