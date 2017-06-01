@@ -112,35 +112,28 @@ void Board::drawBoard() const {
 void Board::drawCell(Cell* cell) const {
 	gotoxy(cell->column + rowLabelsSpace, cell->row + 1);
 
-	if (cell->getStandingShip() != nullptr && cell->getStandingShip()->alive()) {
+	char ch = cell->charRepresentation();
+	switch (ch) {
+	case BOARD_MARK_SEA:
+		setTextColor(YELLOW, BLUE);
+		break;
+	case BOARD_MARK_FOREST:
+		setTextColor(BLUE, GREEN);
+		break;
+	case BOARD_MARK_FLAG_A:
+		setTextColor(BLACK, RED);
+		break;
+	case BOARD_MARK_FLAG_B:
+		setTextColor(BLACK, YELLOW);
+		break;
+	case CellType::REGULAR:
+		setTextColor(WHITE, WHITE);
+		break;
+	default:
 		setTextColor(BLACK, GREY);
-		cout << cell->getStandingShip()->type();
 	}
-	else {
-		switch (cell->getCellType()) {
-		case CellType::SEA:
-			setTextColor(YELLOW, BLUE);
-			cout << BOARD_MARK_SEA;
-			break;
-		case CellType::FORREST:
-			setTextColor(BLUE, GREEN);
-			cout << BOARD_MARK_FOREST;
-			break;
-		case CellType::FLAG_A:
-			setTextColor(BLACK, RED);
-			cout << BOARD_MARK_FLAG_A;
-			break;
-		case CellType::FLAG_B:
-			setTextColor(BLACK, YELLOW);
-			cout << BOARD_MARK_FLAG_B;
-			break;
-		case CellType::REGULAR:
-		default:
-			setTextColor(WHITE, WHITE);
-			cout << ' ';
-			break;
-		}
-	}
+
+	cout << ch;
 	cout.flush();
 }
 
