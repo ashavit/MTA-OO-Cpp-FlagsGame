@@ -28,7 +28,7 @@ bool AutoGame::loadBoard(const std::string& fileName) {
 	// Make sure file name exist
 	if (fileName.size() == 0) return false;
 
-	GameLoader loader(playerA(), playerB());
+	GameLoader loader{};
 	setGameName(fileName);
 	bool success = loader.loadGameFromFile(fileName);
 

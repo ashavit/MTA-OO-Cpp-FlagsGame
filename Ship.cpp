@@ -1,13 +1,11 @@
-#include "Player.h"
 #include "Ship.h"
 #include "Cell.h"
 
 //*********** Ctor ***********//
 
-Ship::Ship(Player* player, ShipType type, Cell* startingCell)
-	: shipOwner(player), shipType(type), initialCell(startingCell), currentCell(startingCell) {
+Ship::Ship(ShipType type, Cell* startingCell)
+	: shipType(type), initialCell(startingCell), currentCell(startingCell) {
 	aliveIns++;
-	shipOwner->addShip(this);
 }
 
 Ship::~Ship() {
@@ -31,10 +29,6 @@ void Ship::setDead() {
 	setDirection(Direction::STOP);
 	currentCell->setStandingShip(nullptr);
 	currentCell = nullptr;
-}
-
-const Player* Ship::owner() const {
-	return shipOwner;
 }
 
 //*********** Other functions ***********//

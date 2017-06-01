@@ -1,6 +1,5 @@
 #pragma once
 
-class Player;
 class Cell;
 
 enum class Direction
@@ -27,7 +26,6 @@ class Ship
 {
 	static int aliveIns;
 
-	Player* shipOwner;
 	const ShipType shipType;
 	Cell* initialCell;
 	Cell* currentCell;
@@ -35,7 +33,7 @@ class Ship
 	Direction shipDirection = Direction::STOP;
 
 public:
-	Ship(Player* player, ShipType type, Cell* startingCell);
+	Ship(ShipType type, Cell* startingCell);
 	~Ship();
 	Ship(Ship const&) = delete;
 	void operator=(Ship const&) = delete;
@@ -44,7 +42,6 @@ public:
 	Cell* cell() const;
 	bool alive() const;
 	void setDead();
-	const Player* owner() const;
 	ShipType type() const;
 
 	Direction direction() const;

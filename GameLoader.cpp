@@ -4,7 +4,6 @@
 #include "Commons.h"
 #include "FileManager.h"
 #include "GameLoader.h"
-#include "Player.h"
 #include "Board.h"
 #include "Cell.h"
 #include "PlayerMoves.h"
@@ -19,8 +18,7 @@ using namespace std;
 
 int GameLoader::aliveIns = 0;
 
-GameLoader::GameLoader(Player* playerA, Player* playerB)
-	: playerA(playerA), playerB(playerB) {
+GameLoader::GameLoader() {
 	aliveIns++;
 }
 
@@ -53,7 +51,8 @@ bool GameLoader::loadGameMovesFromFile(const string& fileName) const {
 	if (playerAFile) {
 		PlayerMoves* movesA = loadPlayerMovesFromFile(*playerAFile);
 		if (movesA->moveCount() > 0) {
-			playerA->setMoves(movesA);
+			/// TODO: load mopves from file
+//			playerA->setMoves(movesA);
 			didLoadMoves = true;
 		}
 		closeAndReleaseFile(playerAFile);
@@ -64,7 +63,8 @@ bool GameLoader::loadGameMovesFromFile(const string& fileName) const {
 	if (playerBFile) {
 		PlayerMoves* movesB = loadPlayerMovesFromFile(*playerBFile);
 		if (movesB->moveCount() > 0) {
-			playerB->setMoves(movesB);
+			/// TODO: load mopves from file
+//			playerB->setMoves(movesB);
 			didLoadMoves = true;
 		}
 		closeAndReleaseFile(playerBFile);
@@ -110,24 +110,25 @@ void GameLoader::printErrors() const {
 	}
 }
 
+/// TODO: Same moves from file
 void GameLoader::savePlayerMovesToFile(const string& fileName) const {
-	if (!playerA->isAutoMode() && playerA->moves().moveCount()) {
-		string pathFileName = FileManager::sharedInstance().fileNameWithPath(fileName, PLAYER_A_FILE_EXTENSION);
-		ofstream* playerAFile = openFileToWrite(pathFileName);
-		if (playerAFile) {
-			saveMovesToFile(*playerAFile, playerA->moves(), 1);
-			closeAndReleaseFile(playerAFile);
-		}
-	}
-
-	if (!playerB->isAutoMode() && playerB->moves().moveCount()) {
-		string pathFileName = FileManager::sharedInstance().fileNameWithPath(fileName, PLAYER_B_FILE_EXTENSION);
-		ofstream* playerBFile = openFileToWrite(pathFileName);
-		if (playerBFile) {
-			saveMovesToFile(*playerBFile, playerB->moves(), 0);
-			closeAndReleaseFile(playerBFile);
-		}
-	}
+//	if (!playerA->isAutoMode() && playerA->moves().moveCount()) {
+//		string pathFileName = FileManager::sharedInstance().fileNameWithPath(fileName, PLAYER_A_FILE_EXTENSION);
+//		ofstream* playerAFile = openFileToWrite(pathFileName);
+//		if (playerAFile) {
+//			saveMovesToFile(*playerAFile, playerA->moves(), 1);
+//			closeAndReleaseFile(playerAFile);
+//		}
+//	}
+//
+//	if (!playerB->isAutoMode() && playerB->moves().moveCount()) {
+//		string pathFileName = FileManager::sharedInstance().fileNameWithPath(fileName, PLAYER_B_FILE_EXTENSION);
+//		ofstream* playerBFile = openFileToWrite(pathFileName);
+//		if (playerBFile) {
+//			saveMovesToFile(*playerBFile, playerB->moves(), 0);
+//			closeAndReleaseFile(playerBFile);
+//		}
+//	}
 }
 
 Board* GameLoader::loadRandomBoard(UINT width, UINT height) const {
@@ -150,13 +151,13 @@ Board* GameLoader::loadRandomBoard(UINT width, UINT height) const {
 	// Init ships
 	for (int type = ShipType::SHIP1; type <= ShipType::SHIP3; ++type) {
 		Cell* c = b->getRandomCellInRows(playerAHomeMin, playerAHomeMax);
-		Ship* ship = new Ship(playerA, static_cast<ShipType>(type), c);
+		Ship* ship = new Ship(static_cast<ShipType>(type), c);
 		c->setStandingShip(ship);
 	}
 
 	for (int type = ShipType::SHIP7; type <= ShipType::SHIP9; ++type) {
 		Cell* c = b->getRandomCellInRows(playerBHomeMin, playerBHomeMax);
-		Ship* ship = new Ship(playerB, static_cast<ShipType>(type), c);
+		Ship* ship = new Ship(static_cast<ShipType>(type), c);
 		c->setStandingShip(ship);
 	}
 
@@ -206,7 +207,7 @@ Board* GameLoader::loadBoardFromFile(ifstream& boardFile, const string& fileName
 						isPlayerToolsValidA = false;
 						break;
 					} // Make sure each ship is set only once
-					Ship* ship = new Ship(playerA, static_cast<ShipType>(ch - '0'), b->board[col][row]);
+					Ship* ship = new Ship(static_cast<ShipType>(ch - '0'), b->board[col][row]);
 					b->board[col][row]->setStandingShip(ship);
 					SET_BIT(validateToolsA, bit);
 					break;
@@ -221,7 +222,7 @@ Board* GameLoader::loadBoardFromFile(ifstream& boardFile, const string& fileName
 						isPlayerToolsValidB = false;
 						break;
 					} // Make sure each ship is set only once
-					Ship* ship = new Ship(playerB, static_cast<ShipType>(ch - '0'), b->board[col][row]);
+					Ship* ship = new Ship(static_cast<ShipType>(ch - '0'), b->board[col][row]);
 					b->board[col][row]->setStandingShip(ship);
 					SET_BIT(validateToolsB, bit);
 					break;
@@ -254,8 +255,6 @@ Board* GameLoader::loadBoardFromFile(ifstream& boardFile, const string& fileName
 
 	// If errors were found
 	if (errors.size()) {
-		playerA->clearFleetData();
-		playerB->clearFleetData();
 		delete b;
 		return nullptr;
 	}

@@ -23,7 +23,7 @@ void KeyboardGame::setRecordMode(bool isRecordMode) {
 }
 
 bool KeyboardGame::loadBoard(const std::string& fileName) {
-	GameLoader loader(playerA(), playerB());
+	GameLoader loader{};
 	bool fromFile = (fileName.size() > 0);
 	bool success;
 	if (fromFile) {
@@ -84,7 +84,7 @@ void KeyboardGame::postGameActions() const {
 	if (_isRecordMode && gameName().size() > 0) {
 		playerA()->endMoveList(timeStamp());
 		playerB()->endMoveList(timeStamp());
-		GameLoader loader(playerA(), playerB());
+		GameLoader loader{};
 		loader.savePlayerMovesToFile(gameName());
 	}
 }

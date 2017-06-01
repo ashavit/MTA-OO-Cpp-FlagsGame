@@ -80,33 +80,35 @@ void Game::printBattleResult(std::string result) const {
 	_gameBoard->printMessage(result, false, 5, 2);
 }
 
+/// TODO: Amir: Redo this whole thing
 void Game::handlePlayerTurn(Player* p) const {
-	p->handleLoadedMoveIfNeeded(_timeStamp);
-
-	for (int i = 0; i < FLEET_SIZE; ++i) {
-		Ship* s = p->getShip(i);
-		Cell* moveTo = (s->alive() ? _gameBoard->getNextCell(s->cell(), s->direction()) : nullptr);
-
-		if (moveTo != nullptr && s->canMoveToCell(moveTo)) {
-			if (moveTo->getStandingShip() == nullptr) { // If cell is empty - move there
-				Cell* old = s->cell();
-				s->moveToCell(moveTo);
-				drawCellIfNeeded(s->cell());
-				drawCellIfNeeded(old);
-			}
-			else if (moveTo->getStandingShip()->owner() != p) { // If Cell is occupied by other player - fight
-				Cell* old = s->cell();
-				handleBattle((p == _playerA ? s : moveTo->getStandingShip()),
-				             (p == _playerB ? s : moveTo->getStandingShip()),
-				             moveTo);
-
-				// Redraw both cells no matter who won
-				drawCellIfNeeded(moveTo);
-				drawCellIfNeeded(old);
-			}
-		}
-		// Else don't move ship
-	}
+//	p->handleLoadedMoveIfNeeded(_timeStamp);
+//
+//	for (int i = 0; i < FLEET_SIZE; ++i) {
+//		Ship* s = p->getShip(i);
+//		Cell* moveTo = (s->alive() ? _gameBoard->getNextCell(s->cell(), s->direction()) : nullptr);
+//
+//		if (moveTo != nullptr && s->canMoveToCell(moveTo)) {
+//			if (moveTo->getStandingShip() == nullptr) { // If cell is empty - move there
+//				Cell* old = s->cell();
+//				s->moveToCell(moveTo);
+//				drawCellIfNeeded(s->cell());
+//				drawCellIfNeeded(old);
+//			}
+//			else if (moveTo->getStandingShip()->type() + s->type() >= 8 && 
+//				moveTo->getStandingShip()->type() + s->type() <= 12) { // If Cell is occupied by other player - fight
+//				Cell* old = s->cell();
+//				handleBattle((p == _playerA ? s : moveTo->getStandingShip()),
+//				             (p == _playerB ? s : moveTo->getStandingShip()),
+//				             moveTo);
+//
+//				// Redraw both cells no matter who won
+//				drawCellIfNeeded(moveTo);
+//				drawCellIfNeeded(old);
+//			}
+//		}
+//		// Else don't move ship
+//	}
 }
 
 void Game::handleBattle(Ship* shipA, Ship* shipB, Cell* cell) const {

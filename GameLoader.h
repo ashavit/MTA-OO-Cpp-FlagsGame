@@ -3,7 +3,6 @@
 #include <list>
 #include "Board.h"
 
-class Player;
 class Board;
 class PlayerMoves;
 
@@ -11,8 +10,6 @@ class GameLoader
 {
 	static int aliveIns;
 
-	Player* playerA;
-	Player* playerB;
 	Board* _gameBoard = nullptr;
 	mutable std::list<std::string> errors;
 
@@ -32,7 +29,7 @@ class GameLoader
 
 public:
 	/* Methods take in Players to support reverse games */
-	GameLoader(Player* playerA, Player* playerB);
+	GameLoader();
 	~GameLoader();
 	GameLoader(GameLoader const&) = delete;
 	void operator=(GameLoader const&) = delete;
