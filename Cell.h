@@ -32,6 +32,8 @@ public:
 
 	~Cell() {
 		aliveIns--;
+		if (standingShip != nullptr)
+			delete standingShip;
 	}
 
 	static int aliveInstances() { return aliveIns; }
