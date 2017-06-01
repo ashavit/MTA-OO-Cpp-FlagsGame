@@ -84,7 +84,7 @@ std::string ConfigurationManager::path() const {
 // This option is relevant only with -board f -moves f otherwise ignored
 bool ConfigurationManager::quietMode() const {
 	// Quiet can be enabled only if board and moves are loaded from files
-	return _quietMode && (_boardMode == BoardMode::BOARD_FILE) && (_movesMode == MovesMode::MOVES_FILE || _movesMode == MovesMode::MOVES_ALGO);
+	return _quietMode && ((_boardMode == BoardMode::BOARD_FILE && _movesMode == MovesMode::MOVES_FILE) || _movesMode == MovesMode::MOVES_ALGO);
 }
 
 // This option is relevant only with -moves a otherwise ignored
