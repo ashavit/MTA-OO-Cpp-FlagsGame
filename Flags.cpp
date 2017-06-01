@@ -3,8 +3,6 @@
 #include "Config.h"
 #include "Utils.h"
 #include "FileManager.h"
-#include "AutoGame.h"
-#include "KeyboardGame.h"
 #include "GameLoader.h"
 #include "PlayerMoves.h"
 #include "ConfigurationManager.h"
@@ -120,12 +118,12 @@ void Flags::selectPlayerNames() {
 }
 
 void Flags::beginKeyboardGame() {
-	currentGame = new KeyboardGame(playerA, playerB, this, ConfigurationManager::sharedInstance().delay());
+	currentGame = new Game(playerA, playerB, this, ConfigurationManager::sharedInstance().delay());
 	startKeyboardGame();
 }
 
 void Flags::beginReverseKeyboardGame() {
-	currentGame = new KeyboardGame(playerB, playerA, this, ConfigurationManager::sharedInstance().delay());
+	currentGame = new Game(playerB, playerA, this, ConfigurationManager::sharedInstance().delay());
 	startKeyboardGame();
 }
 
@@ -173,7 +171,7 @@ void Flags::startKeyboardGame() {
 }
 
 void Flags::startAutoGame() {
-	AutoGame *game = new AutoGame(playerA, playerB, this, ConfigurationManager::sharedInstance().delay());
+	Game *game = new Game(playerA, playerB, this, ConfigurationManager::sharedInstance().delay());
 	game->setQuietMode(ConfigurationManager::sharedInstance().quietMode());
 	currentGame = game;
 
@@ -196,8 +194,6 @@ void Flags::printGameSummary() const {
 
 void Flags::test_printMemoryLeakStatus() {
 	cout << endl << "There are " << Game::aliveInstances() << " instances of Game objects alive" << endl;
-	cout << endl << "There are " << KeyboardGame::aliveInstances() << " instances of KeybaordGame objects alive" << endl;
-	cout << endl << "There are " << AutoGame::aliveInstances() << " instances of AutoGame objects alive" << endl;
 	cout << "There are " << GameLoader::aliveInstances() << " instances of GameLoader objects alive" << endl;
 	cout << "There are " << Board::aliveInstances() << " instances of Board objects alive" << endl;
 	cout << "There are " << Cell::aliveInstances() << " instances of Cell objects alive" << endl << endl;

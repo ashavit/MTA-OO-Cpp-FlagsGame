@@ -34,41 +34,35 @@ class Game
 
 	GameState _gameState = GameState::IN_PROGRESS;
 	unsigned long _timeStamp = 0;
+	bool _isRecordMode = false;
+	bool _isQuietMode = false;
 
+	bool loadBoard(const std::string& fileName);
+	void drawBoardIfNeeded() const;
+	void drawBoard() const;
+	void drawCell(Cell* cell) const;
+	void drawCellIfNeeded(Cell* cell) const;
+	void printBattleResult(std::string result) const;
+	void printBattleResultIfNeeded(std::string result) const;
+
+	void handleKeyboardInput();
+	void notifyKeyHit(char ch);
 	void handlePlayerTurn(Player* p) const;
 	void handleBattle(Ship* shipA, Ship* shipB, Cell* cell) const;
 	void endGame() const;
 	void awardWinner() const;
 	void displaySubMenu();
 
-protected:
-	Player* playerA() const { return _playerA; };
-	Player* playerB() const { return _playerB; };
-	int delayTurnPeriod() const { return _delayTurnPeriod; };
-	Board* gameBoard() const { return _gameBoard; }
-	void setGameBoard(Board *board) { _gameBoard = board; }
-	std::string gameName() const { return _gameName; };
-	void setGameName(std::string name) { _gameName = name; }
+	bool isGameOver() const;
 	int roundNumber() const;
-
-	void drawBoard() const;
-	void drawCell(Cell* cell) const;
-	virtual void printBattleResult(std::string result) const;
-	void notifyKeyHit(char ch);
+	std::string endGameMessage() const;
+	std::string Game::endQuietGameMessage() const;
+	std::string Game::endKeyboardGameMessage() const;
 	void clearPlayerGameData() const;
-	unsigned long timeStamp() const { return _timeStamp; };
-
-	virtual bool loadBoard(const std::string& fileName) = 0;
-	virtual void drawCellIfNeeded(Cell* cell) const = 0;
-	virtual void printBattleResultIfNeeded(std::string result) const = 0;
-	virtual void handleKeyboardInput() = 0;
-	virtual std::string endGameMessage() const = 0;
-	virtual void delayEndGame() const = 0;
-	virtual void postGameActions() const = 0;
-	virtual void unpauseGame() const = 0;
-
-	virtual bool isGameOver() const;
-	virtual void restartGame();
+	void delayEndGame() const;
+	void postGameActions() const;
+	void unpauseGame() const;
+	void restartGame();
 
 public:
 	Game(Player* playerA, Player* playerB, Flags* manager, int delay);
@@ -78,7 +72,10 @@ public:
 
 	static int aliveInstances() { return aliveIns; }
 
-	virtual void setRecordMode(bool isRecordMode) = 0;
+	void setRecordMode(bool isRecordMode) { _isRecordMode = isRecordMode; };
+	void setQuietMode(bool isQuiet) {
+		_isQuietMode = isQuiet;
+	}
 
 	bool loadRandomBoard();
 	bool loadBoardFromFile(const std::string& fileName);

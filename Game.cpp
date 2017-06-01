@@ -6,6 +6,7 @@
 #include "Board.h"
 #include "Player.h"
 #include "Utils.h"
+#include "ConfigurationManager.h"
 
 #define ESC 27
 
@@ -14,6 +15,10 @@ int Game::aliveIns = 0;
 Game::Game(Player* playerA, Player* playerB, Flags* manager, int delay)
 	: _playerA(playerA), _playerB(playerB), _delayTurnPeriod(delay), _gameManager(manager) {
 	aliveIns++;
+
+	// TODO: Define player keys
+	playerA->setKeys("123wxads");
+	playerB->setKeys("789imjlk");
 }
 
 Game::~Game() {
@@ -78,6 +83,61 @@ void Game::drawCell(Cell *cell) const {
 
 void Game::printBattleResult(std::string result) const {
 	_gameBoard->printMessage(result, false, 5, 2);
+}
+
+bool Game::loadBoard(const std::string& fileName) {
+	GameLoader loader{};
+	bool fromFile = (fileName.size() > 0);
+	bool success;
+	if (fromFile) {
+		_gameName = fileName;
+		success = loader.loadGameFromFile(fileName);
+	}
+	else {
+		success = loader.loadRandomGame();
+	}
+
+	if (success) {
+		_gameBoard = loader.gameBoard();
+
+		if (!fromFile && _isRecordMode) {
+			_gameName = loader.newRandomFileName();
+			loader.saveBoardToFile(_gameName);
+		}
+
+		drawBoardIfNeeded();
+	}
+	else {
+		loader.printErrors();
+		delayEndGame();
+	}
+
+	return success;
+}
+
+void Game::drawBoardIfNeeded() const {
+	if (!_isQuietMode)
+		drawBoard();
+}
+
+void Game::drawCellIfNeeded(Cell* cell) const {
+	if (!_isQuietMode)
+		drawCell(cell);
+}
+
+void Game::printBattleResultIfNeeded(std::string result) const {
+	if (!_isQuietMode)
+		printBattleResult(result);
+}
+
+void Game::handleKeyboardInput() {
+	if (_kbhit()) {
+		char ch = _getch();
+		/// TODO: Check if players are keyboard
+//		playerA()->notifyKeyHit(ch, timeStamp());
+//		playerB()->notifyKeyHit(ch, timeStamp());
+		notifyKeyHit(ch);
+	}
 }
 
 /// TODO: Amir: Redo this whole thing
@@ -161,11 +221,18 @@ void Game::handleBattle(Ship* shipA, Ship* shipB, Cell* cell) const {
 }
 
 bool Game::isGameOver() const {
-	return (_gameState != GameState::IN_PROGRESS ||
+	bool basicConditions = (_gameState != GameState::IN_PROGRESS ||
 		_playerA->didPlayerWin() ||
 		_playerB->didPlayerWin() ||
 		_playerA->didPlayerLose() ||
 		_playerB->didPlayerLose());
+	if (_isQuietMode) {
+		return (basicConditions ||
+			(_playerA->didFinishAutoMoves(_timeStamp) &&
+				_playerB->didFinishAutoMoves(_timeStamp)));
+	} else {
+		return basicConditions;
+	}
 }
 
 void Game::endGame() const {
@@ -249,8 +316,71 @@ void Game::displaySubMenu() {
 	while (!handled);
 }
 
+std::string Game::endGameMessage() const {
+	if (_isQuietMode)
+		return endQuietGameMessage();
+	else
+		return endKeyboardGameMessage();
+}
+
+std::string Game::endQuietGameMessage() const {
+	std::string message;
+	message.append("Game cycle : " + std::to_string(roundNumber()) + "\n");
+	message.append("Num moves : " + std::to_string(_timeStamp) + "\n");
+	message.append("Winner : ");
+
+	if (_playerA->didPlayerWin() || _playerB->didPlayerLose()) {
+		message.append(_playerA->name());
+	}
+	else if (_playerA->didPlayerLose() || _playerB->didPlayerWin()) {
+		message.append(_playerB->name());
+	}
+	else {
+		message.append("None");
+	}
+
+	return message.append("\n");
+}
+
+std::string Game::endKeyboardGameMessage() const {
+	std::string message;
+	if (_playerA->didPlayerWin() || _playerB->didPlayerLose()) {
+		message = _playerA->name() + " won !!!!!";
+	}
+	else if (_playerA->didPlayerLose() || _playerB->didPlayerWin()) {
+		message = _playerB->name() + " won !!!!!";
+	}
+	else {
+		message = "No winners!";
+	}
+	return message;
+}
+
+void Game::delayEndGame() const {
+	if (_isQuietMode) {
+		Sleep(ConfigurationManager::sharedInstance().delayBetweenGames());
+	} else {
+		waitForAnyKeyToContinue();
+	}
+}
+
+void Game::postGameActions() const {
+	// Save move files if record mode
+	if (_isRecordMode && _gameName.size() > 0) {
+		_playerA->endMoveList(_timeStamp + 1);
+		_playerB->endMoveList(_timeStamp + 1);
+		GameLoader loader{};
+		loader.savePlayerMovesToFile(_gameName);
+	}
+}
+
+void Game::unpauseGame() const {
+	drawBoardIfNeeded();
+}
+
 void Game::restartGame() {
 	_playerA->restartGame();
 	_playerB->restartGame();
 	_timeStamp = 0;
+	drawBoardIfNeeded();
 }
