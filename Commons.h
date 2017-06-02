@@ -13,3 +13,23 @@ const char BOARD_MARK_FOREST = 'T';
 const char BOARD_MARK_SEA = 'S';
 const char BOARD_MARK_FLAG_A = 'A';
 const char BOARD_MARK_FLAG_B = 'B';
+
+enum ShipType
+{
+	SHIP1 = 1,
+	SHIP2,
+	SHIP3,
+	SHIP7 = 7,
+	SHIP8,
+	SHIP9
+};
+
+enum class Direction
+{
+	STOP,
+	UP,
+	DOWN,
+	LEFT,
+	RIGHT,
+	INVALID
+};
