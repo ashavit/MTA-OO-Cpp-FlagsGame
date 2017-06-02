@@ -46,7 +46,4 @@ public:
 	void setName(std::string name) { playerName = name; }
 
 	void endMoveList(unsigned long timeStamp);
-
-	bool didPlayerWin();
-	bool didPlayerLose();
 };

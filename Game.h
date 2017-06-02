@@ -26,10 +26,13 @@ class Game
 	};
 
 	Flags* _gameManager = nullptr;
+	Player* _winner = nullptr;
 	Player* _playerA;
 	Player* _playerB;
 	int _scoreA;
 	int _scoreB;
+	int _liveShipsA = 3;
+	int _liveShipsB = 3;
 	int _delayTurnPeriod;
 	Board* _gameBoard = nullptr;
 	std::string _gameName;
@@ -49,8 +52,8 @@ class Game
 
 	void handleKeyboardInput();
 	void notifyKeyHit(char ch);
-	void handlePlayerTurn(Player* p) const;
-	void handleBattle(Ship* shipA, Ship* shipB, Cell* cell) const;
+	void handlePlayerTurn(Player* p);
+	void handleBattle(Ship* shipA, Ship* shipB, Cell* cell);
 	void endGame() const;
 	void displaySubMenu();
 

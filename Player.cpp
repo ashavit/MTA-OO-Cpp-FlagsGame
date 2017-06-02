@@ -40,14 +40,6 @@ void Player::init(const BoardData* bd) {
 	}
 }
 
-bool Player::didPlayerWin() {
-	return false;
-}
-
-bool Player::didPlayerLose() {
-	return false;
-}
-
 //*********** Private functions ***********//
 
 void Player::setActiveShip(ShipType active, unsigned long ts) {

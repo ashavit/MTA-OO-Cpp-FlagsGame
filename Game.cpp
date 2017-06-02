@@ -59,13 +59,7 @@ void Game::run() {
 }
 
 Player* Game::gameWinner() const {
-	if (_playerA->didPlayerWin() || _playerB->didPlayerLose()) {
-		return _playerA;
-	}
-	else if (_playerA->didPlayerLose() || _playerB->didPlayerWin()) {
-		return _playerB;
-	}
-	return nullptr;
+	return _winner;
 }
 
 //*********** Private Helpers ***********//
@@ -172,7 +166,7 @@ void Game::handleKeyboardInput() {
 }
 
 /// TODO: Amir: Redo this whole thing
-void Game::handlePlayerTurn(Player* p) const {
+void Game::handlePlayerTurn(Player* p) {
 
 	// TODO: pass last turn
 	/* Coordinates start from 1,1 */
@@ -198,6 +192,11 @@ void Game::handlePlayerTurn(Player* p) const {
 				s->moveToCell(moveTo);
 				drawCellIfNeeded(s->cell());
 				drawCellIfNeeded(old);
+				if ((p == _playerA && moveTo->getCellType() == CellType::FLAG_B) ||
+					(p == _playerB && moveTo->getCellType() == CellType::FLAG_A)) {
+					// Player found oponent's flag
+					_winner = p;
+				}
 			}
 			else if (moveTo->getStandingShip()->type() + s->type() >= 8 &&
 				moveTo->getStandingShip()->type() + s->type() <= 12) { // If Cell is occupied by other player - fight
@@ -215,7 +214,7 @@ void Game::handlePlayerTurn(Player* p) const {
 	// Else don't move ship
 }
 
-void Game::handleBattle(Ship* shipA, Ship* shipB, Cell* cell) const {
+void Game::handleBattle(Ship* shipA, Ship* shipB, Cell* cell) {
 	// PlayerA ships lose in most cases
 	Ship *winner = shipB, *loser = shipA;
 
@@ -260,16 +259,25 @@ void Game::handleBattle(Ship* shipA, Ship* shipB, Cell* cell) const {
 		" @ cell (" + cell->getColumn() + "," + std::to_string(cell->getRow()) + ")";
 	printBattleResultIfNeeded(message);
 
+	// Update counts and check if any player has lost all ships
+	if (loser == shipA) {
+		--_liveShipsA;
+		if (0 == _liveShipsA)
+			_winner = _playerB;
+	}
+	else {
+		--_liveShipsB;
+		if (0 == _liveShipsB)
+			_winner = _playerA;
+	}
+
 	loser->setDead();
 	winner->moveToCell(cell);
 }
 
 bool Game::isGameOver() const {
-	bool basicConditions = (_gameState != GameState::IN_PROGRESS ||
-		_playerA->didPlayerWin() ||
-		_playerB->didPlayerWin() ||
-		_playerA->didPlayerLose() ||
-		_playerB->didPlayerLose());
+	bool basicConditions = (_gameState != GameState::IN_PROGRESS || 
+		_winner != nullptr);
 
 	FilePlayer *fPlayerA = dynamic_cast<FilePlayer*>(_playerA);
 	FilePlayer *fPlayerB = dynamic_cast<FilePlayer*>(_playerB);
