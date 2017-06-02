@@ -28,8 +28,8 @@ void Player::setPlayer(int player) {
 void Player::init(const BoardData* bd) {
 	boardData = bd;
 	ships.clear();
-	for (UINT col = 1; col < BoardData::cols; ++col) {
-		for (UINT row = 1; row < BoardData::rows; ++row) {
+	for (UINT col = 1; col <= BoardData::cols; ++col) {
+		for (UINT row = 1; row <= BoardData::rows; ++row) {
 			char c = bd->charAt(col, row);
 			if ((playerType == 1 && c >= '1' && c <= '3') ||
 				(playerType == 2 && c >= '7' && c <= '9')) {
