@@ -29,6 +29,7 @@ void Ship::setDead() {
 	setDirection(Direction::STOP);
 	currentCell->setStandingShip(nullptr);
 	currentCell = nullptr;
+	delete this;
 }
 
 //*********** Other functions ***********//
