@@ -33,6 +33,7 @@
     <ClInclude Include="Commons.h" />
     <ClInclude Include="GameMove.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerData.h" />
     <ClInclude Include="PlayerMoves.h" />
     <ClInclude Include="Ship.h" />
     <ClInclude Include="Utils.h" />
@@ -49,6 +50,7 @@
     <ClCompile Include="GameLoader.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerData.cpp" />
     <ClCompile Include="PlayerMoves.cpp" />
     <ClCompile Include="Ship.cpp" />
     <ClCompile Include="Utils.cpp" />

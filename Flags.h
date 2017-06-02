@@ -1,12 +1,12 @@
 #pragma once
 
 #include "Game.h"
-#include "Player.h"
+#include "PlayerData.h"
 
 class Flags {
 
-	Player* playerA = nullptr;
-    Player* playerB = nullptr;
+	PlayerData playerDataA;
+	PlayerData playerDataB;
     Game* currentGame = nullptr;
     bool shouldExitProgram = false;
     bool isRecordMode = false;
@@ -23,6 +23,7 @@ class Flags {
 
 	void startKeyboardGame();
 	void startAutoGame();
+	void awardWinner();
 	void printGameSummary() const;
 
 	void displayMenu() const;

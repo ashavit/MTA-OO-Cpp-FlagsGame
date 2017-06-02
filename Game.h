@@ -25,12 +25,14 @@ class Game
 		ABORT_AND_QUIT
 	};
 
+	Flags* _gameManager = nullptr;
 	Player* _playerA;
 	Player* _playerB;
+	int _scoreA;
+	int _scoreB;
 	int _delayTurnPeriod;
 	Board* _gameBoard = nullptr;
 	std::string _gameName;
-	Flags* _gameManager = nullptr;
 
 	GameState _gameState = GameState::IN_PROGRESS;
 	unsigned long _timeStamp = 0;
@@ -50,7 +52,6 @@ class Game
 	void handlePlayerTurn(Player* p) const;
 	void handleBattle(Ship* shipA, Ship* shipB, Cell* cell) const;
 	void endGame() const;
-	void awardWinner() const;
 	void displaySubMenu();
 
 	bool isGameOver() const;
@@ -65,7 +66,7 @@ class Game
 	void restartGame();
 
 public:
-	Game(Player* playerA, Player* playerB, Flags* manager, int delay);
+	Game(Flags* manager, Player* playerA, Player* playerB, int scoreA, int scoreB, int delay);
 	virtual ~Game();
 	Game(Game const&) = delete;
 	void operator=(Game const&) = delete;
@@ -81,5 +82,6 @@ public:
 	bool loadBoardFromFile(const std::string& fileName);
 
 	void run();
+	Player* gameWinner() const;
 };
 

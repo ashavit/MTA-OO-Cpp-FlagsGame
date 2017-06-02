@@ -6,7 +6,7 @@ using namespace std;
 
 //*********** Ctor ***********//
 
-Player::Player(std::string name) : playerName(name) {
+Player::Player() {
 	aliveIns++;
 }
 
@@ -17,27 +17,6 @@ Player::~Player() {
 int Player::aliveIns = 0;
 
 //*********** Public functions ***********//
-
-void Player::updateName() {
-	cout << "Please enter player name (old name is " << playerName << "):" << endl;
-	cin >> playerName;
-}
-
-std::string Player::name() const {
-	return playerName;
-}
-
-void Player::resetScore() {
-	playerScore = 0;
-}
-
-void Player::incrementScore(int byPoints) {
-	playerScore += byPoints;
-}
-
-int Player::score() const {
-	return playerScore;
-}
 
 void Player::setKeys(const char* keys) {
 	int i = 0;

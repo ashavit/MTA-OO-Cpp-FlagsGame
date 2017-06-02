@@ -10,10 +10,12 @@
 
 using namespace std;
 
+#define POINTS_PER_WIN 10
+
 //*********** Ctor ***********//
 
 // Init players with default names
-Flags::Flags() { }
+Flags::Flags() : playerDataA("Player A"), playerDataB("Player B") { }
 
 Flags::~Flags() {
 	// Make sure we do not leave used memory
@@ -27,9 +29,6 @@ Flags::~Flags() {
 
 void Flags::configure(int argc, const char* argv[]) {
 	ConfigurationManager::sharedInstance().setup(argc, argv);
-
-	playerA = new Player("Player A");
-	playerB = new Player("Player B");
 
 	if (ConfigurationManager::sharedInstance().boardMode() == ConfigurationManager::BoardMode::BOARD_FILE) {
 		FileManager::sharedInstance().loadAvailableFiles(ConfigurationManager::sharedInstance().path());
@@ -61,6 +60,9 @@ void Flags::run() {
 
 /* Called from Game when a game ends. If _shouldExit=true need to exit program */
 void Flags::finishGame(bool _shouldExit) {
+	// Add points to winner
+	awardWinner();
+
 	if (currentGame != nullptr) {
 		delete currentGame;
 		currentGame = nullptr;
@@ -114,23 +116,23 @@ void Flags::HandleMenuInput() {
 }
 
 void Flags::selectPlayerNames() {
-	playerA->updateName();
-	playerB->updateName();
+	playerDataA.updateName();
+	playerDataB.updateName();
 }
 
 void Flags::beginKeyboardGame() {
-	currentGame = new Game(playerA, playerB, this, ConfigurationManager::sharedInstance().delay());
+	currentGame = new Game(this, playerDataA.player(), playerDataB.player(), playerDataA.score(), playerDataB.score(), ConfigurationManager::sharedInstance().delay());
 	startKeyboardGame();
 }
 
 void Flags::beginReverseKeyboardGame() {
-	currentGame = new Game(playerB, playerA, this, ConfigurationManager::sharedInstance().delay());
+	currentGame = new Game(this, playerDataB.player(), playerDataA.player(), playerDataB.score(), playerDataA.score(), ConfigurationManager::sharedInstance().delay());
 	startKeyboardGame();
 }
 
 void Flags::resetPlayerScores() {
-	playerA->resetScore();
-	playerB->resetScore();
+	playerDataA.resetScore();
+	playerDataB.resetScore();
 }
 
 void Flags::toggleRecordMode() {
@@ -172,7 +174,7 @@ void Flags::startKeyboardGame() {
 }
 
 void Flags::startAutoGame() {
-	Game *game = new Game(playerA, playerB, this, ConfigurationManager::sharedInstance().delay());
+	Game *game = new Game(this, playerDataA.player(), playerDataB.player(), playerDataA.score(), playerDataB.score(), ConfigurationManager::sharedInstance().delay());
 	game->setQuietMode(ConfigurationManager::sharedInstance().quietMode());
 	currentGame = game;
 
@@ -186,10 +188,20 @@ void Flags::startAutoGame() {
 		finishGame(true);
 }
 
+void Flags::awardWinner() {
+	Player* winner = currentGame->gameWinner();
+	if (winner == playerDataA.player()) {
+		playerDataA.incrementScore(POINTS_PER_WIN);
+	}
+	else if (winner == playerDataB.player()) {
+		playerDataB.incrementScore(POINTS_PER_WIN);
+	}
+}
+
 void Flags::printGameSummary() const {
 	cout << "Game Summary" << endl;
-	cout << "A points: " << playerA->score() << endl;
-	cout << "B points: " << playerB->score() << endl;
+	cout << "A points: " << playerDataA.score() << endl;
+	cout << "B points: " << playerDataB.score() << endl;
 	waitForAnyKeyToContinue();
 }
 

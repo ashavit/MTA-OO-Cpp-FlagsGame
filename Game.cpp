@@ -12,8 +12,8 @@
 
 int Game::aliveIns = 0;
 
-Game::Game(Player* playerA, Player* playerB, Flags* manager, int delay)
-	: _playerA(playerA), _playerB(playerB), _delayTurnPeriod(delay), _gameManager(manager) {
+Game::Game(Flags* manager, Player* playerA, Player* playerB, int scoreA, int scoreB, int delay)
+	: _gameManager(manager), _playerA(playerA), _playerB(playerB), _scoreA(scoreA), _scoreB(scoreB), _delayTurnPeriod(delay) {
 	aliveIns++;
 
 	// TODO: Define player keys
@@ -51,6 +51,16 @@ void Game::run() {
 	endGame();
 }
 
+Player* Game::gameWinner() const {
+	if (_playerA->didPlayerWin() || _playerB->didPlayerLose()) {
+		return _playerA;
+	}
+	else if (_playerA->didPlayerLose() || _playerB->didPlayerWin()) {
+		return _playerB;
+	}
+	return nullptr;
+}
+
 //*********** Private Helpers ***********//
 
 int Game::roundNumber() const {
@@ -65,14 +75,14 @@ void Game::drawBoard() const {
 	setTextColor(WHITE);
 
 	gotoxy(pos, 1);
-	std::cout << _playerA->name();
+	std::cout << _playerA->getName();
 	gotoxy(pos, 2);
-	std::cout << _playerA->score();
+	std::cout << _scoreA;
 
 	gotoxy(pos, 4);
-	std::cout << _playerB->name();
+	std::cout << _playerB->getName();
 	gotoxy(pos, 5);
-	std::cout << _playerB->score();
+	std::cout << _scoreB;
 
 	std::cout.flush();
 }
@@ -236,9 +246,6 @@ bool Game::isGameOver() const {
 }
 
 void Game::endGame() const {
-	// Add points to winner
-	awardWinner();
-
 	// Print message to board
 	_gameBoard->printMessage(endGameMessage(), true);
 	delayEndGame();
@@ -248,21 +255,6 @@ void Game::endGame() const {
 
 	// End game
 	_gameManager->finishGame(_gameState == GameState::ABORT_AND_QUIT);
-}
-
-void Game::awardWinner() const {
-	if (_playerA->didPlayerWin()) {
-		_playerA->incrementScore(Awards::WIN);
-	}
-	else if (_playerB->didPlayerWin()) {
-		_playerB->incrementScore(Awards::WIN);
-	}
-	else if (_playerA->didPlayerLose()) {
-		_playerB->incrementScore(Awards::LOSS);
-	}
-	else if (_playerB->didPlayerLose()) {
-		_playerA->incrementScore(Awards::LOSS);
-	}
 }
 
 void Game::clearPlayerGameData() const {
@@ -329,11 +321,8 @@ std::string Game::endQuietGameMessage() const {
 	message.append("Num moves : " + std::to_string(_timeStamp) + "\n");
 	message.append("Winner : ");
 
-	if (_playerA->didPlayerWin() || _playerB->didPlayerLose()) {
-		message.append(_playerA->name());
-	}
-	else if (_playerA->didPlayerLose() || _playerB->didPlayerWin()) {
-		message.append(_playerB->name());
+	if (gameWinner()) {
+		message.append(gameWinner()->getName());
 	}
 	else {
 		message.append("None");
@@ -344,11 +333,8 @@ std::string Game::endQuietGameMessage() const {
 
 std::string Game::endKeyboardGameMessage() const {
 	std::string message;
-	if (_playerA->didPlayerWin() || _playerB->didPlayerLose()) {
-		message = _playerA->name() + " won !!!!!";
-	}
-	else if (_playerA->didPlayerLose() || _playerB->didPlayerWin()) {
-		message = _playerB->name() + " won !!!!!";
+	if (gameWinner()) {
+		message = gameWinner()->getName() + " won !!!!!";
 	}
 	else {
 		message = "No winners!";

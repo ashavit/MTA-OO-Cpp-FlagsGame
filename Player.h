@@ -12,7 +12,6 @@ class Player
 	static int aliveIns;
 
 	std::string playerName;
-	int playerScore = 0;
 	Ship* ships[FLEET_SIZE] = {nullptr};
 	Ship* activeShip = nullptr;
 
@@ -39,18 +38,14 @@ class Player
 	PlayerMoves* movesMap = nullptr;
 
 public:
-	Player(std::string name);
+	Player();
 	~Player();
 	Player(Player const&) = delete;
 	void operator=(Player const&) = delete;
 	static int aliveInstances() { return aliveIns; }
 
-	void updateName();
-	std::string name() const;
-
-	void resetScore();
-	void incrementScore(int byPoints);
-	int score() const;
+	virtual std::string getName() const { return playerName; }
+	void setName(std::string name) { playerName = name; }
 
 	void setKeys(const char* keys);
 	void notifyKeyHit(char ch, unsigned long timeStamp);
@@ -71,11 +66,4 @@ public:
 	void restartGame();
 	void clearFleetData();
 
-	bool operator==(const Player& other) const {
-		return (playerName == other.playerName);
-	}
-
-	bool operator!=(const Player& other) const {
-		return (playerName != other.playerName);
-	}
 };
