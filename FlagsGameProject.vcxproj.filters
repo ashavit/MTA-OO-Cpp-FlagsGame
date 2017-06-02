@@ -60,6 +60,12 @@
     <ClInclude Include="BoardDataImpl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GameMove.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AbstractPlayer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -99,6 +105,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FileManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BoardDataImpl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

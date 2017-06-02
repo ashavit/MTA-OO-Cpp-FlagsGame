@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AbstractPlayer.h" />
     <ClInclude Include="Board.h" />
     <ClInclude Include="BoardData.h" />
     <ClInclude Include="BoardDataImpl.h" />
@@ -30,6 +31,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameLoader.h" />
     <ClInclude Include="Commons.h" />
+    <ClInclude Include="GameMove.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerMoves.h" />
     <ClInclude Include="Ship.h" />
