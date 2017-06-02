@@ -1,4 +1,5 @@
 #include <iostream>
+#include "Config.h"
 #include "Player.h"
 #include "PlayerMoves.h"
 
@@ -18,53 +19,22 @@ int Player::aliveIns = 0;
 
 //*********** Public functions ***********//
 
-void Player::setKeys(const char* keys) {
-	int i = 0;
-	for (char& key : controlKeys) {
-		key = keys[i++];
-	}
+void Player::setPlayer(int player) {
+	if (player == 1 || player == 2)
+		playerType = player;
 }
 
-void Player::notifyKeyHit(char ch, unsigned long ts) {
-	// Ignore if auto mode
-	if (autoMode) { return; }
+void Player::init(const BoardData& board) {
+	for (UINT col = 1; col < BoardData::cols; ++col) {
+		for (UINT row = 1; row < BoardData::rows; ++row) {
+			char c = board.charAt(col, row);
+			if (playerType == 1 && c >= '1' && c <= '3') {
+				/// TODO: save ships ?
+			}
+			else if (playerType == 2 && c >= '7' && c <= '9') {
 
-	// TODO: Consider using map / dictionary instead ?
-	if (tolower(ch) == controlKeys[_SHIP1]) {
-		setActiveShip(ships[_SHIP1], ts);
-	}
-	else if (tolower(ch) == controlKeys[_SHIP2]) {
-		setActiveShip(ships[_SHIP2], ts);
-	}
-	else if (tolower(ch) == controlKeys[_SHIP3]) {
-		setActiveShip(ships[_SHIP3], ts);
-	}
-	else if (tolower(ch) == controlKeys[_UPWARDS]) {
-		setActiveShipDirection(Direction::UP, ts);
-	}
-	else if (tolower(ch) == controlKeys[_DOWN]) {
-		setActiveShipDirection(Direction::DOWN, ts);
-	}
-	else if (tolower(ch) == controlKeys[_LEFT]) {
-		setActiveShipDirection(Direction::LEFT, ts);
-	}
-	else if (tolower(ch) == controlKeys[_RIGHT]) {
-		setActiveShipDirection(Direction::RIGHT, ts);
-	}
-	else if (tolower(ch) == controlKeys[_STOP]) {
-		setActiveShipDirection(Direction::STOP, ts);
-	}
-}
-
-void Player::handleLoadedMoveIfNeeded(unsigned long ts) {
-	if (!autoMode) { return; }
-
-	const PlayerMoves::Move* const turn = moves().getMove(ts);
-	if (turn) {
-		int shipIndex = shipIndexByType(static_cast<ShipType>(turn->shipType()));
-		setActiveShip(ships[shipIndex], ts);
-		Direction d = turn->direction();
-		setActiveShipDirection(d, ts);
+			}
+		}
 	}
 }
 
@@ -104,11 +74,11 @@ void Player::restartGame() {
 		ships[i]->resetToInitialState();
 	}
 
-	// If not auto mode - reset all moves as well
-	if (!autoMode) {
-		delete movesMap;
-		movesMap = nullptr;
-	}
+	// TODO: move this to game to save to file - If not auto mode - reset all moves as well
+//	if (!autoMode) {
+//		delete movesMap;
+//		movesMap = nullptr;
+//	}
 }
 
 void Player::clearFleetData() {
@@ -118,8 +88,6 @@ void Player::clearFleetData() {
 			delete ships[i];
 		ships[i] = nullptr;
 	}
-	delete movesMap;
-	movesMap = nullptr;
 }
 
 //*********** Private functions ***********//
@@ -132,30 +100,12 @@ void Player::setActiveShip(Ship* active, unsigned long ts) {
 }
 
 void Player::setActiveShipDirection(Direction direction, unsigned long ts) {
-	if (activeShip != nullptr) {
+	if (activeShip != nullptr)
 		activeShip->setDirection(direction);
-
-		//Save move if not auto
-		if (!autoMode) {
-			moves().addMove(ts, *activeShip, direction);
-		}
-	}
 }
 
 int Player::shipIndexByType(ShipType type) const {
 	return ((type - 1) % FLEET_SIZE);
-}
-
-PlayerMoves& Player::moves() {
-	// Lazy init
-	if (movesMap == nullptr) {
-		movesMap = new PlayerMoves();
-	}
-	return *movesMap;
-}
-
-bool Player::didFinishAutoMoves(unsigned long ts) {
-	return autoMode && moves().isEnded(ts);
 }
 
 void Player::endMoveList(unsigned long ts) {

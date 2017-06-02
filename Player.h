@@ -1,41 +1,27 @@
 #pragma once
 
 #include <string>
+#include "AbstractPlayer.h"
 #include "Ship.h"
 
 #define FLEET_SIZE 3
 
 class PlayerMoves;
 
-class Player
+class Player : public AbstractPlayer
 {
 	static int aliveIns;
 
 	std::string playerName;
+	int playerType = 0;
 	Ship* ships[FLEET_SIZE] = {nullptr};
 	Ship* activeShip = nullptr;
 
-	enum keyOptions
-	{
-		_SHIP1,
-		_SHIP2,
-		_SHIP3,
-		_UPWARDS,
-		_DOWN,
-		_LEFT,
-		_RIGHT,
-		_STOP,
-		_keyOptionsSize
-	};
-
-	char controlKeys[_keyOptionsSize];
-
-	void setActiveShip(Ship* active, unsigned long timeStamp);
-	void setActiveShipDirection(Direction direction, unsigned long timeStamp);
+protected:
 	int shipIndexByType(ShipType type) const;
-
-	bool autoMode = false;
-	PlayerMoves* movesMap = nullptr;
+	Ship* getActiveShip() const { return activeShip; }
+	void setActiveShip(Ship* active, unsigned long timeStamp);
+	virtual void setActiveShipDirection(Direction direction, unsigned long timeStamp);
 
 public:
 	Player();
@@ -44,18 +30,15 @@ public:
 	void operator=(Player const&) = delete;
 	static int aliveInstances() { return aliveIns; }
 
-	virtual std::string getName() const { return playerName; }
+	/* player: 1 for 1-2-3 player, 2 for 7-8-9 */
+	virtual void setPlayer(int player) override;
+	int getPlayerType() const { return playerType; }
+
+	virtual void init(const BoardData& board) override;
+
+	virtual std::string getName() const override { return playerName; }
 	void setName(std::string name) { playerName = name; }
 
-	void setKeys(const char* keys);
-	void notifyKeyHit(char ch, unsigned long timeStamp);
-	void handleLoadedMoveIfNeeded(unsigned long timeStamp);
-
-	PlayerMoves& moves(); // Lazy init + convert pointer to reff
-	void setMoves(PlayerMoves* moves) { movesMap = moves; };
-	bool didFinishAutoMoves(unsigned long timeStamp);
-	void setAutoMode(bool isAuto) { autoMode = isAuto; }
-	bool isAutoMode() const { return autoMode; };
 	void endMoveList(unsigned long timeStamp);
 
 	bool didPlayerWin();

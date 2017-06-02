@@ -16,10 +16,6 @@ int Game::aliveIns = 0;
 Game::Game(Flags* manager, Player* playerA, Player* playerB, int scoreA, int scoreB, int delay)
 	: _gameManager(manager), _playerA(playerA), _playerB(playerB), _scoreA(scoreA), _scoreB(scoreB), _delayTurnPeriod(delay) {
 	aliveIns++;
-
-	// TODO: Define player keys
-	playerA->setKeys("123wxads");
-	playerB->setKeys("789imjlk");
 }
 
 Game::~Game() {
@@ -251,10 +247,13 @@ bool Game::isGameOver() const {
 		_playerB->didPlayerWin() ||
 		_playerA->didPlayerLose() ||
 		_playerB->didPlayerLose());
-	if (_isQuietMode) {
+
+	FilePlayer *fPlayerA = dynamic_cast<FilePlayer*>(_playerA);
+	FilePlayer *fPlayerB = dynamic_cast<FilePlayer*>(_playerB);
+	if (fPlayerA && fPlayerB) {
 		return (basicConditions ||
-			(_playerA->didFinishAutoMoves(_timeStamp) &&
-				_playerB->didFinishAutoMoves(_timeStamp)));
+			(fPlayerA->didFinishAutoMoves(_timeStamp) &&
+				fPlayerB->didFinishAutoMoves(_timeStamp)));
 	} else {
 		return basicConditions;
 	}
