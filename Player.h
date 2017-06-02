@@ -21,10 +21,12 @@ class Player : public AbstractPlayer
 
 protected:
 
+	const BoardData* boardData;
 	std::map<ShipType, GameMove> ships;
 
 	ShipType getActiveShip() const { return activeShip; }
 	void setActiveShip(ShipType active, unsigned long timeStamp);
+	Direction getActiveShipDirection() const { return activeDirection; };
 	void setActiveShipDirection(Direction direction, unsigned long timeStamp);
 
 public:
@@ -38,7 +40,7 @@ public:
 	virtual void setPlayer(int player) override;
 	int getPlayerType() const { return playerType; }
 
-	virtual void init(const BoardData& board) override;
+	virtual void init(const BoardData* board) override;
 
 	virtual std::string getName() const override { return playerName; }
 	void setName(std::string name) { playerName = name; }

@@ -14,6 +14,10 @@ FilePlayer::~FilePlayer()
 
 //*********** Private functions ***********//
 
+GameMove FilePlayer::play(const GameMove& opponentsMove) {
+	return GameMove(0, 0, 0, 0);
+}
+
 PlayerMoves& FilePlayer::moves() {
 	// Lazy init
 	if (movesMap == nullptr) {

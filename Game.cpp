@@ -8,6 +8,7 @@
 #include "KeyboardPlayer.h"
 #include "Utils.h"
 #include "ConfigurationManager.h"
+#include "BoardDataImpl.h"
 
 #define ESC 27
 
@@ -16,6 +17,8 @@ int Game::aliveIns = 0;
 Game::Game(Flags* manager, Player* playerA, Player* playerB, int scoreA, int scoreB, int delay)
 	: _gameManager(manager), _playerA(playerA), _playerB(playerB), _scoreA(scoreA), _scoreB(scoreB), _delayTurnPeriod(delay) {
 	aliveIns++;
+	_playerA->setPlayer(1);
+	_playerB->setPlayer(2);
 }
 
 Game::~Game() {
@@ -36,13 +39,19 @@ void Game::run() {
 	// Verify board was loaded
 	bool boardReady = (_gameBoard != nullptr);
 
-	while (boardReady) {
-		++_timeStamp;
-		Player* activePlayer = ((_timeStamp % 2) ? _playerA : _playerB);
-		handlePlayerTurn(activePlayer);
-		if (isGameOver()) break;
-		Sleep(_delayTurnPeriod);
-		handleKeyboardInput();
+	if (boardReady) {
+
+		_playerA->init(new BoardDataImpl(_gameBoard, 1));
+		_playerB->init(new BoardDataImpl(_gameBoard, 2));
+
+		while (true) {
+			++_timeStamp;
+			Player* activePlayer = ((_timeStamp % 2) ? _playerA : _playerB);
+			handlePlayerTurn(activePlayer);
+			if (isGameOver()) break;
+			Sleep(_delayTurnPeriod);
+			handleKeyboardInput();
+		}
 	}
 
 	endGame();
@@ -163,33 +172,41 @@ void Game::handleKeyboardInput() {
 
 /// TODO: Amir: Redo this whole thing
 void Game::handlePlayerTurn(Player* p) const {
+
+	// TODO: pass last turn
+	/* Coordinates start from 1,1 */
+	GameMove gm = p->play(GameMove(0, 0, 0, 0));
+
 //	p->handleLoadedMoveIfNeeded(_timeStamp);
 //
-//	for (int i = 0; i < FLEET_SIZE; ++i) {
-//		Ship* s = p->getShip(i);
-//		Cell* moveTo = (s->alive() ? _gameBoard->getNextCell(s->cell(), s->direction()) : nullptr);
-//
-//		if (moveTo != nullptr && s->canMoveToCell(moveTo)) {
-//			if (moveTo->getStandingShip() == nullptr) { // If cell is empty - move there
-//				Cell* old = s->cell();
-//				s->moveToCell(moveTo);
-//				drawCellIfNeeded(s->cell());
-//				drawCellIfNeeded(old);
-//			}
-//			else if (moveTo->getStandingShip()->type() + s->type() >= 8 && 
-//				moveTo->getStandingShip()->type() + s->type() <= 12) { // If Cell is occupied by other player - fight
-//				Cell* old = s->cell();
-//				handleBattle((p == _playerA ? s : moveTo->getStandingShip()),
-//				             (p == _playerB ? s : moveTo->getStandingShip()),
-//				             moveTo);
-//
-//				// Redraw both cells no matter who won
-//				drawCellIfNeeded(moveTo);
-//				drawCellIfNeeded(old);
-//			}
-//		}
-//		// Else don't move ship
-//	}
+	// TODO: Validate ship moved inly by one (absolute + abs)
+
+	Cell* moveFrom = _gameBoard->getCellAt(gm.from_x - 1, gm.from_y - 1);
+	Ship* s = (moveFrom ? moveFrom->getStandingShip() : nullptr);
+	if (s && s->alive()) {
+		Cell* moveTo = _gameBoard->getCellAt(gm.to_x - 1, gm.to_y - 1);
+		
+		if (moveTo != nullptr && s->canMoveToCell(moveTo)) {
+			if (moveTo->getStandingShip() == nullptr) { // If cell is empty - move there
+				Cell* old = s->cell();
+				s->moveToCell(moveTo);
+				drawCellIfNeeded(s->cell());
+				drawCellIfNeeded(old);
+			}
+			else if (moveTo->getStandingShip()->type() + s->type() >= 8 &&
+				moveTo->getStandingShip()->type() + s->type() <= 12) { // If Cell is occupied by other player - fight
+				Cell* old = s->cell();
+				handleBattle((p == _playerA ? s : moveTo->getStandingShip()),
+					(p == _playerB ? s : moveTo->getStandingShip()),
+					moveTo);
+
+				// Redraw both cells no matter who won
+				drawCellIfNeeded(moveTo);
+				drawCellIfNeeded(old);
+			}
+		}
+	}
+	// Else don't move ship
 }
 
 void Game::handleBattle(Ship* shipA, Ship* shipB, Cell* cell) const {

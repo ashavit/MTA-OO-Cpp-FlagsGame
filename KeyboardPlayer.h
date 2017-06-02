@@ -30,6 +30,9 @@ public:
 	/* player: 1 for 1-2-3 player, 2 for 7-8-9 */
 	virtual void setPlayer(int player) override;
 
+	/* Coordinates start from 1,1 */
+	virtual GameMove play(const GameMove& opponentsMove) override;
+
 	void notifyKeyHit(char ch, unsigned long timeStamp);
 
 };
