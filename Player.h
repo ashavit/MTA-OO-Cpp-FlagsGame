@@ -19,6 +19,8 @@ class Player : public AbstractPlayer
 	ShipType activeShip = (ShipType)0; // TODO: Replace force cast
 	Direction activeDirection = Direction::STOP;
 
+	void resetPlayerState();
+
 protected:
 
 	const BoardData* boardData;

@@ -26,8 +26,8 @@ void Player::setPlayer(int player) {
 }
 
 void Player::init(const BoardData* bd) {
+	resetPlayerState();
 	boardData = bd;
-	ships.clear();
 	for (UINT col = 1; col <= BoardData::cols; ++col) {
 		for (UINT row = 1; row <= BoardData::rows; ++row) {
 			char c = bd->charAt(col, row);
@@ -41,6 +41,12 @@ void Player::init(const BoardData* bd) {
 }
 
 //*********** Private functions ***********//
+
+void Player::resetPlayerState() {
+	ships.clear();
+	activeShip = (ShipType)0; // TODO: Replace force cast
+	activeDirection = Direction::STOP;
+}
 
 void Player::setActiveShip(ShipType active, unsigned long ts) {
 	if (activeShip != active) {
