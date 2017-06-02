@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cmath>
 #include "Config.h"
 #include "Game.h"
 #include "GameLoader.h"
@@ -179,7 +180,12 @@ void Game::handlePlayerTurn(Player* p) const {
 
 //	p->handleLoadedMoveIfNeeded(_timeStamp);
 //
-	// TODO: Validate ship moved inly by one (absolute + abs)
+	// Validate ship moved only by one step
+	int deltaX = abs(gm.from_x - gm.to_x);
+	int deltaY = abs(gm.from_y - gm.to_y);
+	if ((deltaX > 0 && deltaY > 0) || // Try to move in both directions at once
+		(deltaX + deltaY > 1)) // try to move more than 1 step a time
+		return;
 
 	Cell* moveFrom = _gameBoard->getCellAt(gm.from_x - 1, gm.from_y - 1);
 	Ship* s = (moveFrom ? moveFrom->getStandingShip() : nullptr);
