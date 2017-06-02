@@ -22,8 +22,7 @@ class Player : public AbstractPlayer
 	void resetPlayerState();
 
 protected:
-
-	const BoardData* boardData;
+	const BoardData* boardData = nullptr;
 	std::map<ShipType, GameMove> ships;
 
 	ShipType getActiveShip() const { return activeShip; }

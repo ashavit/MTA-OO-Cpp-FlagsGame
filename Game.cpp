@@ -41,7 +41,6 @@ void Game::run() {
 	bool boardReady = (_gameBoard != nullptr);
 
 	if (boardReady) {
-
 		_playerA->init(new BoardDataImpl(_gameBoard, 1));
 		_playerB->init(new BoardDataImpl(_gameBoard, 2));
 

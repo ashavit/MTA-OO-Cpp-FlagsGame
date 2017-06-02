@@ -46,6 +46,9 @@ void Player::resetPlayerState() {
 	ships.clear();
 	activeShip = (ShipType)0; // TODO: Replace force cast
 	activeDirection = Direction::STOP;
+	if (boardData)
+		delete boardData;
+	boardData = nullptr;
 }
 
 void Player::setActiveShip(ShipType active, unsigned long ts) {
