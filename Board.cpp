@@ -13,7 +13,7 @@ using namespace std;
 int Board::aliveIns = 0;
 
 Board::Board(UINT width, UINT height) : height(height), width(width) {
-	aliveIns++;
+	++aliveIns;
 	board = new Cell**[width];
 	for (UINT col = 0; col < width; ++col) {
 		board[col] = new Cell*[height];
@@ -31,7 +31,7 @@ Board::Board(UINT width, UINT height) : height(height), width(width) {
 }
 
 Board::~Board() {
-	aliveIns--;
+	--aliveIns;
 	for (UINT col = 0; col < width; ++col) {
 		for (UINT row = 0; row < height; ++row) {
 			delete board[col][row];
@@ -85,6 +85,16 @@ Cell* Board::getNextCell(const Cell* cell, Direction direction) const {
 		return board[c][r];
 	}
 	return nullptr;
+}
+
+// Coordinates start from 0,0
+char Board::charAt(int col, int row) const {
+	if (col >= 0 && col < width &&
+		row>= 0 && row < height) {
+		Cell* cell = board[col][row];
+		return cell->charRepresentation();
+	}
+	return CellType::REGULAR;
 }
 
 //*********** Outputs ***********//

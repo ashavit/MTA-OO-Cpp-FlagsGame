@@ -6,6 +6,7 @@
 #include "GameLoader.h"
 #include "PlayerMoves.h"
 #include "ConfigurationManager.h"
+#include "BoardDataImpl.h"
 
 using namespace std;
 
@@ -195,6 +196,7 @@ void Flags::printGameSummary() const {
 void Flags::test_printMemoryLeakStatus() {
 	cout << endl << "There are " << Game::aliveInstances() << " instances of Game objects alive" << endl;
 	cout << "There are " << GameLoader::aliveInstances() << " instances of GameLoader objects alive" << endl;
+	cout << "There are " << BoardDataImpl::aliveInstances() << " instances of Board Data objects alive" << endl;
 	cout << "There are " << Board::aliveInstances() << " instances of Board objects alive" << endl;
 	cout << "There are " << Cell::aliveInstances() << " instances of Cell objects alive" << endl << endl;
 
