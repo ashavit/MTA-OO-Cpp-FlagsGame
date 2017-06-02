@@ -95,6 +95,11 @@ void Game::printBattleResult(std::string result) const {
 	_gameBoard->printMessage(result, false, 5, 2);
 }
 
+bool Game::isAutoMode() const {
+	ConfigurationManager& cManager = ConfigurationManager::sharedInstance();
+	return (cManager.movesMode() != ConfigurationManager::MovesMode::KEYBOARD);
+}
+
 bool Game::loadBoard(const std::string& fileName) {
 	GameLoader loader{};
 	bool fromFile = (fileName.size() > 0);
@@ -348,13 +353,13 @@ void Game::displaySubMenu() {
 }
 
 std::string Game::endGameMessage() const {
-	if (_isQuietMode)
-		return endQuietGameMessage();
+	if (isAutoMode())
+		return endAutoGameMessage();
 	else
 		return endKeyboardGameMessage();
 }
 
-std::string Game::endQuietGameMessage() const {
+std::string Game::endAutoGameMessage() const {
 	std::string message;
 	message.append("Game cycle : " + std::to_string(roundNumber()) + "\n");
 	message.append("Num moves : " + std::to_string(_timeStamp) + "\n");
@@ -382,7 +387,7 @@ std::string Game::endKeyboardGameMessage() const {
 }
 
 void Game::delayEndGame() const {
-	if (_isQuietMode) {
+	if (isAutoMode()) {
 		Sleep(ConfigurationManager::sharedInstance().delayBetweenGames());
 	} else {
 		waitForAnyKeyToContinue();

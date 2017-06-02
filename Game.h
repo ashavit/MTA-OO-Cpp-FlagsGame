@@ -41,6 +41,7 @@ class Game
 	unsigned long _timeStamp = 0;
 	bool _isRecordMode = false;
 	bool _isQuietMode = false;
+	bool isAutoMode() const;
 
 	bool loadBoard(const std::string& fileName);
 	void drawBoardIfNeeded() const;
@@ -60,7 +61,7 @@ class Game
 	bool isGameOver() const;
 	int roundNumber() const;
 	std::string endGameMessage() const;
-	std::string Game::endQuietGameMessage() const;
+	std::string Game::endAutoGameMessage() const;
 	std::string Game::endKeyboardGameMessage() const;
 	void delayEndGame() const;
 	void postGameActions() const;
