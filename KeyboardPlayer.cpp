@@ -30,13 +30,16 @@ void KeyboardPlayer::setPlayer(int player) {
 
 void KeyboardPlayer::notifyKeyHit(char ch, unsigned long ts) {
 	if (tolower(ch) == controlKeys[_SHIP1]) {
-		setActiveShip(getShip(_SHIP1), ts);
+		ShipType newActive = (getPlayerType() == 1 ? ShipType::SHIP1 : ShipType::SHIP7);
+		setActiveShip(newActive, ts);
 	}
 	else if (tolower(ch) == controlKeys[_SHIP2]) {
-		setActiveShip(getShip(_SHIP2), ts);
+		ShipType newActive = (getPlayerType() == 1 ? ShipType::SHIP2 : ShipType::SHIP8);
+		setActiveShip(newActive, ts);
 	}
 	else if (tolower(ch) == controlKeys[_SHIP3]) {
-		setActiveShip(getShip(_SHIP3), ts);
+		ShipType newActive = (getPlayerType() == 1 ? ShipType::SHIP3 : ShipType::SHIP9);
+		setActiveShip(newActive, ts);
 	}
 	else if (tolower(ch) == controlKeys[_UPWARDS]) {
 		setActiveShipDirection(Direction::UP, ts);

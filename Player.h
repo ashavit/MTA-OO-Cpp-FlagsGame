@@ -1,6 +1,8 @@
 #pragma once
 
 #include <string>
+#include <map>
+#include "Commons.h"
 #include "AbstractPlayer.h"
 #include "Ship.h"
 
@@ -14,14 +16,24 @@ class Player : public AbstractPlayer
 
 	std::string playerName;
 	int playerType = 0;
-	Ship* ships[FLEET_SIZE] = {nullptr};
-	Ship* activeShip = nullptr;
+	ShipType activeShip = (ShipType)0; // TODO: Replace force cast
+	Direction activeDirection = Direction::STOP;
 
 protected:
-	int shipIndexByType(ShipType type) const;
-	Ship* getActiveShip() const { return activeShip; }
-	void setActiveShip(Ship* active, unsigned long timeStamp);
-	virtual void setActiveShipDirection(Direction direction, unsigned long timeStamp);
+	struct TurnMove
+	{
+		int from_x, from_y;
+		int to_x, to_y;
+		TurnMove() : TurnMove(-1, -1, -1, -1) { }
+		TurnMove(int x1, int y1, int x2, int y2) : from_x(x1), from_y(y1), to_x(x2), to_y(y2) { }
+		friend Player;
+	};
+
+	std::map<ShipType, TurnMove> ships;
+
+	ShipType getActiveShip() const { return activeShip; }
+	void setActiveShip(ShipType active, unsigned long timeStamp);
+	void setActiveShipDirection(Direction direction, unsigned long timeStamp);
 
 public:
 	Player();
@@ -43,10 +55,4 @@ public:
 
 	bool didPlayerWin();
 	bool didPlayerLose();
-
-	bool addShip(Ship* ship);
-	Ship* getShip(int index) { return ships[index]; }
-	void restartGame();
-	void clearFleetData();
-
 };

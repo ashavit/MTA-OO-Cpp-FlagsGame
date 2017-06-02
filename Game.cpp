@@ -265,16 +265,9 @@ void Game::endGame() const {
 	delayEndGame();
 
 	postGameActions();
-	clearPlayerGameData();
 
 	// End game
 	_gameManager->finishGame(_gameState == GameState::ABORT_AND_QUIT);
-}
-
-void Game::clearPlayerGameData() const {
-	// Delete ships and clear memory
-	_playerA->clearFleetData();
-	_playerB->clearFleetData();
 }
 
 void Game::notifyKeyHit(char ch) {
@@ -379,8 +372,8 @@ void Game::unpauseGame() const {
 }
 
 void Game::restartGame() {
-	_playerA->restartGame();
-	_playerB->restartGame();
+	// TODO: If need support for save moves - If not auto mode - reset all moves as well
+	// TODO: Re-init player with board data
 	_timeStamp = 0;
 	drawBoardIfNeeded();
 }

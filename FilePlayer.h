@@ -7,11 +7,12 @@ class FilePlayer : public Player
 	PlayerMoves* movesMap = nullptr;
 
 	void clearMoves();
-	virtual void setActiveShipDirection(Direction direction, unsigned long timeStamp) override;
 
 public:
 	FilePlayer();
-	~FilePlayer();
+	virtual ~FilePlayer();
+	FilePlayer(FilePlayer const&) = delete;
+	void operator=(FilePlayer const&) = delete;
 
 	PlayerMoves& moves(); // Lazy init + convert pointer to reff
 	void setMoves(PlayerMoves* moves) { movesMap = moves; };

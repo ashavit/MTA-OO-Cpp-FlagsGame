@@ -59,7 +59,6 @@ class Game
 	std::string endGameMessage() const;
 	std::string Game::endQuietGameMessage() const;
 	std::string Game::endKeyboardGameMessage() const;
-	void clearPlayerGameData() const;
 	void delayEndGame() const;
 	void postGameActions() const;
 	void unpauseGame() const;

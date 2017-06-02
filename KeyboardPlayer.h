@@ -24,6 +24,8 @@ class KeyboardPlayer : 	public Player
 public:
 	KeyboardPlayer();
 	virtual ~KeyboardPlayer();
+	KeyboardPlayer(KeyboardPlayer const&) = delete;
+	void operator=(KeyboardPlayer const&) = delete;
 
 	virtual void setPlayer(int player) override;
 

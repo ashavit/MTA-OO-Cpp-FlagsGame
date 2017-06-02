@@ -29,18 +29,13 @@ void FilePlayer::clearMoves() {
 	}
 }
 
-void FilePlayer::setActiveShipDirection(Direction direction, unsigned long ts) {
-	Player::setActiveShipDirection(direction, ts);
-	moves().addMove(ts, *getActiveShip(), direction);
-}
-
 //*********** Public functions ***********//
 
 void FilePlayer::handleLoadedMoveIfNeeded(unsigned long ts) {
 	const PlayerMoves::Move* const turn = moves().getMove(ts);
 	if (turn) {
-		int shipIndex = shipIndexByType(static_cast<ShipType>(turn->shipType()));
-		setActiveShip(getShip(shipIndex), ts);
+		ShipType shipType = static_cast<ShipType>(turn->shipType());
+		setActiveShip(shipType, ts);
 		Direction d = turn->direction();
 		setActiveShipDirection(d, ts);
 	}
