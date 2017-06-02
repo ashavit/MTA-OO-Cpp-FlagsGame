@@ -41,7 +41,9 @@ public:
 	Cell* getRandomCellInRows(size_t from, size_t to) const;
 	Cell* getNextCell(const Cell* cell, Direction direction) const;
 
-	// Coordinates start from 0,0
+	/* Coordinates start from 0,0 */
+	Cell* getCellAt(int col, int row) const;
+	/* Coordinates start from 0,0 */
 	char charAt(int col, int row) const;
 
 	void drawBoard() const;

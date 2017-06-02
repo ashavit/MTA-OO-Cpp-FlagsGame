@@ -20,16 +20,8 @@ class Player : public AbstractPlayer
 	Direction activeDirection = Direction::STOP;
 
 protected:
-	struct TurnMove
-	{
-		int from_x, from_y;
-		int to_x, to_y;
-		TurnMove() : TurnMove(-1, -1, -1, -1) { }
-		TurnMove(int x1, int y1, int x2, int y2) : from_x(x1), from_y(y1), to_x(x2), to_y(y2) { }
-		friend Player;
-	};
 
-	std::map<ShipType, TurnMove> ships;
+	std::map<ShipType, GameMove> ships;
 
 	ShipType getActiveShip() const { return activeShip; }
 	void setActiveShip(ShipType active, unsigned long timeStamp);

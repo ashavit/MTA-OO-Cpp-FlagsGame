@@ -31,7 +31,7 @@ void Player::init(const BoardData& board) {
 			if ((playerType == 1 && c >= '1' && c <= '3') ||
 				(playerType == 2 && c >= '7' && c <= '9')) {
 				ShipType type = static_cast<ShipType>(c - '0');
-				ships[type] = TurnMove(col, row, col, row);
+				ships.emplace(type, GameMove(col, row, col, row));
 			}
 		}
 	}

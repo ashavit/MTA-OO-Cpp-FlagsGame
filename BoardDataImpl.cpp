@@ -12,7 +12,7 @@ BoardDataImpl::~BoardDataImpl() {
 	--aliveIns;
 }
 
-// Coordinates start from 1,1
+/* Coordinates start from 1,1 */
 char BoardDataImpl::charAt(int x, int y) const {
 	if (x >= 1 && x <= cols &&
 		y >= 1 && y <= rows) {

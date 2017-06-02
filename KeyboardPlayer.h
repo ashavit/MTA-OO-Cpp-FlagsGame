@@ -27,6 +27,7 @@ public:
 	KeyboardPlayer(KeyboardPlayer const&) = delete;
 	void operator=(KeyboardPlayer const&) = delete;
 
+	/* player: 1 for 1-2-3 player, 2 for 7-8-9 */
 	virtual void setPlayer(int player) override;
 
 	void notifyKeyHit(char ch, unsigned long timeStamp);

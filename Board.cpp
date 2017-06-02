@@ -87,14 +87,20 @@ Cell* Board::getNextCell(const Cell* cell, Direction direction) const {
 	return nullptr;
 }
 
+/* Coordinates start from 0,0 */
+Cell* Board::getCellAt(int col, int row) const {
+	if (col >= 0 && col < width &&
+		row >= 0 && row < height) {
+		Cell* cell = board[col][row];
+		return cell;
+	}
+	return nullptr;
+}
+
 // Coordinates start from 0,0
 char Board::charAt(int col, int row) const {
-	if (col >= 0 && col < width &&
-		row>= 0 && row < height) {
-		Cell* cell = board[col][row];
-		return cell->charRepresentation();
-	}
-	return CellType::REGULAR;
+	Cell* cell = getCellAt(col, row);
+	return (cell ? cell->charRepresentation() : CellType::REGULAR);
 }
 
 //*********** Outputs ***********//
