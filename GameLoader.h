@@ -5,6 +5,7 @@
 
 class Board;
 class PlayerMoves;
+class FilePlayer;
 
 class GameLoader
 {
@@ -38,7 +39,7 @@ public:
 
 	bool loadRandomGame();
 	bool loadGameFromFile(const std::string& fileName);
-	bool loadGameMovesFromFile(const std::string& fileName) const;
+	bool loadGameMovesFromFile(const std::string& fileName, FilePlayer* playerA, FilePlayer* playerB) const;
 	void printErrors() const;
 
 	Board* gameBoard() const { return _gameBoard; }

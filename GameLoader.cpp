@@ -7,6 +7,7 @@
 #include "Board.h"
 #include "Cell.h"
 #include "PlayerMoves.h"
+#include "FilePlayer.h"
 
 using namespace std;
 
@@ -42,7 +43,7 @@ bool GameLoader::loadGameFromFile(const string& fileName) {
 	return (_gameBoard != nullptr);
 }
 
-bool GameLoader::loadGameMovesFromFile(const string& fileName) const {
+bool GameLoader::loadGameMovesFromFile(const string& fileName, FilePlayer* playerA, FilePlayer* playerB) const {
 	bool didLoadMoves = false;
 
 	// Try to load player moves
@@ -50,9 +51,8 @@ bool GameLoader::loadGameMovesFromFile(const string& fileName) const {
 	ifstream* playerAFile = openFileToRead(pathFileName);
 	if (playerAFile) {
 		PlayerMoves* movesA = loadPlayerMovesFromFile(*playerAFile);
-		if (movesA->moveCount() > 0) {
-			/// TODO: load mopves from file
-//			playerA->setMoves(movesA);
+		if (playerA && movesA->moveCount() > 0) {
+			playerA->setMoves(movesA);
 			didLoadMoves = true;
 		}
 		closeAndReleaseFile(playerAFile);
@@ -62,9 +62,8 @@ bool GameLoader::loadGameMovesFromFile(const string& fileName) const {
 	ifstream* playerBFile = openFileToRead(pathFileName);
 	if (playerBFile) {
 		PlayerMoves* movesB = loadPlayerMovesFromFile(*playerBFile);
-		if (movesB->moveCount() > 0) {
-			/// TODO: load mopves from file
-//			playerB->setMoves(movesB);
+		if (playerB && movesB->moveCount() > 0) {
+			playerB->setMoves(movesB);
 			didLoadMoves = true;
 		}
 		closeAndReleaseFile(playerBFile);

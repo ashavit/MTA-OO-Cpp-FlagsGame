@@ -4,7 +4,8 @@
 #include "GameLoader.h"
 #include "Flags.h"
 #include "Board.h"
-#include "Player.h"
+#include "FilePlayer.h"
+#include "KeyboardPlayer.h"
 #include "Utils.h"
 #include "ConfigurationManager.h"
 
@@ -102,6 +103,13 @@ bool Game::loadBoard(const std::string& fileName) {
 	if (fromFile) {
 		_gameName = fileName;
 		success = loader.loadGameFromFile(fileName);
+
+		// Check if any of players should load moves from files
+		FilePlayer *fPlayerA = dynamic_cast<FilePlayer*>(_playerA);
+		FilePlayer *fPlayerB = dynamic_cast<FilePlayer*>(_playerB);
+		if (success && (fPlayerA || fPlayerB)) {
+			success = loader.loadGameMovesFromFile(fileName, fPlayerA, fPlayerB);
+		}
 	}
 	else {
 		success = loader.loadRandomGame();
@@ -143,10 +151,17 @@ void Game::printBattleResultIfNeeded(std::string result) const {
 void Game::handleKeyboardInput() {
 	if (_kbhit()) {
 		char ch = _getch();
-		/// TODO: Check if players are keyboard
-//		playerA()->notifyKeyHit(ch, timeStamp());
-//		playerB()->notifyKeyHit(ch, timeStamp());
 		notifyKeyHit(ch);
+
+		// Check if players are keyboard
+		KeyboardPlayer *kPlayerA = dynamic_cast<KeyboardPlayer*>(_playerA);
+		KeyboardPlayer *kPlayerB = dynamic_cast<KeyboardPlayer*>(_playerB);
+		if (kPlayerA) {
+			kPlayerA->notifyKeyHit(ch, _timeStamp);
+		}
+		if (kPlayerB) {
+			kPlayerB->notifyKeyHit(ch, _timeStamp);
+		}
 	}
 }
 
