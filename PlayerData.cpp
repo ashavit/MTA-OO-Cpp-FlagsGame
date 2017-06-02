@@ -1,5 +1,7 @@
 #include <iostream>
 #include "PlayerData.h"
+#include "KeyboardPlayer.h"
+#include "FilePlayer.h"
 
 using namespace std;
 
@@ -17,6 +19,20 @@ PlayerData::~PlayerData()
 }
 
 //*********** Public functions ***********//
+
+void PlayerData::initPlayer(ConfigurationManager::MovesMode mode) {
+	if (mode == ConfigurationManager::MovesMode::MOVES_ALGO) {
+		
+	}
+	else if (mode == ConfigurationManager::MovesMode::MOVES_ALGO) {
+		playerImpl = new FilePlayer();
+		playerImpl->setName(playerName);
+	}
+	else {
+		playerImpl = new KeyboardPlayer();
+		playerImpl->setName(playerName);
+	}
+}
 
 void PlayerData::updateName() {
 	cout << "Please enter player name (old name is " << playerName << "):" << endl;

@@ -39,7 +39,7 @@ class Player
 
 public:
 	Player();
-	~Player();
+	virtual ~Player();
 	Player(Player const&) = delete;
 	void operator=(Player const&) = delete;
 	static int aliveInstances() { return aliveIns; }

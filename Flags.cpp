@@ -28,12 +28,16 @@ Flags::~Flags() {
 //*********** Public ***********//
 
 void Flags::configure(int argc, const char* argv[]) {
-	ConfigurationManager::sharedInstance().setup(argc, argv);
+	ConfigurationManager& cManager = ConfigurationManager::sharedInstance();
+	cManager.setup(argc, argv);
 
-	if (ConfigurationManager::sharedInstance().boardMode() == ConfigurationManager::BoardMode::BOARD_FILE) {
+	playerDataA.initPlayer(cManager.movesMode());
+	playerDataB.initPlayer(cManager.movesMode());
+
+	if (cManager.boardMode() == ConfigurationManager::BoardMode::BOARD_FILE) {
 		FileManager::sharedInstance().loadAvailableFiles(ConfigurationManager::sharedInstance().path());
 	}
-	if (ConfigurationManager::sharedInstance().saveMode()) {
+	if (cManager.saveMode()) {
 		isRecordMode = true;
 	}
 }

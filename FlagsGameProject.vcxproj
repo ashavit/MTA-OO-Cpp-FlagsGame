@@ -27,11 +27,13 @@
     <ClInclude Include="Config.h" />
     <ClInclude Include="ConfigurationManager.h" />
     <ClInclude Include="FileManager.h" />
+    <ClInclude Include="FilePlayer.h" />
     <ClInclude Include="Flags.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameLoader.h" />
     <ClInclude Include="Commons.h" />
     <ClInclude Include="GameMove.h" />
+    <ClInclude Include="KeyboardPlayer.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerData.h" />
     <ClInclude Include="PlayerMoves.h" />
@@ -45,9 +47,11 @@
     <ClCompile Include="Config.cpp" />
     <ClCompile Include="ConfigurationManager.cpp" />
     <ClCompile Include="FileManager.cpp" />
+    <ClCompile Include="FilePlayer.cpp" />
     <ClCompile Include="Flags.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameLoader.cpp" />
+    <ClCompile Include="KeyboardPlayer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerData.cpp" />

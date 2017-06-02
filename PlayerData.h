@@ -3,6 +3,7 @@
 #include <string>
 #include "AbstractPlayer.h"
 #include "Player.h"
+#include "ConfigurationManager.h"
 
 class PlayerData
 {
@@ -17,6 +18,8 @@ public:
 	~PlayerData();
 	PlayerData(PlayerData const&) = delete;
 	void operator=(PlayerData const&) = delete;
+
+	void initPlayer(ConfigurationManager::MovesMode mode);
 
 	void updateName();
 	std::string name() const;
