@@ -43,7 +43,6 @@ void Flags::configure(int argc, const char* argv[]) {
 }
 
 void Flags::run() {
-
 	hideCursor();
 
 	if (isAutoModeEnabled()) {

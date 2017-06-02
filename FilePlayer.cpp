@@ -15,7 +15,8 @@ FilePlayer::~FilePlayer()
 //*********** Private functions ***********//
 
 GameMove FilePlayer::play(const GameMove& opponentsMove) {
-	return GameMove(0, 0, 0, 0);
+	handleLoadedMoveIfNeeded(lastTurnTimeStamp);
+	return Player::play(opponentsMove);
 }
 
 PlayerMoves& FilePlayer::moves() {

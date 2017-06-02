@@ -40,6 +40,44 @@ void Player::init(const BoardData* bd) {
 	}
 }
 
+GameMove Player::play(const GameMove& opponentsMove) {
+	// Check if ship is still alive
+	auto search = ships.find(getActiveShip());
+	if (search == ships.end())
+		return GameMove(0, 0, 0, 0);
+
+	GameMove shipLastMove = search->second;
+	int fromX = shipLastMove.from_x;
+	int fromY = shipLastMove.from_y;
+	int toX = shipLastMove.to_x;
+	int toY = shipLastMove.to_y;
+
+	// Check if ship has moved - remove from map to reassign after move
+	ships.erase(search);
+	if (boardData->charAt(toX, toY) == ('0' + getActiveShip())) {
+		fromX = toX;
+		fromY = toY;
+	}
+	// Check if ship was stuck in last place - try to move again
+	else if (boardData->charAt(fromX, fromY) == ('0' + getActiveShip())) {
+		toX = fromX;
+		toY = fromY;
+	}
+	else { // Ship is dead
+		return GameMove(0, 0, 0, 0);
+	}
+
+	// Try to move
+	if (getActiveShipDirection() == Direction::UP) { --toY; }
+	else if (getActiveShipDirection() == Direction::DOWN) { ++toY; }
+	else if (getActiveShipDirection() == Direction::LEFT) { --toX; }
+	else if (getActiveShipDirection() == Direction::RIGHT) { ++toX; }
+
+	GameMove res = GameMove(fromX, fromY, toX, toY);
+	ships.emplace(getActiveShip(), res);
+	return res;
+}
+
 //*********** Private functions ***********//
 
 void Player::resetPlayerState() {

@@ -42,6 +42,8 @@ public:
 	int getPlayerType() const { return playerType; }
 
 	virtual void init(const BoardData* board) override;
+	/* Coordinates start from 1,1 */
+	virtual GameMove play(const GameMove& opponentsMove) override;
 
 	virtual std::string getName() const override { return playerName; }
 	void setName(std::string name) { playerName = name; }

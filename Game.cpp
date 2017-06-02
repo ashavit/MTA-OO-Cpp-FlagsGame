@@ -169,10 +169,12 @@ void Game::handlePlayerTurn(Player* p) {
 
 	// TODO: pass last turn
 	/* Coordinates start from 1,1 */
+	FilePlayer* fPlayer = dynamic_cast<FilePlayer*>(p);
+	if (fPlayer) {
+		fPlayer->setCurrentTimeStamp(_timeStamp);
+	}
 	GameMove gm = p->play(GameMove(0, 0, 0, 0));
 
-//	p->handleLoadedMoveIfNeeded(_timeStamp);
-//
 	// Validate ship moved only by one step
 	int deltaX = abs(gm.from_x - gm.to_x);
 	int deltaY = abs(gm.from_y - gm.to_y);

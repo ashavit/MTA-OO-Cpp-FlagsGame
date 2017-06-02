@@ -24,7 +24,7 @@ void PlayerData::initPlayer(ConfigurationManager::MovesMode mode) {
 	if (mode == ConfigurationManager::MovesMode::MOVES_ALGO) {
 		
 	}
-	else if (mode == ConfigurationManager::MovesMode::MOVES_ALGO) {
+	else if (mode == ConfigurationManager::MovesMode::MOVES_FILE) {
 		playerImpl = new FilePlayer();
 		playerImpl->setName(playerName);
 	}
