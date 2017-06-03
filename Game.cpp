@@ -315,17 +315,18 @@ void Game::displaySubMenu() {
 	setTextColor(WHITE);
 	clearScreen();
 
-	int selection;
-	bool handled;
+	std::cout << "Game is paused:" << std::endl;
+	std::cout << "1. Continue game" << std::endl;
+	std::cout << "2. Restart game" << std::endl;
+	std::cout << "8. Main menu" << std::endl;
+	std::cout << "9. Quit" << std::endl;
 
+	bool handled;
 	do {
 		handled = true;
-		std::cout << "Game is paused:" << std::endl;
-		std::cout << "1. Continue game" << std::endl;
-		std::cout << "2. Restart game" << std::endl;
-		std::cout << "8. Main menu" << std::endl;
-		std::cout << "9. Quit" << std::endl;
-		std::cin >> selection;
+		while (!_kbhit()) {}
+		int selection = _getch(); // Clear out last key hit from buffer
+		selection -= '0';
 
 		switch (selection) {
 		case 1:
@@ -342,7 +343,7 @@ void Game::displaySubMenu() {
 			break;
 
 		default:
-			std::cout << "Selection undefined" << std::endl;
+			std::cout << "Undefined action for " << static_cast<char>('0' + selection) << std::endl;
 			handled = false;
 			break;
 		}
