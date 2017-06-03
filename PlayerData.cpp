@@ -37,6 +37,10 @@ void PlayerData::initPlayer(ConfigurationManager::MovesMode mode) {
 void PlayerData::updateName() {
 	cout << "Please enter player name (old name is " << playerName << "):" << endl;
 	cin >> playerName;
+
+	Player* pPlayer = dynamic_cast<Player*>(playerImpl);
+	if (pPlayer)
+		pPlayer->setName(playerName);
 }
 
 std::string PlayerData::name() const {
