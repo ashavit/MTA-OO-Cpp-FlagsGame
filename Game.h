@@ -1,9 +1,9 @@
 #pragma once
 
 #include <string>
+#include "AbstractPlayer.h"
 
 class Flags;
-class Player;
 class Ship;
 class Board;
 class Cell;
@@ -20,9 +20,9 @@ class Game
 	};
 
 	Flags* _gameManager = nullptr;
-	Player* _winner = nullptr;
-	Player* _playerA;
-	Player* _playerB;
+	AbstractPlayer* _winner = nullptr;
+	AbstractPlayer* _playerA;
+	AbstractPlayer* _playerB;
 	int _scoreA;
 	int _scoreB;
 	int _liveShipsA = 3;
@@ -47,7 +47,7 @@ class Game
 
 	void handleKeyboardInput();
 	void notifyKeyHit(char ch);
-	void handlePlayerTurn(Player* p);
+	void handlePlayerTurn(AbstractPlayer* p);
 	void handleBattle(Ship* shipA, Ship* shipB, Cell* cell);
 	void endGame() const;
 	void displaySubMenu();
@@ -63,7 +63,7 @@ class Game
 	void restartGame();
 
 public:
-	Game(Flags* manager, Player* playerA, Player* playerB, int scoreA, int scoreB, int delay);
+	Game(Flags* manager, AbstractPlayer* playerA, AbstractPlayer* playerB, int scoreA, int scoreB, int delay);
 	virtual ~Game();
 	Game(Game const&) = delete;
 	void operator=(Game const&) = delete;
@@ -79,6 +79,6 @@ public:
 	bool loadBoardFromFile(const std::string& fileName);
 
 	void run();
-	Player* gameWinner() const;
+	AbstractPlayer* gameWinner() const;
 };
 

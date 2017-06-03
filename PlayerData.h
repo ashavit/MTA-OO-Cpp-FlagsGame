@@ -2,14 +2,13 @@
 
 #include <string>
 #include "AbstractPlayer.h"
-#include "Player.h"
 #include "ConfigurationManager.h"
 
 class PlayerData
 {
 	static int aliveIns;
 
-	Player *playerImpl = nullptr;
+	AbstractPlayer *playerImpl = nullptr;
 	std::string playerName;
 	int playerScore = 0;
 
@@ -29,7 +28,7 @@ public:
 	void incrementScore(int byPoints);
 	int score() const;
 
-	Player* player() const { return playerImpl; }
+	AbstractPlayer* player() const { return playerImpl; }
 
 	bool operator==(const PlayerData& other) const {
 		return (playerName == other.playerName);

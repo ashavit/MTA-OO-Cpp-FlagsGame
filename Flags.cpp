@@ -7,6 +7,7 @@
 #include "PlayerMoves.h"
 #include "ConfigurationManager.h"
 #include "BoardDataImpl.h"
+#include "Player.h"
 
 using namespace std;
 
@@ -199,7 +200,7 @@ void Flags::startAutoGame() {
 }
 
 void Flags::awardWinner() {
-	Player* winner = currentGame->gameWinner();
+	AbstractPlayer* winner = currentGame->gameWinner();
 	if (winner == playerDataA.player()) {
 		playerDataA.incrementScore(POINTS_PER_WIN);
 	}

@@ -15,7 +15,7 @@
 
 int Game::aliveIns = 0;
 
-Game::Game(Flags* manager, Player* playerA, Player* playerB, int scoreA, int scoreB, int delay)
+Game::Game(Flags* manager, AbstractPlayer* playerA, AbstractPlayer* playerB, int scoreA, int scoreB, int delay)
 	: _gameManager(manager), _playerA(playerA), _playerB(playerB), _scoreA(scoreA), _scoreB(scoreB), _delayTurnPeriod(delay) {
 	aliveIns++;
 	_playerA->setPlayer(1);
@@ -46,7 +46,7 @@ void Game::run() {
 
 		while (true) {
 			++_timeStamp;
-			Player* activePlayer = ((_timeStamp % 2) ? _playerA : _playerB);
+			AbstractPlayer* activePlayer = ((_timeStamp % 2) ? _playerA : _playerB);
 			handlePlayerTurn(activePlayer);
 			if (isGameOver()) break;
 			Sleep(_delayTurnPeriod);
@@ -57,7 +57,7 @@ void Game::run() {
 	endGame();
 }
 
-Player* Game::gameWinner() const {
+AbstractPlayer* Game::gameWinner() const {
 	return _winner;
 }
 
@@ -169,9 +169,7 @@ void Game::handleKeyboardInput() {
 	}
 }
 
-/// TODO: Amir: Redo this whole thing
-void Game::handlePlayerTurn(Player* p) {
-
+void Game::handlePlayerTurn(AbstractPlayer* p) {
 	// TODO: pass last turn
 	/* Coordinates start from 1,1 */
 	FilePlayer* fPlayer = dynamic_cast<FilePlayer*>(p);
@@ -397,8 +395,8 @@ void Game::delayEndGame() const {
 void Game::postGameActions() const {
 	// Save move files if record mode
 	if (_isRecordMode && _gameName.size() > 0) {
-		_playerA->endMoveList(_timeStamp + 1);
-		_playerB->endMoveList(_timeStamp + 1);
+//		_playerA->endMoveList(_timeStamp + 1);
+//		_playerB->endMoveList(_timeStamp + 1);
 		GameLoader loader{};
 		loader.savePlayerMovesToFile(_gameName);
 	}

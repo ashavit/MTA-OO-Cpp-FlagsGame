@@ -7,13 +7,11 @@ using namespace std;
 
 int PlayerData::aliveIns = 0;
 
-PlayerData::PlayerData(std::string name) : playerName(name)
-{
+PlayerData::PlayerData(std::string name) : playerName(name) {
 	++aliveIns;
 }
 
-PlayerData::~PlayerData()
-{
+PlayerData::~PlayerData() {
 	--aliveIns;
 	delete playerImpl;
 }
@@ -25,12 +23,14 @@ void PlayerData::initPlayer(ConfigurationManager::MovesMode mode) {
 		
 	}
 	else if (mode == ConfigurationManager::MovesMode::MOVES_FILE) {
-		playerImpl = new FilePlayer();
-		playerImpl->setName(playerName);
+		FilePlayer* fPlayer = new FilePlayer();
+		fPlayer->setName(playerName);
+		playerImpl = fPlayer;
 	}
 	else {
-		playerImpl = new KeyboardPlayer();
-		playerImpl->setName(playerName);
+		KeyboardPlayer* kPlayer = new KeyboardPlayer();
+		kPlayer->setName(playerName);
+		playerImpl = kPlayer;
 	}
 }
 
