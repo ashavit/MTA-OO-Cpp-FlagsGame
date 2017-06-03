@@ -16,7 +16,12 @@ BoardDataImpl::~BoardDataImpl() {
 char BoardDataImpl::charAt(int x, int y) const {
 	if (x >= 1 && x <= cols &&
 		y >= 1 && y <= rows) {
-		return _board->charAt(x-1, y-1);
+		char ch = _board->charAt(x - 1, y - 1);
+		if ((_player == 1 && ch >= '7' && ch <= '9') ||
+			(_player == 2 && ch >= '1' && ch <= '3')) {
+			return '#';
+		}
+		return ch;
 	}
 	return CellType::REGULAR;
 }
