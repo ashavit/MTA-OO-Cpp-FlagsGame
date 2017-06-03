@@ -89,8 +89,9 @@ void Flags::displayMenu() const {
 }
 
 void Flags::HandleMenuInput() {
-	int selection;
-	cin >> selection;
+	while (!_kbhit()) {}
+	int selection = _getch(); // Clear out last key hit from buffer
+	selection -= '0';
 
 	switch (selection) {
 	case 1:
