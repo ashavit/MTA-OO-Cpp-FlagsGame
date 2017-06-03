@@ -12,12 +12,6 @@ class Game
 {
 	static int aliveIns;
 
-	enum Awards
-	{
-		WIN = 10,
-		LOSS = 10
-	};
-
 	enum GameState
 	{
 		IN_PROGRESS,
