@@ -58,7 +58,7 @@ void Flags::run() {
 		while (!shouldExitProgram);
 	}
 
-	printGameSummary();
+	prepareExitGame();
 }
 
 /* Called from Game when a game ends. If _shouldExit=true need to exit program */
@@ -117,6 +117,12 @@ void Flags::HandleMenuInput() {
 		cout << "Selection undefined" << endl;
 		break;
 	}
+}
+
+void Flags::prepareExitGame() {
+	playerDataA.freePlayer();
+	playerDataB.freePlayer();
+	printGameSummary();
 }
 
 void Flags::selectPlayerNames() {

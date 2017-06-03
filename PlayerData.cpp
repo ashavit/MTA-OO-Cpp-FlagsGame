@@ -34,6 +34,12 @@ void PlayerData::initPlayer(ConfigurationManager::MovesMode mode) {
 	}
 }
 
+void PlayerData::freePlayer() {
+	if (playerImpl)
+		delete playerImpl;
+	playerImpl = nullptr;
+}
+
 void PlayerData::updateName() {
 	cout << "Please enter player name (old name is " << playerName << "):" << endl;
 	cin >> playerName;

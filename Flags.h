@@ -28,6 +28,7 @@ class Flags {
 
 	void displayMenu() const;
 	void HandleMenuInput();
+	void prepareExitGame();
 
 public:
 	Flags();

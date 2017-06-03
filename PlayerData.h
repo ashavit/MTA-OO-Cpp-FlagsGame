@@ -20,6 +20,7 @@ public:
 	void operator=(PlayerData const&) = delete;
 
 	void initPlayer(ConfigurationManager::MovesMode mode);
+	void freePlayer();
 
 	void updateName();
 	std::string name() const;
