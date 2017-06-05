@@ -2,6 +2,8 @@
 #include "PlayerData.h"
 #include "KeyboardPlayer.h"
 #include "FilePlayer.h"
+#include "AmirShavitPlayer.h"
+#include "AlgorithmRegistration.h"
 
 using namespace std;
 
@@ -20,7 +22,8 @@ PlayerData::~PlayerData() {
 
 void PlayerData::initPlayer(ConfigurationManager::MovesMode mode) {
 	if (mode == ConfigurationManager::MovesMode::MOVES_ALGO) {
-		
+		AbstractPlayer* aPlayer = AlgorithmRegistration::getPlayerForId("algo_AmirShavitStudent");
+		playerImpl = aPlayer;
 	}
 	else if (mode == ConfigurationManager::MovesMode::MOVES_FILE) {
 		FilePlayer* fPlayer = new FilePlayer();

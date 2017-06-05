@@ -189,6 +189,7 @@ void Flags::startAutoGame() {
 	game->setQuietMode(ConfigurationManager::sharedInstance().quietMode());
 	currentGame = game;
 
+	/// TODO: Need to load random when r
 	bool loadSuccess = FileManager::sharedInstance().hasMoreBoards() &&
 		currentGame->loadBoardFromFile(FileManager::sharedInstance().nextFileName());
 

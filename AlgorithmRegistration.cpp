@@ -6,3 +6,9 @@ AlgorithmRegistration::AlgorithmRegistration(const std::string& id, std::functio
 	playerFactory[id] = func;
 }
 
+AbstractPlayer* AlgorithmRegistration::getPlayerForId(const std::string& id) {
+	auto id_func = playerFactory.find(id);
+	auto& func = id_func->second;
+	return func();
+}
+

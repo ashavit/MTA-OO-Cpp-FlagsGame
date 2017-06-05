@@ -194,6 +194,11 @@ void Game::handlePlayerTurn(AbstractPlayer* p) {
 	Cell* moveFrom = _gameBoard->getCellAt(gm.from_x - 1, gm.from_y - 1);
 	Ship* s = (moveFrom ? moveFrom->getStandingShip() : nullptr);
 	if (s && s->alive()) {
+		// Verify ship belongs to player
+		if ((p == _playerA && s->type() > ShipType::SHIP3) ||
+			(p == _playerB && s->type() < ShipType::SHIP7)) {
+			return;
+		}
 		Cell* moveTo = _gameBoard->getCellAt(gm.to_x - 1, gm.to_y - 1);
 		
 		if (moveTo != nullptr && s->canMoveToCell(moveTo)) {
