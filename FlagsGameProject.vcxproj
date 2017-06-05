@@ -20,6 +20,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbstractPlayer.h" />
+    <ClInclude Include="AlgorithmRegistration.h" />
+    <ClInclude Include="AmirShavitPlayer.h" />
     <ClInclude Include="Board.h" />
     <ClInclude Include="BoardData.h" />
     <ClInclude Include="BoardDataImpl.h" />
@@ -41,6 +43,8 @@
     <ClInclude Include="Utils.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AlgorithmRegistration.cpp" />
+    <ClCompile Include="AmirShavitPlayer.cpp" />
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="BoardDataImpl.cpp" />
     <ClCompile Include="Cell.cpp" />
