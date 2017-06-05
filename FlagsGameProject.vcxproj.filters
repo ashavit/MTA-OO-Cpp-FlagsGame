@@ -81,6 +81,9 @@
     <ClInclude Include="AmirShavitPlayer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="AmirShavitAllRandomPlayer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -138,6 +141,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AmirShavitPlayer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AmirShavitAllRandomPlayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

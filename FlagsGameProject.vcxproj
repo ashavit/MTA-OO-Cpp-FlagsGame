@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="AbstractPlayer.h" />
     <ClInclude Include="AlgorithmRegistration.h" />
+    <ClInclude Include="AmirShavitAllRandomPlayer.h" />
     <ClInclude Include="AmirShavitPlayer.h" />
     <ClInclude Include="Board.h" />
     <ClInclude Include="BoardData.h" />
@@ -44,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AlgorithmRegistration.cpp" />
+    <ClCompile Include="AmirShavitAllRandomPlayer.cpp" />
     <ClCompile Include="AmirShavitPlayer.cpp" />
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="BoardDataImpl.cpp" />
