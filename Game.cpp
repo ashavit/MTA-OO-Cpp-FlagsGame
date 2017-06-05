@@ -24,6 +24,10 @@ Game::Game(Flags* manager, AbstractPlayer* playerA, AbstractPlayer* playerB, int
 
 Game::~Game() {
 	aliveIns--;
+	if (_boardDataA != nullptr)
+		delete _boardDataA;
+	if (_boardDataB != nullptr)
+		delete _boardDataB;
 	if (_gameBoard != nullptr)
 		delete _gameBoard;
 }
@@ -41,8 +45,10 @@ void Game::run() {
 	bool boardReady = (_gameBoard != nullptr);
 
 	if (boardReady) {
-		_playerA->init(new BoardDataImpl(_gameBoard, 1));
-		_playerB->init(new BoardDataImpl(_gameBoard, 2));
+		_boardDataA = new BoardDataImpl(_gameBoard, 1);
+		_boardDataB = new BoardDataImpl(_gameBoard, 2);
+		_playerA->init(*_boardDataA);
+		_playerB->init(*_boardDataB);
 
 		while (true) {
 			++_timeStamp;

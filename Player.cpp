@@ -13,7 +13,6 @@ Player::Player() {
 
 Player::~Player() {
 	aliveIns--;
-	delete boardData;
 }
 
 int Player::aliveIns = 0;
@@ -25,12 +24,12 @@ void Player::setPlayer(int player) {
 		playerType = player;
 }
 
-void Player::init(const BoardData* bd) {
+void Player::init(const BoardData& bd) {
 	resetPlayerState();
-	boardData = bd;
+	boardData = &bd;
 	for (UINT col = 1; col <= BoardData::cols; ++col) {
 		for (UINT row = 1; row <= BoardData::rows; ++row) {
-			char c = bd->charAt(col, row);
+			char c = bd.charAt(col, row);
 			if ((playerType == 1 && c >= '1' && c <= '3') ||
 				(playerType == 2 && c >= '7' && c <= '9')) {
 				ShipType type = static_cast<ShipType>(c - '0');

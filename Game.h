@@ -30,6 +30,8 @@ class Game
 	int _delayTurnPeriod;
 	Board* _gameBoard = nullptr;
 	std::string _gameName;
+	BoardData* _boardDataA = nullptr;
+	BoardData* _boardDataB = nullptr;
 
 	GameState _gameState = GameState::IN_PROGRESS;
 	unsigned long _timeStamp = 0;

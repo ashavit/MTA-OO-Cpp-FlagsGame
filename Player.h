@@ -41,7 +41,7 @@ public:
 	virtual void setPlayer(int player) override;
 	int getPlayerType() const { return playerType; }
 
-	virtual void init(const BoardData* board) override;
+	virtual void init(const BoardData& board) override;
 	/* Coordinates start from 1,1 */
 	virtual GameMove play(const GameMove& opponentsMove) override;
 
