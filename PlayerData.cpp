@@ -22,8 +22,8 @@ PlayerData::~PlayerData() {
 
 void PlayerData::initPlayer(ConfigurationManager::MovesMode mode) {
 	if (mode == ConfigurationManager::MovesMode::MOVES_ALGO) {
-		AbstractPlayer* aPlayer = AlgorithmRegistration::getPlayerForId("algo_AmirShavitStudent");
-		playerImpl = aPlayer;
+//		playerImpl = AlgorithmRegistration::getPlayerForId("algo_AmirShavitRandom");
+		playerImpl = AlgorithmRegistration::getPlayerForId("algo_AmirShavitStudent");
 	}
 	else if (mode == ConfigurationManager::MovesMode::MOVES_FILE) {
 		FilePlayer* fPlayer = new FilePlayer();

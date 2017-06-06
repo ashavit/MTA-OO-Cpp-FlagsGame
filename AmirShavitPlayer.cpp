@@ -60,7 +60,7 @@ GameMove AmirShavitPlayer::selectRandomGameMove(char activeShip) {
 	int toX = shipLastMove.to_x;
 	int toY = shipLastMove.to_y;
 
-	// Check if ship has moved - remove from map to reassign after move
+	// Remove from map to reassign after move
 	myShips.erase(shipItr);
 
 	int directionIndex = 1 + std::rand() % 4;
@@ -85,6 +85,7 @@ void AmirShavitPlayer::init(const BoardData& board) {
 	boardData = &board;
 	for (unsigned int col = 1; col <= BoardData::cols; ++col) {
 		for (unsigned int row = 1; row <= BoardData::rows; ++row) {
+			boardMap[col][row] = LocationType::REGULAR;
 			char c = board.charAt(col, row);
 			if (c >= '1' && c <= '9') {
 				myShips.emplace(c, GameMove(col, row, col, row));
@@ -92,7 +93,18 @@ void AmirShavitPlayer::init(const BoardData& board) {
 			else if (c == '#') {
 				oponentShips.emplace(c, GameMove(col, row, col, row));
 			}
-			// TODO: Save flag location
+			else if (c == 'A') {
+				myFlag = Location(col, row);
+			}
+			else if (c == 'B') {
+				oponentFlag = Location(col, row);
+			}
+			else if (c == LocationType::FORREST) {
+				boardMap[col][row] = LocationType::FORREST;
+			}
+			else if (c == LocationType::SEA) {
+				boardMap[col][row] = LocationType::SEA;
+			}
 		}
 	}
 }

@@ -3,19 +3,38 @@
 #include "AbstractPlayer.h"
 #include <map>
 
+struct Location
+{
+private:
+	int _x, _y;
+
+public:
+	Location(int x = 0, int y = 0) : _x(x), _y(y) {}
+	int x() { return _x; }
+	int y() { return _y; }
+};
+
 class AmirShavitPlayer : public AbstractPlayer
 {
 	static int aliveIns;
 
 	enum Direction { STOP, UP, DOWN, LEFT, RIGHT, INVALID };
+	enum LocationType
+	{
+		REGULAR = ' ',
+		FORREST = 'T',
+		SEA = 'S'
+	};
 
 	int playerType = 0;
 
 	const BoardData* boardData = nullptr;
+	/* 0 indexes will be empty and ignored, to fit index to charAt function */
+	char boardMap[BoardData::cols + 1][BoardData::rows + 1];
 	std::map<char, GameMove> myShips;
 	std::map<char, GameMove> oponentShips;
-//	GameMove myFlag;
-//	GameMove oponentFlag;
+	Location myFlag;
+	Location oponentFlag;
 
 	void resetPlayerState();
 	char selectRandomActiveShip();
