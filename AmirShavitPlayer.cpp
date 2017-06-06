@@ -77,14 +77,43 @@ GameMove AmirShavitPlayer::selectRandomGameMove(char activeShip) {
 		priorities[3] = (deltaY > 0 ? Direction::UP : Direction::DOWN);
 	}
 
-	int directionIndex = priorities[0];
+	Direction go = Direction::STOP;
+	for (Direction d : priorities) {
+		if (isMoveAllowed(activeShip, d, fromX, fromY)) {
+			go = d;
+			break;
+		}
+	}
 
 	// Try to move
-	if (directionIndex == Direction::UP) { --toY; }
-	else if (directionIndex == Direction::DOWN) { ++toY; }
-	else if (directionIndex == Direction::LEFT) { --toX; }
-	else if (directionIndex == Direction::RIGHT) { ++toX; }
+	if (go == Direction::UP) { --toY; }
+	else if (go == Direction::DOWN) { ++toY; }
+	else if (go == Direction::LEFT) { --toX; }
+	else if (go == Direction::RIGHT) { ++toX; }
 	return GameMove(fromX, fromY, toX, toY);
+}
+
+bool AmirShavitPlayer::isMoveAllowed(char active_ship, Direction direction, int from_x, int from_y) {
+	if (direction == Direction::UP) { --from_y; }
+	else if (direction == Direction::DOWN) { ++from_y; }
+	else if (direction == Direction::LEFT) { --from_x; }
+	else if (direction == Direction::RIGHT) { ++from_x; }
+	if (from_x < 1 || from_x > BoardData::cols || from_y < 1 || from_y > BoardData::rows) {
+		return false; // Out of bounds
+	}
+	char ch = boardMap[from_x][from_y];
+	if (ch == LocationType::FORREST) {
+		return (active_ship == '2' || active_ship == '7' || active_ship == '8');
+	}
+	else if (ch == LocationType::SEA) {
+		return (active_ship == '2' || active_ship == '3' || active_ship == '7');
+	}
+	else if (myFlag.x() == from_x && myFlag.y() == from_y) {
+		return false;
+	}
+	else {
+		return true;
+	}
 }
 
 //*********** Public functions ***********//

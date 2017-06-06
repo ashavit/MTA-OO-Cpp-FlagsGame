@@ -39,6 +39,7 @@ class AmirShavitPlayer : public AbstractPlayer
 	void resetPlayerState();
 	char selectRandomActiveShip();
 	GameMove selectRandomGameMove(char activeShip);
+	bool isMoveAllowed(char active_ship, Direction direction, int from_x, int from_y);
 
 public:
 	AmirShavitPlayer();
