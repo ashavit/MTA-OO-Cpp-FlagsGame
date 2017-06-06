@@ -22,8 +22,6 @@ AmirShavitPlayer::~AmirShavitPlayer() {
 void AmirShavitPlayer::resetPlayerState() {
 	myShips.clear();
 	oponentShips.clear();
-//	activeShip = (ShipType)0; // TODO: Replace force cast
-//	activeDirection = Direction::STOP;
 	boardData = nullptr;
 }
 

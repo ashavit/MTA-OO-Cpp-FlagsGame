@@ -420,7 +420,8 @@ void Game::unpauseGame() const {
 
 void Game::restartGame() {
 	// TODO: If need support for save moves - If not auto mode - reset all moves as well
-	// TODO: Re-init player with board data
+	// TODO: Re-init player with board data, make sure to save all ships (including dead to reset them first), meaning need to delete 
+	// some where else and not on setDead
 	_timeStamp = 0;
 	drawBoardIfNeeded();
 }
