@@ -100,10 +100,12 @@ void AmirShavitPlayer::init(const BoardData& board) {
 				oponentShips.emplace(c, GameMove(col, row, col, row));
 			}
 			else if (c == 'A') {
-				myFlag = Location(col, row);
+				if (playerType == 1) { myFlag = Location(col, row); }
+				else if (playerType == 2) { oponentFlag = Location(col, row); }
 			}
 			else if (c == 'B') {
-				oponentFlag = Location(col, row);
+				if (playerType == 1) { oponentFlag = Location(col, row); }
+				else if (playerType == 2) { myFlag = Location(col, row); }
 			}
 		}
 	}
