@@ -16,7 +16,7 @@ class Player : public AbstractPlayer
 
 	std::string playerName;
 	int playerType = 0;
-	ShipType activeShip = (ShipType)0; // TODO: Replace force cast
+	ShipType activeShip = ShipType::INVALID;
 	Direction activeDirection = Direction::STOP;
 
 	void resetPlayerState();

@@ -16,6 +16,7 @@ const char BOARD_MARK_FLAG_B = 'B';
 
 enum ShipType
 {
+	INVALID = 0,
 	SHIP1 = 1,
 	SHIP2,
 	SHIP3,

@@ -81,7 +81,7 @@ GameMove Player::play(const GameMove& opponentsMove) {
 
 void Player::resetPlayerState() {
 	ships.clear();
-	activeShip = (ShipType)0; // TODO: Replace force cast
+	activeShip = ShipType::INVALID;
 	activeDirection = Direction::STOP;
 	if (boardData)
 		delete boardData;
