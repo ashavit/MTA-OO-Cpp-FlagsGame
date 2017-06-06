@@ -167,7 +167,17 @@ bool Flags::shouldContinueAutoMode() const {
 
 void Flags::startKeyboardGame() {
 	currentGame->setRecordMode(isRecordMode);
+	loadAndPlayGameData();
+}
 
+void Flags::startAutoGame() {
+	Game *game = new Game(this, playerDataA.player(), playerDataB.player(), playerDataA.score(), playerDataB.score(), ConfigurationManager::sharedInstance().delay());
+	game->setQuietMode(ConfigurationManager::sharedInstance().quietMode());
+	currentGame = game;
+	loadAndPlayGameData();
+}
+
+void Flags::loadAndPlayGameData() {
 	bool loadSuccess;
 	if (ConfigurationManager::sharedInstance().boardMode() == ConfigurationManager::BoardMode::BOARD_FILE) {
 		loadSuccess = FileManager::sharedInstance().hasMoreBoards() &&
@@ -180,23 +190,8 @@ void Flags::startKeyboardGame() {
 	if (loadSuccess) {
 		++roundCounter;
 		currentGame->run();
-	} else
-		finishGame(true);
-}
-
-void Flags::startAutoGame() {
-	Game *game = new Game(this, playerDataA.player(), playerDataB.player(), playerDataA.score(), playerDataB.score(), ConfigurationManager::sharedInstance().delay());
-	game->setQuietMode(ConfigurationManager::sharedInstance().quietMode());
-	currentGame = game;
-
-	/// TODO: Need to load random when r
-	bool loadSuccess = FileManager::sharedInstance().hasMoreBoards() &&
-		currentGame->loadBoardFromFile(FileManager::sharedInstance().nextFileName());
-
-	if (loadSuccess) {
-		++roundCounter;
-		currentGame->run();
-	} else
+	}
+	else
 		finishGame(true);
 }
 
