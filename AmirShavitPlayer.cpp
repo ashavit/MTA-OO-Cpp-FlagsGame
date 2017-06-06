@@ -63,7 +63,23 @@ GameMove AmirShavitPlayer::selectRandomGameMove(char activeShip) {
 	// Remove from map to reassign after move
 	myShips.erase(shipItr);
 
-	int directionIndex = 1 + std::rand() % 4;
+	// Calc distance from flag and prioritize directions
+	Direction priorities[4];
+	int deltaX = oponentFlag.x() - fromX;
+	int deltaY = oponentFlag.y() - fromY;
+	if (abs(deltaX) > abs(deltaY)) {
+		priorities[0] = (deltaX > 0 ? Direction::RIGHT : Direction::LEFT);
+		priorities[1] = (deltaY > 0 ? Direction::DOWN : Direction::UP);
+		priorities[2] = (deltaY > 0 ? Direction::UP: Direction::DOWN);
+		priorities[3] = (deltaX > 0 ? Direction::LEFT : Direction::RIGHT);
+	} else {
+		priorities[0] = (deltaY > 0 ? Direction::DOWN : Direction::UP);
+		priorities[1] = (deltaX > 0 ? Direction::RIGHT : Direction::LEFT);
+		priorities[2] = (deltaX > 0 ? Direction::LEFT : Direction::RIGHT);
+		priorities[3] = (deltaY > 0 ? Direction::UP : Direction::DOWN);
+	}
+
+	int directionIndex = priorities[0];
 
 	// Try to move
 	if (directionIndex == Direction::UP) { --toY; }
