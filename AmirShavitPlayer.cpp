@@ -87,7 +87,13 @@ void AmirShavitPlayer::init(const BoardData& board) {
 		for (unsigned int row = 1; row <= BoardData::rows; ++row) {
 			boardMap[col][row] = LocationType::REGULAR;
 			char c = board.charAt(col, row);
-			if (c >= '1' && c <= '9') {
+			if (c == LocationType::FORREST) {
+				boardMap[col][row] = LocationType::FORREST;
+			}
+			else if (c == LocationType::SEA) {
+				boardMap[col][row] = LocationType::SEA;
+			}
+			else if (c >= '1' && c <= '9') {
 				myShips.emplace(c, GameMove(col, row, col, row));
 			}
 			else if (c == '#') {
@@ -98,12 +104,6 @@ void AmirShavitPlayer::init(const BoardData& board) {
 			}
 			else if (c == 'B') {
 				oponentFlag = Location(col, row);
-			}
-			else if (c == LocationType::FORREST) {
-				boardMap[col][row] = LocationType::FORREST;
-			}
-			else if (c == LocationType::SEA) {
-				boardMap[col][row] = LocationType::SEA;
 			}
 		}
 	}
