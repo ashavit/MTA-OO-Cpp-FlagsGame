@@ -25,16 +25,8 @@ class Cell
 	Ship* standingShip = nullptr;
 
 public:
-	Cell(UINT row, UINT column, CellType type = REGULAR)
-		: row(row), column(column), type(type) {
-		aliveIns++;
-	}
-
-	~Cell() {
-		aliveIns--;
-		if (standingShip != nullptr)
-			delete standingShip;
-	}
+	Cell(UINT row, UINT column, CellType type = REGULAR);
+	~Cell();
 
 	static int aliveInstances() { return aliveIns; }
 

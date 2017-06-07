@@ -83,8 +83,6 @@ void Player::resetPlayerState() {
 	ships.clear();
 	activeShip = ShipType::INVALID;
 	activeDirection = Direction::STOP;
-	if (boardData)
-		delete boardData;
 	boardData = nullptr;
 }
 

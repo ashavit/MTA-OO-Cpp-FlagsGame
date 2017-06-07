@@ -32,6 +32,10 @@ Board::Board(UINT width, UINT height) : height(height), width(width) {
 
 Board::~Board() {
 	--aliveIns;
+	for (Ship* ship : allShips) {
+		delete ship;
+	}
+
 	for (UINT col = 0; col < width; ++col) {
 		for (UINT row = 0; row < height; ++row) {
 			delete board[col][row];
@@ -101,6 +105,12 @@ Cell* Board::getCellAt(int col, int row) const {
 char Board::charAt(int col, int row) const {
 	Cell* cell = getCellAt(col, row);
 	return (cell ? cell->charRepresentation() : CellType::REGULAR);
+}
+
+void Board::restartBoard() const {
+	for (Ship *ship : allShips) {
+		ship->resetToInitialState();
+	}
 }
 
 //*********** Outputs ***********//
@@ -175,4 +185,8 @@ void Board::randomPlaceSpecialCells(CellType type, int count) const {
 	for (int i = 0; i < count; ++i) {
 		getRandomCellInRows(1, height)->setCellType(type);
 	}
+}
+
+void Board::addedShip(Ship* ship) {
+	allShips.push_back(ship);
 }

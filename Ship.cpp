@@ -29,7 +29,6 @@ void Ship::setDead() {
 	setDirection(Direction::STOP);
 	currentCell->setStandingShip(nullptr);
 	currentCell = nullptr;
-	delete this;
 }
 
 //*********** Other functions ***********//
@@ -76,7 +75,8 @@ void Ship::resetToInitialState() {
 	setDirection(Direction::STOP);
 
 	// Set current cell's ship to nil
-	currentCell->setStandingShip(nullptr);
+	if (currentCell)
+		currentCell->setStandingShip(nullptr);
 
 	// Set initial cell's ship to this
 	currentCell = initialCell;

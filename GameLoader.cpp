@@ -152,12 +152,14 @@ Board* GameLoader::loadRandomBoard(UINT width, UINT height) const {
 		Cell* c = b->getRandomCellInRows(playerAHomeMin, playerAHomeMax);
 		Ship* ship = new Ship(static_cast<ShipType>(type), c);
 		c->setStandingShip(ship);
+		b->addedShip(ship);
 	}
 
 	for (int type = ShipType::SHIP7; type <= ShipType::SHIP9; ++type) {
 		Cell* c = b->getRandomCellInRows(playerBHomeMin, playerBHomeMax);
 		Ship* ship = new Ship(static_cast<ShipType>(type), c);
 		c->setStandingShip(ship);
+		b->addedShip(ship);
 	}
 
 	return b;
@@ -208,6 +210,7 @@ Board* GameLoader::loadBoardFromFile(ifstream& boardFile, const string& fileName
 					} // Make sure each ship is set only once
 					Ship* ship = new Ship(static_cast<ShipType>(ch - '0'), b->board[col][row]);
 					b->board[col][row]->setStandingShip(ship);
+					b->addedShip(ship);
 					SET_BIT(validateToolsA, bit);
 					break;
 				}
@@ -223,6 +226,7 @@ Board* GameLoader::loadBoardFromFile(ifstream& boardFile, const string& fileName
 					} // Make sure each ship is set only once
 					Ship* ship = new Ship(static_cast<ShipType>(ch - '0'), b->board[col][row]);
 					b->board[col][row]->setStandingShip(ship);
+					b->addedShip(ship);
 					SET_BIT(validateToolsB, bit);
 					break;
 				}
