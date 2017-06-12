@@ -12,6 +12,7 @@
 #include "BoardDataImpl.h"
 
 #define ESC 27
+#define MAX_ALGO_ITTERATIONS 1250
 
 int Game::aliveIns = 0;
 
@@ -300,6 +301,8 @@ bool Game::isGameOver() const {
 		return (basicConditions ||
 			(fPlayerA->didFinishAutoMoves(_timeStamp) &&
 				fPlayerB->didFinishAutoMoves(_timeStamp)));
+	} else if (ConfigurationManager::sharedInstance().movesMode() == ConfigurationManager::MovesMode::MOVES_ALGO) {
+		return _timeStamp > MAX_ALGO_ITTERATIONS;
 	} else {
 		return basicConditions;
 	}
