@@ -3,6 +3,7 @@
 Flags is the homework project for cpp class @ MTA computer science.
 The full repo can be found on Github @ https://github.com/ashavit/MTA-OO-Cpp-FlagsGame
 
+// TODO: Add id after submission
 Authors:
 * Amir Shavit
 

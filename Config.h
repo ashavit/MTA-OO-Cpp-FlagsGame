@@ -7,6 +7,7 @@
 #define WINDOWS
 
 #define DEBUG 0
+#define WEIRD_RANDOM_CELLS 0
 
 #ifdef WINDOWS
 
