@@ -5,7 +5,6 @@ The full repo can be found on Github @ https://github.com/ashavit/MTA-OO-Cpp-Fla
 
 Authors:
 * Amir Shavit
-* Yegor Yegorov
 
 ## Configuration
 ##### Dear Instructor
