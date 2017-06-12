@@ -32,8 +32,10 @@ void ConfigurationManager::setup(int argc, const char* argv[]) {
 					_boardMode = BoardMode::BOARD_FILE;
 				else if (param == PARAM_VAL_BOARD_RANDOM && (i + 2 < argc)) { 
 					// Try to read rounds limit if random defined explicitly
-					_rounds = atoi(argv[i + 2]);
-				}		
+					int readRounds = atoi(argv[i + 2]);
+					if (readRounds > 0)
+						_rounds = readRounds;
+				}
 			}
 		}
 		else if (key == PARAM_KEY_MOVES) {

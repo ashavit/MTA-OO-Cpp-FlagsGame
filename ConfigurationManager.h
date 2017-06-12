@@ -29,7 +29,7 @@ private:
 	bool _quietMode = false;
 	bool _saveMode = false;
 	int _delay = 20;
-	unsigned int _rounds = 0;
+	unsigned int _rounds = 10;
 
 public:
 
