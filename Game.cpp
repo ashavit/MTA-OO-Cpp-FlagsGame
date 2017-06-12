@@ -51,10 +51,11 @@ void Game::run() {
 		_playerA->init(*_boardDataA);
 		_playerB->init(*_boardDataB);
 
+		InnerGameMove move = InnerGameMove();
 		while (true) {
 			++_timeStamp;
 			AbstractPlayer* activePlayer = ((_timeStamp % 2) ? _playerA : _playerB);
-			handlePlayerTurn(activePlayer);
+			move = handlePlayerTurn(activePlayer, move);
 			if (isGameOver()) break;
 			Sleep(_delayTurnPeriod);
 			handleKeyboardInput();
@@ -176,21 +177,20 @@ void Game::handleKeyboardInput() {
 	}
 }
 
-void Game::handlePlayerTurn(AbstractPlayer* p) {
-	// TODO: pass last turn
+Game::InnerGameMove Game::handlePlayerTurn(AbstractPlayer* p, InnerGameMove lastOponentMove) {
 	/* Coordinates start from 1,1 */
 	FilePlayer* fPlayer = dynamic_cast<FilePlayer*>(p);
 	if (fPlayer) {
 		fPlayer->setCurrentTimeStamp(_timeStamp);
 	}
-	GameMove gm = p->play(GameMove(0, 0, 0, 0));
+	GameMove gm = p->play(lastOponentMove.convertToGameMove());
 
 	// Validate ship moved only by one step
 	int deltaX = abs(gm.from_x - gm.to_x);
 	int deltaY = abs(gm.from_y - gm.to_y);
 	if ((deltaX > 0 && deltaY > 0) || // Try to move in both directions at once
 		(deltaX + deltaY > 1)) // try to move more than 1 step a time
-		return;
+		return InnerGameMove();
 
 	Cell* moveFrom = _gameBoard->getCellAt(gm.from_x - 1, gm.from_y - 1);
 	Ship* s = (moveFrom ? moveFrom->getStandingShip() : nullptr);
@@ -198,7 +198,7 @@ void Game::handlePlayerTurn(AbstractPlayer* p) {
 		// Verify ship belongs to player
 		if ((p == _playerA && s->type() > ShipType::SHIP3) ||
 			(p == _playerB && s->type() < ShipType::SHIP7)) {
-			return;
+			return InnerGameMove();
 		}
 		Cell* moveTo = _gameBoard->getCellAt(gm.to_x - 1, gm.to_y - 1);
 		
@@ -225,9 +225,12 @@ void Game::handlePlayerTurn(AbstractPlayer* p) {
 				drawCellIfNeeded(moveTo);
 				drawCellIfNeeded(old);
 			}
+
+			return InnerGameMove(gm);
 		}
 	}
 	// Else don't move ship
+	return InnerGameMove();
 }
 
 void Game::handleBattle(Ship* shipA, Ship* shipB, Cell* cell) {

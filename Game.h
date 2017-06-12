@@ -12,6 +12,16 @@ class Game
 {
 	static int aliveIns;
 
+	struct InnerGameMove
+	{
+		int from_x, from_y;
+		int to_x, to_y;
+		InnerGameMove() : InnerGameMove(0, 0, 0, 0) { }
+		InnerGameMove(int x1, int y1, int x2, int y2) : from_x(x1), from_y(y1), to_x(x2), to_y(y2) { }
+		InnerGameMove(GameMove gm) : from_x(gm.from_x), from_y(gm.from_y), to_x(gm.to_x), to_y(gm.to_y) { }
+		GameMove convertToGameMove() { return GameMove(from_x, from_y, to_x, to_y); }
+	};
+
 	enum GameState
 	{
 		IN_PROGRESS,
@@ -49,7 +59,7 @@ class Game
 
 	void handleKeyboardInput();
 	void notifyKeyHit(char ch);
-	void handlePlayerTurn(AbstractPlayer* p);
+	InnerGameMove handlePlayerTurn(AbstractPlayer* p, InnerGameMove lastOponentMove);
 	void handleBattle(Ship* shipA, Ship* shipB, Cell* cell);
 	void endGame() const;
 	void displaySubMenu();
