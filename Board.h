@@ -29,7 +29,10 @@ class Board
 	Board(Board const&) = delete;
 	void operator=(Board const&) = delete;
 
+	void setGeographicCellLocations();
 	void randomPlaceSpecialCells(CellType type, int count) const;
+	void setDemoSeaLocations();
+	void setDemoForrestLocations();
 	void addedShip(Ship *ship);
 
 	friend GameLoader;

@@ -181,10 +181,55 @@ int Board::getPlayerStatsLocation() const {
 
 //*********** Private functions ***********//
 
+void Board::setGeographicCellLocations() {
+	if (WEIRD_RANDOM_CELLS) {
+		int seas = BoardDensity::REGULAR;
+		int forests = BoardDensity::REGULAR;
+
+		randomPlaceSpecialCells(CellType::SEA, seas);
+		randomPlaceSpecialCells(CellType::FORREST, forests);
+	}
+	else {
+		setDemoSeaLocations();
+		setDemoForrestLocations();
+	}
+}
+
 void Board::randomPlaceSpecialCells(CellType type, int count) const {
 	for (int i = 0; i < count; ++i) {
 		getRandomCellInRows(1, height)->setCellType(type);
 	}
+}
+
+void Board::setDemoSeaLocations() {
+	getCellAt(7, 5)->setCellType(CellType::SEA);
+	getCellAt(8, 4)->setCellType(CellType::SEA);
+	getCellAt(8, 5)->setCellType(CellType::SEA);
+	getCellAt(9, 3)->setCellType(CellType::SEA);
+	getCellAt(9, 4)->setCellType(CellType::SEA);
+	getCellAt(9, 5)->setCellType(CellType::SEA);
+	getCellAt(9, 6)->setCellType(CellType::SEA);
+	getCellAt(9, 7)->setCellType(CellType::SEA);
+	getCellAt(9, 8)->setCellType(CellType::SEA);
+	getCellAt(9, 9)->setCellType(CellType::SEA);
+	getCellAt(10, 6)->setCellType(CellType::SEA);
+	getCellAt(10, 7)->setCellType(CellType::SEA);
+	getCellAt(10, 8)->setCellType(CellType::SEA);
+	getCellAt(11, 7)->setCellType(CellType::SEA);
+}
+
+void Board::setDemoForrestLocations() {
+	getCellAt(0, 6)->setCellType(CellType::FORREST);
+	getCellAt(0, 7)->setCellType(CellType::FORREST);
+	getCellAt(1, 6)->setCellType(CellType::FORREST);
+	getCellAt(2, 3)->setCellType(CellType::FORREST);
+	getCellAt(2, 4)->setCellType(CellType::FORREST);
+	getCellAt(2, 5)->setCellType(CellType::FORREST);
+	getCellAt(2, 6)->setCellType(CellType::FORREST);
+	getCellAt(3, 5)->setCellType(CellType::FORREST);
+	getCellAt(3, 6)->setCellType(CellType::FORREST);
+	getCellAt(3, 7)->setCellType(CellType::FORREST);
+	getCellAt(3, 8)->setCellType(CellType::FORREST);
 }
 
 void Board::addedShip(Ship* ship) {

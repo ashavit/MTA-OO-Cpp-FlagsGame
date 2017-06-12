@@ -138,11 +138,7 @@ Board* GameLoader::loadRandomBoard(UINT width, UINT height) const {
 	int playerBHomeMax = height;
 	int playerBHomeMin = playerBHomeMax - PLAYER_HOME_ROW_COUNT + 1;
 
-	int seas = Board::BoardDensity::REGULAR;
-	int forests = Board::BoardDensity::REGULAR;
-
-	b->randomPlaceSpecialCells(CellType::SEA, seas);
-	b->randomPlaceSpecialCells(CellType::FORREST, forests);
+	b->setGeographicCellLocations();
 
 	b->getRandomCellInRows(playerAHomeMin, playerAHomeMax)->setCellType(FLAG_A);
 	b->getRandomCellInRows(playerBHomeMin, playerBHomeMax)->setCellType(FLAG_B);
