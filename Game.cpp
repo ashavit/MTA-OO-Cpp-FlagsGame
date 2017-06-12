@@ -301,8 +301,10 @@ bool Game::isGameOver() const {
 		return (basicConditions ||
 			(fPlayerA->didFinishAutoMoves(_timeStamp) &&
 				fPlayerB->didFinishAutoMoves(_timeStamp)));
-	} else if (ConfigurationManager::sharedInstance().movesMode() == ConfigurationManager::MovesMode::MOVES_ALGO) {
-		return _timeStamp > MAX_ALGO_ITTERATIONS;
+	}
+	else if (ConfigurationManager::sharedInstance().movesMode() == ConfigurationManager::MovesMode::MOVES_ALGO &&
+		_timeStamp > MAX_ALGO_ITTERATIONS) { // End unfinished algo games passed move limit
+		return true;
 	} else {
 		return basicConditions;
 	}
