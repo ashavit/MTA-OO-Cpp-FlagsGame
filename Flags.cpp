@@ -11,7 +11,7 @@
 
 using namespace std;
 
-#define POINTS_PER_WIN 10
+#define POINTS_PER_WIN 1
 
 //*********** Ctor ***********//
 
