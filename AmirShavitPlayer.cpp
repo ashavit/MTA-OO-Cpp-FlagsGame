@@ -165,7 +165,7 @@ namespace AmirShavitSpace {
 	}
 
 	std::string AmirShavitPlayer::getName() const {
-		return "Amir Shavit's algo player";
+		return ("Amir Shavit " + std::to_string(playerType));
 	}
 
 }
