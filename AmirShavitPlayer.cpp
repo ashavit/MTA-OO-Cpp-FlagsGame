@@ -139,7 +139,8 @@ namespace AmirShavitSpace {
 				else if (c == LocationType::SEA) {
 					boardMap[col][row] = LocationType::SEA;
 				}
-				else if (c >= '1' && c <= '9') {
+				else if ((c >= '1' && c <= '3' && playerType == 1) ||
+					(c >= '7' && c <= '9' && playerType == 2)) {
 					myShips.emplace(c, GameMove(col, row, col, row));
 				}
 				else if (c == '#') {
