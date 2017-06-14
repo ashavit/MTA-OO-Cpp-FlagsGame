@@ -30,7 +30,9 @@ Flags::~Flags() {
 
 void Flags::configure(int argc, const char* argv[]) {
 	ConfigurationManager& cManager = ConfigurationManager::sharedInstance();
-	cManager.setup(argc, argv);
+	if (argc > 0) {
+		cManager.setup(argc, argv);
+	}
 
 	playerDataA.initPlayer(cManager.movesMode());
 	playerDataB.initPlayer(cManager.movesMode());
