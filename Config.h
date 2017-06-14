@@ -24,6 +24,8 @@
     #define TRUE    1
 #endif
 
+	typedef unsigned int UINT;
+
     typedef unsigned short WORD;
     typedef unsigned long DWORD;
 
