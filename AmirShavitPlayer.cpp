@@ -165,6 +165,7 @@ namespace AmirShavitSpace {
 		return res;
 	}
 
+	// TODO: Replace with ID
 	std::string AmirShavitPlayer::getName() const {
 		return ("Amir Shavit " + std::to_string(playerType));
 	}
