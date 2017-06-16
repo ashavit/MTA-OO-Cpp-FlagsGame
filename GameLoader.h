@@ -18,9 +18,6 @@ class GameLoader
 	Board* loadBoardFromFile(std::ifstream& boardFile, const std::string& fileName, UINT width = Board::DEFAULT_BOARD_SIZE, UINT height = Board::DEFAULT_BOARD_SIZE) const;
 	PlayerMoves* loadPlayerMovesFromFile(std::ifstream& movesFile) const;
 
-	void saveBoardToFile(std::ofstream& boardFile) const;
-	void saveMovesToFile(std::ofstream& movesFile, PlayerMoves& moves, int roundToMod2) const;
-
 	std::ifstream* openFileToRead(const std::string fileName) const;
 	std::ofstream* openFileToWrite(const std::string fileName) const;
 	void closeAndReleaseFile(std::ifstream* file) const;
@@ -44,8 +41,5 @@ public:
 
 	Board* gameBoard() const { return _gameBoard; }
 
-	std::string newRandomFileName() const;
-	void saveBoardToFile(const std::string& fileName) const;
-	void savePlayerMovesToFile(const std::string& fileName) const;
 };
 

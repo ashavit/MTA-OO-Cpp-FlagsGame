@@ -9,7 +9,6 @@ class Flags {
 	PlayerData playerDataB;
     Game* currentGame = nullptr;
     bool shouldExitProgram = false;
-    bool isRecordMode = false;
 	unsigned int roundCounter = 0;
 
 	static bool isAutoModeEnabled();
@@ -19,7 +18,6 @@ class Flags {
     void beginKeyboardGame();
     void beginReverseKeyboardGame();
     void resetPlayerScores();
-    void toggleRecordMode();
 
 	void startKeyboardGame();
 	void startAutoGame();

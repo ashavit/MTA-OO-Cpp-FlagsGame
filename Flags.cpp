@@ -40,9 +40,6 @@ void Flags::configure(int argc, const char* argv[]) {
 	if (cManager.boardMode() == ConfigurationManager::BoardMode::BOARD_FILE) {
 		FileManager::sharedInstance().loadAvailableFiles(ConfigurationManager::sharedInstance().path());
 	}
-	if (cManager.saveMode()) {
-		isRecordMode = true;
-	}
 }
 
 void Flags::run() {
@@ -87,7 +84,6 @@ void Flags::displayMenu() const {
 	cout << "2. Begin a new game" << endl;
 	cout << "3. Begin a new reverse game" << endl;
 	cout << "4. Reset players score" << endl;
-	cout << "5. " << (isRecordMode ? "Stop" : "Start") << " record mode" << endl;
 	cout << "9. Quit" << endl;
 }
 
@@ -108,9 +104,6 @@ void Flags::HandleMenuInput() {
 		break;
 	case 4:
 		resetPlayerScores();
-		break;
-	case 5:
-		toggleRecordMode();
 		break;
 	case 9:
 		finishGame(true);
@@ -148,12 +141,6 @@ void Flags::resetPlayerScores() {
 	playerDataB.resetScore();
 }
 
-void Flags::toggleRecordMode() {
-	isRecordMode = (!isRecordMode || ConfigurationManager::sharedInstance().saveMode());
-	clearScreen();
-	cout << "Record mode is now " << (isRecordMode ? "enabled" : "disblaed") << endl << endl;
-}
-
 bool Flags::isAutoModeEnabled() {
 	ConfigurationManager& cManager = ConfigurationManager::sharedInstance();
 	return ((cManager.boardMode() == ConfigurationManager::BOARD_FILE && cManager.movesMode() == ConfigurationManager::MOVES_FILE) ||
@@ -168,7 +155,6 @@ bool Flags::shouldContinueAutoMode() const {
 }
 
 void Flags::startKeyboardGame() {
-	currentGame->setRecordMode(isRecordMode);
 	loadAndPlayGameData();
 }
 

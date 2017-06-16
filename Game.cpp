@@ -129,12 +129,6 @@ bool Game::loadBoard(const std::string& fileName) {
 
 	if (success) {
 		_gameBoard = loader.gameBoard();
-
-		if (!fromFile && _isRecordMode) {
-			_gameName = loader.newRandomFileName();
-			loader.saveBoardToFile(_gameName);
-		}
-
 		drawBoardIfNeeded();
 	}
 	else {
@@ -318,8 +312,6 @@ void Game::endGame() const {
 	_gameBoard->printMessage(endGameMessage(), true);
 	delayEndGame();
 
-	postGameActions();
-
 	// End game
 	_gameManager->finishGame(_gameState == GameState::ABORT_AND_QUIT);
 }
@@ -412,22 +404,11 @@ void Game::delayEndGame() const {
 	}
 }
 
-void Game::postGameActions() const {
-	// Save move files if record mode
-	if (_isRecordMode && _gameName.size() > 0) {
-//		_playerA->endMoveList(_timeStamp + 1);
-//		_playerB->endMoveList(_timeStamp + 1);
-		GameLoader loader{};
-		loader.savePlayerMovesToFile(_gameName);
-	}
-}
-
 void Game::unpauseGame() const {
 	drawBoardIfNeeded();
 }
 
 void Game::restartGame() {
-	// TODO: If need support for save moves - If not auto mode - reset all moves as well
 	_timeStamp = 0;
 	_gameBoard->restartBoard();
 	_playerA->init(*_boardDataA);

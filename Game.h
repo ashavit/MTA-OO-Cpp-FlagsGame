@@ -35,7 +35,6 @@ class Game
 
 	GameState _gameState = GameState::IN_PROGRESS;
 	unsigned long _timeStamp = 0;
-	bool _isRecordMode = false;
 	bool _isQuietMode = false;
 	bool isAutoMode() const;
 
@@ -60,7 +59,6 @@ class Game
 	std::string Game::endAutoGameMessage() const;
 	std::string Game::endKeyboardGameMessage() const;
 	void delayEndGame() const;
-	void postGameActions() const;
 	void unpauseGame() const;
 	void restartGame();
 
@@ -72,7 +70,6 @@ public:
 
 	static int aliveInstances() { return aliveIns; }
 
-	void setRecordMode(bool isRecordMode) { _isRecordMode = isRecordMode; };
 	void setQuietMode(bool isQuiet) {
 		_isQuietMode = isQuiet;
 	}

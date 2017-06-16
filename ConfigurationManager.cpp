@@ -8,7 +8,6 @@
 #define PARAM_VAL_MOVES_ALGO 'a'
 #define PARAM_KEY_PATH "-path"
 #define PARAM_KEY_QUIET "-quiet"
-#define PARAM_KEY_SAVE "-save"
 #define PARAM_KEY_DELAY "-delay"
 
 #define MULTIPLY_DELAY_PERIOD 50
@@ -58,9 +57,6 @@ void ConfigurationManager::setup(int argc, const char* argv[]) {
 		else if (key == PARAM_KEY_QUIET) {
 			_quietMode = true;
 		}
-		else if (key == PARAM_KEY_SAVE) {
-			_saveMode = true;
-		}
 		else if (key == PARAM_KEY_DELAY) {
 			// Make sure not out of bounds
 			if (i + 1 < argc)
@@ -87,12 +83,6 @@ std::string ConfigurationManager::path() const {
 bool ConfigurationManager::quietMode() const {
 	// Quiet can be enabled only if board and moves are loaded from files
 	return _quietMode && ((_boardMode == BoardMode::BOARD_FILE && _movesMode == MovesMode::MOVES_FILE) || _movesMode == MovesMode::MOVES_ALGO);
-}
-
-// This option is relevant only with -moves a otherwise ignored
-bool ConfigurationManager::saveMode() const {
-	// Save can be enabled only if moves are performed from alogritm
-	return (_saveMode && _movesMode == MovesMode::MOVES_ALGO);
 }
 
 int ConfigurationManager::delay() const {

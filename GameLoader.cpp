@@ -73,33 +73,6 @@ bool GameLoader::loadGameMovesFromFile(const string& fileName, FilePlayer* playe
 	return didLoadMoves;
 }
 
-string GameLoader::newRandomFileName() const {
-	bool foundName = false;
-	int counter = 1;
-	string fileName;
-
-	do {
-		fileName = RANDOM_FILE_NAME + to_string(counter);
-		string fileNameWExt = FileManager::sharedInstance().fileNameWithPath(fileName, BOARD_FILE_EXTENSION);
-		++counter;
-		if (!ifstream(fileNameWExt)) { // File does not exist
-			foundName = true;
-		}
-	}
-	while (!foundName);
-
-	return fileName;
-}
-
-void GameLoader::saveBoardToFile(const string& fileName) const {
-	string pathFileName = FileManager::sharedInstance().fileNameWithPath(fileName, BOARD_FILE_EXTENSION);
-	ofstream* boardFile = openFileToWrite(pathFileName);
-	if (boardFile) {
-		saveBoardToFile(*boardFile);
-		closeAndReleaseFile(boardFile);
-	}
-}
-
 void GameLoader::printErrors() const {
 	cout << endl;
 	if (errors.size() > 0) {
@@ -107,27 +80,6 @@ void GameLoader::printErrors() const {
 			cout << err << endl;
 		}
 	}
-}
-
-/// TODO: Same moves from file
-void GameLoader::savePlayerMovesToFile(const string& fileName) const {
-//	if (!playerA->isAutoMode() && playerA->moves().moveCount()) {
-//		string pathFileName = FileManager::sharedInstance().fileNameWithPath(fileName, PLAYER_A_FILE_EXTENSION);
-//		ofstream* playerAFile = openFileToWrite(pathFileName);
-//		if (playerAFile) {
-//			saveMovesToFile(*playerAFile, playerA->moves(), 1);
-//			closeAndReleaseFile(playerAFile);
-//		}
-//	}
-//
-//	if (!playerB->isAutoMode() && playerB->moves().moveCount()) {
-//		string pathFileName = FileManager::sharedInstance().fileNameWithPath(fileName, PLAYER_B_FILE_EXTENSION);
-//		ofstream* playerBFile = openFileToWrite(pathFileName);
-//		if (playerBFile) {
-//			saveMovesToFile(*playerBFile, playerB->moves(), 0);
-//			closeAndReleaseFile(playerBFile);
-//		}
-//	}
 }
 
 Board* GameLoader::loadRandomBoard(UINT width, UINT height) const {
@@ -288,48 +240,6 @@ PlayerMoves* GameLoader::loadPlayerMovesFromFile(ifstream& movesFile) const {
 		}
 	}
 	return res;
-}
-
-void GameLoader::saveBoardToFile(ofstream& boardFile) const {
-	for (UINT row = 0; row < _gameBoard->height; ++row) {
-		for (UINT col = 0; col < _gameBoard->width; ++col) {
-			Cell* c = _gameBoard->board[col][row];
-			if (c->getStandingShip() != nullptr) {
-				boardFile << static_cast<int>(c->getStandingShip()->type());
-			}
-			else {
-				switch (c->getCellType()) {
-				case FORREST:
-					boardFile << BOARD_MARK_FOREST;
-					break;
-				case SEA:
-					boardFile << BOARD_MARK_SEA;
-					break;
-				case FLAG_A:
-					boardFile << BOARD_MARK_FLAG_A;
-					break;
-				case FLAG_B:
-					boardFile << BOARD_MARK_FLAG_B;
-					break;
-
-				default:
-					boardFile << " ";
-					break;
-				}
-			}
-		}
-		boardFile << endl;
-	}
-}
-
-void GameLoader::saveMovesToFile(ofstream& movesFile, PlayerMoves& moves, int roundToMod2) const {
-	map<unsigned long, PlayerMoves::Move*> list = moves.getMovesList();
-	for (auto& turn : list) {
-		unsigned long ts = turn.first;
-		if ((ts % 2) != roundToMod2) { ++ts; } // Make sure time stamp fits player's turn
-		movesFile << ts << ", " << *turn.second << endl;
-	}
-	movesFile << endl;
 }
 
 ifstream* GameLoader::openFileToRead(const std::string fileName) const {
