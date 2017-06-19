@@ -12,3 +12,15 @@ AbstractPlayer* AlgorithmRegistration::getPlayerForId(const std::string& id) {
 	return func();
 }
 
+AbstractPlayer * AlgorithmRegistration::getPlayerByFactoryIndex(const int ind)
+{
+	// Make sure index does not exceed size
+	int index = ind % factorySize();
+	auto id_func = playerFactory.begin();
+	for (size_t i = 0; i < index; i++)
+		++id_func;
+
+	auto& func = id_func->second;
+	return func();
+}
+

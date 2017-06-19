@@ -15,5 +15,7 @@ public:
 	~AlgorithmRegistration() {};
 
 	static AbstractPlayer* getPlayerForId(const std::string& id);
+	static AbstractPlayer* getPlayerByFactoryIndex(const int ind);
+	static int factorySize() { return playerFactory.size(); }
 };
 
